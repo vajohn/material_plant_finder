@@ -3,8 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  baseUrl: 'https://data.sfgov.org/resource/vmnk-skih.json'
+  production: false
 };
 
 /*
