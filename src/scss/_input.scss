@@ -1,0 +1,28 @@
+.label {
+  font-size: 1.2rem;
+  margin-left: 0.2rem;
+  margin-top: 0.7rem;
+  display: block;
+  transition: all 0.3s;
+  transform: translateY(-4.5rem);
+}
+
+.input {
+  font-size: 1rem;
+  margin: 0 auto;
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.3rem;
+  background-color: $light;
+  border: none;
+  width: 90%;
+  display: block;
+  border-bottom: 0.3rem solid transparent;
+  transition: all 0.3s;
+}
+
+.input:placeholder-shown + .label {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: translateY(-4rem);
+  transform: translateY(-4rem);
+}
