@@ -1,1 +1,126 @@
-<p>steward works!</p>
+<app-card>
+  <form [formGroup]="buyStewardForm" (ngSubmit)="onSubmit()">
+    <section class="row pc-2">
+      <div class="col-xs-6">
+        <div class="form__group field">
+          <input type="text" placeholder="first name" formControlName="amountPaid" class="form__field"
+                 id="amountPaid"/>
+          <em class="material-icons form__icon">
+            attach_money
+          </em>
+          <label for="amountPaid" class="form__label">Amount Paid</label>
+          <div class="form__error" *ngIf="submitted && f.amountPaid.errors">
+            <p *ngIf="f.amountPaid.errors.required">
+              Please enter amount paid
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form__group field">
+          <input type="text" placeholder="Last number" formControlName="fcaAmount" class="form__field"
+                 id="fcaAmount"/>
+          <em class="material-icons form__icon">
+            monetization_on
+          </em>
+          <label for="fcaAmount" class="form__label">FCA amount</label>
+          <div class="form__error" *ngIf="submitted && f.fcaAmount.errors">
+            <p *ngIf="f.fcaAmount.errors.required">
+              Please enter FCA amount
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="row pc-2">
+      <div class="col-xs-6">
+        <div class="form__group field">
+          <input type="text" placeholder="currencyBought" formControlName="currencyBought" class="form__field"
+                 id="currencyBought"/>
+          <em class="material-icons form__icon">
+            attach_file
+          </em>
+          <label for="currencyBought" class="form__label">CurrencyBought</label>
+          <div class="form__error" *ngIf="submitted && f.currencyBought.errors">
+            <p *ngIf="f.currencyBought.errors.required">
+              Please enter currency Bought
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form__group field">
+          <input type="text" placeholder="currencySwitchedTo" formControlName="currencySwitchedTo" class="form__field"
+                 id="currencySwitchedTo"/>
+          <em class="material-icons form__icon">
+            business_center
+          </em>
+          <label for="currencySwitchedTo" class="form__label">currency Switched To</label>
+          <div class="form__error" *ngIf="submitted && f.currencySwitchedTo.errors">
+            <p *ngIf="f.currencySwitchedTo.errors.required">
+              Please enter currency Switched To
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="row pc-2">
+      <div class="col-xs-6">
+        <div class="form__group field">
+          <input type="text" placeholder="customerId" formControlName="customerId" class="form__field"
+                 id="customerId"/>
+          <em class="material-icons form__icon">
+            assignment_ind
+          </em>
+          <label for="customerId" class="form__label">customerId</label>
+          <div class="form__error" *ngIf="submitted && f.customerId.errors">
+            <p *ngIf="f.customerId.errors.required">
+              Please enter customer Id
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form__group field">
+          <input type="text" placeholder="rateUsed" formControlName="rateUsed" class="form__field"
+                 id="rateUsed"/>
+          <em class="material-icons form__icon">
+            assignment_ind
+          </em>
+          <label for="rateUsed" class="form__label">rateUsed</label>
+          <div class="form__error" *ngIf="submitted && f.customerId.errors">
+            <p *ngIf="f.rateUsed.errors.required">
+              Please enter rate Used
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="row pc-2">
+      <div class="col-xs-6">
+        <div class="form__group field">
+          <input type="text" placeholder="customerId" formControlName="beneficiaryAccount" class="form__field"
+                 id="beneficiaryAccount"/>
+          <em class="material-icons form__icon">
+            assignment_ind
+          </em>
+          <label for="beneficiaryAccount" class="form__label">Beneficiary account</label>
+          <div class="form__error" *ngIf="submitted && f.beneficiaryAccount.errors">
+            <p *ngIf="f.beneficiaryAccount.errors.required">
+              Please enter beneficiary account
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="row  pt-2">
+      <div class="col-xs-6"></div>
+      <div class="col-xs-3">
+        <app-button (click)="buyStewardForm.reset()">Reset</app-button>
+      </div>
+      <div class="col-xs-3">
+        <app-button type="submit">Transact</app-button>
+      </div>
+    </section>
+  </form>
+</app-card>

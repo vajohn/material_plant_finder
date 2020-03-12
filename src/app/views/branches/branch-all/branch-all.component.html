@@ -1,1 +1,17 @@
-<p>branch-all works!</p>
+<app-table [dataForTable]="branches" [displayedColumns]="displayedColumns">
+  <form [formGroup]="organizationListForm" (ngSubmit)="onSubmit()">
+    <section class="row pc-2">
+      <div class="col-xs-6 pt-1">
+        <label for="orgId"></label>
+        <select name="orgId" id="orgId" formControlName="searchCriteria" class="custom-select sources">
+          <option value="" disabled selected>Select organization</option>
+          <option *ngFor="let org of organizations" [value]="org.id">{{org.companyName}}</option>
+        </select>
+      </div>
+
+      <div class="col-xs-3 ">
+        <app-button type="submit">Search</app-button>
+      </div>
+    </section>
+  </form>
+</app-table>

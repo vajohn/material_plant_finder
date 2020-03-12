@@ -1,46 +1,37 @@
 <app-card>
-  <form [formGroup]="buyCashForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="buyCashForm" (ngSubmit)="onSubmit()" class="pa-1">
     <section class="row pc-2">
       <div class="col-xs-6">
         <div class="form__group field">
           <input type="text" placeholder="first name" formControlName="cashPaid" class="form__field"
-                 id="cashPaid"/>
+                 id="cashPaid" />
           <em class="material-icons form__icon">
             attach_money
           </em>
-          <label for="cashPaid" class="form__label">Cash Paid</label>
+          <label for="cashPaid" class="form__label">Amount bought</label>
           <div class="form__error" *ngIf="submitted && f.cashPaid.errors">
             <p *ngIf="f.cashPaid.errors.required">
-              Please enter cash paid
+              Please enter amount bought
             </p>
           </div>
         </div>
       </div>
       <div class="col-xs-6">
         <div class="form__group field">
-          <input type="text" placeholder="Last number" formControlName="fcaAmount" class="form__field"
-                 id="fcaAmount"/>
-          <em class="material-icons form__icon">
-            monetization_on
-          </em>
-          <label for="fcaAmount" class="form__label">FCA amount</label>
-          <div class="form__error" *ngIf="submitted && f.fcaAmount.errors">
-            <p *ngIf="f.fcaAmount.errors.required">
-              Please enter FCA amount
-            </p>
-          </div>
+
+          <h4>Converted amount: <em>{{fcaAmount}}</em></h4>
         </div>
       </div>
     </section>
     <section class="row pc-2">
       <div class="col-xs-6">
         <div class="form__group field">
-          <input type="text" placeholder="currencyBought" formControlName="currencyBought" class="form__field"
-                 id="currencyBought"/>
-          <em class="material-icons form__icon">
-            mail
-          </em>
-          <label for="currencyBought" class="form__label">CurrencyBought</label>
+          <label for="currencyBought"></label>
+          <select name="currencyBought" id="currencyBought" formControlName="currencyBought"
+                  (change)="onCurrencyBoughtSelect($event)" class="custom-select sources">
+            <option value="" disabled selected>Select currency bought</option>
+            <option *ngFor="let currency of currencies" [value]="currency.name">{{currency.name}}</option>
+          </select>
           <div class="form__error" *ngIf="submitted && f.currencyBought.errors">
             <p *ngIf="f.currencyBought.errors.required">
               Please enter currency Bought
@@ -50,12 +41,12 @@
       </div>
       <div class="col-xs-6">
         <div class="form__group field">
-          <input type="text" placeholder="currencySwitchedTo" formControlName="currencySwitchedTo" class="form__field"
-                 id="currencySwitchedTo"/>
-          <em class="material-icons form__icon">
-            phone
-          </em>
-          <label for="currencySwitchedTo" class="form__label">currency Switched To</label>
+          <label for="currencySwitchedTo"></label>
+          <select name="currencySwitchedTo" id="currencySwitchedTo" formControlName="currencySwitchedTo"
+                  (change)="onCurrencySwitchedToSelect($event)" class="custom-select sources">
+            <option value="" disabled selected>Select currency switched to</option>
+            <option *ngFor="let currency of currencies" [value]="currency.name">{{currency.name}}</option>
+          </select>
           <div class="form__error" *ngIf="submitted && f.currencySwitchedTo.errors">
             <p *ngIf="f.currencySwitchedTo.errors.required">
               Please enter currency Switched To
@@ -72,7 +63,7 @@
           <em class="material-icons form__icon">
             assignment_ind
           </em>
-          <label for="customerId" class="form__label">customerId</label>
+          <label for="customerId" class="form__label">National ID</label>
           <div class="form__error" *ngIf="submitted && f.customerId.errors">
             <p *ngIf="f.customerId.errors.required">
               Please enter customer Id
@@ -82,22 +73,17 @@
       </div>
       <div class="col-xs-6">
         <div class="form__group field">
-          <input type="text" placeholder="rateUsed" formControlName="rateUsed" class="form__field"
-                 id="rateUsed"/>
-          <em class="material-icons form__icon">
-            assignment_ind
-          </em>
-          <label for="rateUsed" class="form__label">rateUsed</label>
-          <div class="form__error" *ngIf="submitted && f.customerId.errors">
-            <p *ngIf="f.rateUsed.errors.required">
-              Please enter rate Used
-            </p>
-          </div>
+          <h4>Current buying rate: <em>{{rateUsed}}</em></h4>
         </div>
       </div>
     </section>
     <section class="row  pt-2">
-      <div class="col-xs-6"></div>
+      <div class="col-xs-3">
+        <app-button (click)="checkForCustomer()">Check customer</app-button>
+      </div>
+      <div class="col-xs-3">
+        <app-button (click)="cs.open()">Add new customer</app-button>
+      </div>
       <div class="col-xs-3">
         <app-button (click)="buyCashForm.reset()">Reset</app-button>
       </div>

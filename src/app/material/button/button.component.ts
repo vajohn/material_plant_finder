@@ -11,6 +11,7 @@ export class ButtonComponent implements OnInit, AfterViewInit {
   @Input() color: string;
   @Input() size: string;
   @Input() raised = true;
+  @Input() type = 'button';
   @ViewChild('materialButton', {read: ElementRef, static: false}) materialButton: ElementRef;
 
   constructor() {

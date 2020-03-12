@@ -1,1 +1,7 @@
-<p>loader works!</p>
+<div class="overlay-loader" ></div>
+
+<div class="parent-loader" (click)="dismiss()">
+  <div class="rings"></div>
+  <h5 class="child">Loading ....</h5>
+  <ng-content></ng-content>
+</div>

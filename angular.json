@@ -28,6 +28,8 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "src/scss/flexboxgrid.min.css",
               "src/scss/styles.scss"
             ],
             "scripts": []
@@ -93,6 +95,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -124,6 +127,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "bureauDeChange"
+    }
+  },
+  "defaultProject": "bureauDeChange",
+  "cli": {
+    "analytics": "15cd085b-7db9-42ea-8b60-cc19b6c5f420"
+  }
 }

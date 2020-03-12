@@ -1,0 +1,39 @@
+.card{
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  padding: 25px 0;
+  box-shadow: rgba(0,0,0,0.1) 0 0 10px;
+  margin: auto;
+  &.login{
+    width: 30%;
+    backdrop-filter: opacity(74%) blur(12px) saturate(150%);
+  }
+  .card__header{
+    & img{
+      width: 40%;
+      padding-bottom: 15px;
+    }
+  }
+
+  .card__title{
+    h2{
+      font-weight: 300;
+      font-size: 1.5em;
+      color: rgba(34, 34, 34, 0.7);
+    }
+  }
+
+  .card__subtitle__link{
+    p{
+      color: $primary;
+    }
+  }
+  @media (max-width: 680px) {
+    &.login{
+      width: 70%;
+      padding: 25px 20px ;
+    }
+
+
+  }
+}

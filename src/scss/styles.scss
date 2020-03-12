@@ -1,9 +1,26 @@
-@import "../app/material/utilities/colors";
+@import "~material-design-icons/iconfont/material-icons.css";
+@import "~@angular/cdk/overlay";
+@import '~ngx-toastr/toastr';
+//@import '~ngx-toastr/toastr-bs4-alert';
+@include cdk-overlay();
+@import "src/scss/colors";
 @import "elevation";
+@import "spacers";
 @import "defaultLayout";
-
+@import "sideMenu";
+@import "card";
+@import "loader";
+@import "components";
+@import "input";
+@import "toast";
+@import "select";
+@import "slider";
 body{
   margin:0;
   padding:0;
-  background: #DADAE3;
+  font-family: 'Corisande', sans-serif;
+  background: $light;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,1 +1,63 @@
-<p>branch-form works!</p>
+<app-card>
+  <form [formGroup]="branchForm" (ngSubmit)="onSubmit()">
+    <section class="row pc-2">
+
+      <div class="col-xs-4">
+        <div class="form__group field">
+          <label for="orgId"></label>
+          <select name="orgId" id="orgId" formControlName="orgId"  class="custom-select sources">
+            <option value="" disabled selected>Select organization</option>
+            <option *ngFor="let org of organizations" [value]="org.id">{{org.companyName}}</option>
+          </select>
+          <div class="form__error" *ngIf="submitted && f.orgId.errors">
+            <p *ngIf="f.orgId.errors.required">
+              Please enter select Organization
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-4">
+        <div class="form__group field">
+          <input type="text" placeholder="name" formControlName="name" class="form__field"
+                 id="name"/>
+          <em class="material-icons form__icon">
+            store
+          </em>
+          <label for="name" class="form__label">Branch name</label>
+          <div class="form__error" *ngIf="submitted && f.name.errors">
+            <p *ngIf="f.name.errors.required">
+              Please enter branch name
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-4">
+        <div class="form__group field">
+          <input type="text" placeholder="User number" formControlName="agentCode" class="form__field"
+                 id="agentCode"/>
+          <em class="material-icons form__icon">
+            face
+          </em>
+          <label for="agentCode" class="form__label">Agent Code</label>
+          <div class="form__error" *ngIf="submitted && f.agentCode.errors">
+            <p *ngIf="f.agentCode.errors.required">
+              Please enter agent code
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="row  pt-2">
+      <div class="col-xs-6"></div>
+      <div class="col-xs-3">
+        <app-button >Reset</app-button>
+      </div>
+      <div class="col-xs-3">
+        <app-button type="submit">Add</app-button>
+      </div>
+    </section>
+  </form>
+</app-card>

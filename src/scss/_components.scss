@@ -1,0 +1,43 @@
+app-login {
+  background-image: url("../assets/images/phoneLanding.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.4);
+  height: 105vh;
+  width: 105vw;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  grid-gap: 32px;
+  grid-auto-flow: dense;
+  grid-template-areas: ". . . ." ". main main ." ". footer footer .";
+
+  .item-main {
+    grid-area: main;
+  }
+
+  .item-footer {
+    grid-area: footer;
+    font-size: 0.7em;
+
+    p {
+      color: $light;
+
+      a {
+        color: $light;
+      }
+    }
+  }
+
+  @media (max-width: 680px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .item-main {
+      order: 1;
+    }
+    .item-footer{
+      order: 2;
+    }
+  }
+}

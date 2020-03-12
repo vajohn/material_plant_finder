@@ -1,3 +1,18 @@
-$primary: #a33b96;
+$primary: #6D3593;
 $secondary: #838A90;
+$grey: #cfcfcf;
 $light: #f1f2f2;
+$dark: #000;
+$darkLight: rgba(0,0,0,0.2);
+
+.text-primary{
+  color: $primary;
+}
+
+.text-secondary{
+  color: $secondary;
+}
+
+.text-light{
+  color: $light;
+}

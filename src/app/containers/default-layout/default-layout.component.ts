@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
-import { navItems } from 'src/app/utilities/_nav';
+import {Component, ElementRef, ViewChild} from '@angular/core';
+import {navItems} from 'src/app/utilities/_nav';
+import {SideMenuComponent} from '../../material/side-menu/side-menu.component';
 
 
 @Component({
@@ -7,22 +8,27 @@ import { navItems } from 'src/app/utilities/_nav';
   templateUrl: './default-layout.component.html'
 })
 export class DefaultLayoutComponent {
-  public sidebarMinimized = false;
+  public sidebarMinimized = true;
   public navItems = navItems;
-  public year;
   // public userName: UserModel.User;
   public items = new Array(500);
-  toggleMinimize(e) {
-    this.sidebarMinimized = e;
+  @ViewChild('sideNavButton', {read: ElementRef, static: false}) sideNavButton: ElementRef;
+
+  toggleMinimize() {
+    this.sidebarMinimized = !this.sidebarMinimized;
+
+    if (this.sidebarMinimized) {
+      this.sideNavButton.nativeElement.classList.add('active');
+    }
+
+    if (!this.sidebarMinimized) {
+      this.sideNavButton.nativeElement.classList.remove('active');
+    }
   }
 
   constructor() {
-    this.year = new Date().getFullYear();
     // this.userName = (JSON.parse(sessionStorage.getItem(StorageCase.currentUser)) as UserModel.User);
   }
 
 
-  logout() {
-    sessionStorage.clear();
-  }
 }

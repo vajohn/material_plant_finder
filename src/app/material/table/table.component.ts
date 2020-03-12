@@ -1,15 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {ListTypes} from '../../utilities/constants';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, AfterViewInit {
 
-  constructor() { }
+  @Input() caption: string;
+  @Input() displayedColumns = ['key'];
+  @Input() dataForTable = [];
+  @Input() currentList = ListTypes.Org;
+  sortOrder = false;
+  @Input() hasButtons = false;
 
-  ngOnInit(): void {
+  constructor() {
   }
 
+  ngOnInit(): void {
+
+
+  }
+
+  ngAfterViewInit(): void {
+    if (this.dataForTable[0] !== undefined) {
+      this.displayedColumns = Object.keys(this.dataForTable[0]);
+      console.log('list', this.displayedColumns);
+    }
+  }
+
+
+  buildOther(data: any, col: string[]) {
+    if (col.length > 2) {
+      return data[col[0]][0][col[2]];
+    }
+    return data[col[0]][col[1]];
+  }
+
+  showHeader(col: string) {
+    // we split the string, join it with space then capitalize the first letter of each word
+    return col.split(/(?=[A-Z])/).join(' ').replace(/\b\w/g, v => v.toUpperCase());
+  }
 }

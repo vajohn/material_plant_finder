@@ -1,1 +1,132 @@
-<p>user-form works!</p>
+<app-card>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+    <section class="row pc-2">
+      <div class="col-xs-4">
+        <label for="orgId"></label>
+        <select name="orgId" id="orgId" formControlName="orgId" (change)="onOrganizationSelect($event)"  class="custom-select sources">
+          <option value="" disabled selected>Select organization</option>
+          <option *ngFor="let orgni of organizations" [value]="orgni.id">{{orgni.companyName}}</option>
+        </select>
+      </div>
+      <div class="col-xs-4">
+        <label for="branchId"></label>
+        <select name="branchId" id="branchId" formControlName="branchId" >
+          <option value="" disabled selected>Select branch</option>
+          <option *ngFor="let orgni of branches" [value]="orgni?.id">{{orgni?.name}}</option>
+        </select>
+      </div>
+      <div class="col-xs-4">
+        <label for="roleId"></label>
+        <select name="roleId" id="roleId" formControlName="roleId" >
+          <option value="" disabled selected>Select user role</option>
+          <option *ngFor="let orgni of roles" [value]="orgni?.id">{{orgni?.name}}</option>
+        </select>
+      </div>
+    </section>
+    <section class="row pc-2">
+      <div class="col-xs-6">
+        <div class="form__group field">
+          <input type="text" placeholder="first name" formControlName="firstName" class="form__field"
+                 id="firstName"/>
+          <em class="material-icons form__icon">
+            account_circle
+          </em>
+          <label for="firstName" class="form__label">First name</label>
+          <div class="form__error" *ngIf="submitted && f.firstName.errors">
+            <p *ngIf="f.firstName.errors.required">
+              Please enter first name
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form__group field">
+          <input type="text" placeholder="Last number" formControlName="lastName" class="form__field"
+                 id="lastName"/>
+          <em class="material-icons form__icon">
+            account_box
+          </em>
+          <label for="lastName" class="form__label">Last name</label>
+          <div class="form__error" *ngIf="submitted && f.lastName.errors">
+            <p *ngIf="f.lastName.errors.required">
+              Please enter last name
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="row pc-2">
+      <div class="col-xs-6">
+        <div class="form__group field">
+          <input type="text" placeholder="emailAddress" formControlName="emailAddress" class="form__field"
+                 id="emailAddress"/>
+          <em class="material-icons form__icon">
+            mail
+          </em>
+          <label for="emailAddress" class="form__label">Email</label>
+          <div class="form__error" *ngIf="submitted && f.firstName.errors">
+            <p *ngIf="f.emailAddress.errors.required">
+              Please enter email address
+            </p>
+            <p *ngIf="f.emailAddress.errors.email">
+              Please enter correct email
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form__group field">
+          <input type="text" placeholder="mobileNumber" formControlName="mobileNumber" class="form__field"
+                 id="mobileNumber"/>
+          <em class="material-icons form__icon">
+            phone
+          </em>
+          <label for="mobileNumber" class="form__label">Mobile number</label>
+          <div class="form__error" *ngIf="submitted && f.mobileNumber.errors">
+            <p *ngIf="f.mobileNumber.errors.required">
+              Please enter mobile number
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="row pc-2">
+      <div class="col-xs-6">
+        <div class="form__group field">
+          <input type="text" placeholder="nationalIdNumber" formControlName="nationalIdNumber" class="form__field"
+                 id="nationalIdNumber"/>
+          <em class="material-icons form__icon">
+            assignment_ind
+          </em>
+          <label for="nationalIdNumber" class="form__label">National ID Number</label>
+          <div class="form__error" *ngIf="submitted && f.nationalIdNumber.errors">
+            <p *ngIf="f.nationalIdNumber.errors.required">
+              Please enter national ID Number
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6 spread">
+        <p class="pt-1">Untrained</p>
+        <div class="form__group field width-16">
+          <label class="switch">
+            <input type="checkbox" formControlName="hasBeenTrained" >
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <p class="pt-1">Trained</p>
+      </div>
+    </section>
+    <section class="row  pt-2">
+      <div class="col-xs-6"></div>
+      <div class="col-xs-3">
+        <app-button (click)="userForm.reset()">Reset</app-button>
+      </div>
+      <div class="col-xs-3">
+        <app-button type="submit">Add</app-button>
+      </div>
+    </section>
+  </form>
+</app-card>

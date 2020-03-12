@@ -1,9 +1,13 @@
 <div class="grid-container">
-  <div class="menu-icon">
-    <em class="fas fa-bars header__menu"> u</em>
+  <div class="menu-icon" (click)="toggleMinimize()">
+    <em class="material-icons">menu</em>
   </div>
   <app-header></app-header>
-  <app-side-menu></app-side-menu>
+  <app-side-menu #sideNavButton>
+    <div class="sidenav__close-icon" (click)="toggleMinimize()">
+      <em class="material-icons">close</em>
+    </div>
+  </app-side-menu>
   <main class="main">
     <router-outlet></router-outlet>
   </main>

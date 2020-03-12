@@ -2,137 +2,121 @@ import {INavData} from '../models/navigation';
 
 export const navItems: INavData[] = [
   {
-    name: 'Dashboard',
-    url: '/dashboard',
-    icon: 'icon-speedometer',
-  },
-  {
-    divider: true
-  },
-  {
-    name: 'Users',
-    url: '/users',
+    name: 'Buy',
+    url: '/cash',
     icon: 'fa fa-users',
     children: [
       {
-        name: 'Add',
-        url: '/users/add',
+        name: 'Cash',
+        url: '/buy/cash',
         icon: 'fas fa-user-edit'
       },
       {
-        name: 'List',
-        url: '/users/list',
+        name: 'Steward account',
+        url: '/buy/steward',
         icon: 'fas fa-address-book'
       },
       {
-        name: 'Verifications',
-        url: '/users/verifications',
-        icon: 'fas fa-user-shield'
+        name: 'Ecocash',
+        url: '/buy/ecocash',
+        icon: 'fas fa-address-book'
       },
+      {
+        name: 'Other account',
+        url: '/buy/account',
+        icon: 'fas fa-address-book'
+      }
     ]
   },
   {
-    name: 'Statements',
-    url: '/statements',
+    name: 'Sell',
+    url: '/account',
     icon: 'fas fa-file-invoice-dollar',
     children: [
       {
+        name: 'Cash',
+        url: '/sell/cash',
+        icon: 'fas fa-user-edit'
+      },
+      {
+        name: 'Steward account',
+        url: '/sell/steward',
+        icon: 'fas fa-address-book'
+      },
+      {
+        name: 'Ecocash',
+        url: '/sell/ecocash',
+        icon: 'fas fa-address-book'
+      },
+      {
+        name: 'Other account',
+        url: '/sell/account',
+        icon: 'fas fa-address-book'
+      }
+    ]
+  },
+  {
+    name: 'Organizations',
+    url: '/organization',
+    icon: 'fas fa-money-bill-wave',
+    children: [
+      {
         name: 'All',
-        url: '/list',
-        icon: 'fas fa-money-check-alt',
+        url: '/organization/list',
+        icon: 'fas fa-funnel-dollar'
+      },
+      {
+        name: 'Add new',
+        url: '/organization/form',
+        icon: 'fas fa-funnel-dollar'
       },
     ]
   },
 
   {
-    name: 'Reports',
-    url: '/reports',
-    icon: 'fas fa-search-dollar',
-    children: [
-      {
-        name: 'Daily',
-        url: '/day',
-        icon: 'fas fa-calendar-day'
-      },
-      {
-        name: 'Weekly',
-        url: '/notifications/badges',
-        icon: 'fas fa-calendar-weekly'
-      }
-    ]
-  },
-  {
-    name: 'Transactions',
-    title: true
-  },
-  {
-    name: 'All transactions',
-    url: '/transactions',
-    icon: 'fas fa-cash-register'
-  },
-  {
-    name: 'Commissions',
-    url: '/commissions',
+    name: 'Branches',
+    url: '/branches',
     icon: 'fas fa-money-bill-wave',
     children: [
       {
         name: 'All',
-        url: '/commissions',
+        url: '/branches/list',
+        icon: 'fas fa-funnel-dollar'
+      },
+      {
+        name: 'Add new',
+        url: '/branches/form',
         icon: 'fas fa-funnel-dollar'
       },
     ]
   },
   {
-    divider: true
-  },
-  {
-    name: 'Accounts',
-    title: true,
-  },
-  {
-    name: 'Cash',
-    icon: 'fas fa-money-bill',
-    url: '/cash',
+    name: 'Users',
+    url: '/users',
+    icon: 'fas fa-money-bill-wave',
     children: [
       {
-        name: 'View all',
-        url: '/notifications/alerts',
-        icon: 'fas fa-address-book'
+        name: 'All',
+        url: '/users/list',
+        icon: 'fas fa-funnel-dollar'
       },
       {
-        name: 'Agent deposit',
-        url: '/cash/deposit/agent',
-        icon: 'fas fa-hand-holding-usd'
+        name: 'Add new',
+        url: '/users/form',
+        icon: 'fas fa-funnel-dollar'
       },
-      {
-        name: 'Withdraw',
-        url: '/notifications/alerts',
-        icon: 'fas fa-wallet'
-      }
     ]
   },
   {
-    name: 'Suspense',
-    url: '/accounts/suspense',
-    icon: 'fas fa-coins',
+    name: 'Reports',
+    url: '/reports',
+    icon: 'fas fa-money-bill-wave',
     children: [
       {
-        name: 'View all',
-        url: '/notifications/alerts',
-        icon: 'fas fa-address-book'
+        name: 'All',
+        url: '/reports/list',
+        icon: 'fas fa-funnel-dollar'
       },
-      {
-        name: 'Deposit',
-        url: '/notifications/alerts',
-        icon: 'fas fa-hand-holding-usd'
-      },
-      {
-        name: 'Withdraw',
-        url: '/notifications/alerts',
-        icon: 'fas fa-wallet'
-      }
     ]
   },
-
-
 ];

@@ -1,1 +1,34 @@
-<p>org-list works!</p>
+<app-table [dataForTable]="organizations" [displayedColumns]="displayedColumns">
+  <form [formGroup]="organizationListForm" (ngSubmit)="onSubmit()">
+    <section class="row pc-2">
+      <div class="col-xs-6">
+        <div class="form__group field">
+          <input type="text" placeholder="Company name" formControlName="searchCriteria" class="form__field"
+                 id="searchCriteria"/>
+          <em class="material-icons form__icon">
+            search
+          </em>
+          <label for="searchCriteria" class="form__label">Search</label>
+          <div class="form__error" *ngIf="submitted && f.searchCriteria.errors">
+            <p *ngIf="f.searchCriteria.errors.required">
+              Please enter search criteria
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3 spread">
+        <p class="pt-1">Trading name</p>
+        <div class="form__group field width-16">
+          <label class="switch">
+            <input type="checkbox" formControlName="nameSearch" >
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <p class="pt-1">Name</p>
+      </div>
+      <div class="col-xs-3 pt-1">
+        <app-button type="submit">Search</app-button>
+      </div>
+    </section>
+  </form>
+</app-table>

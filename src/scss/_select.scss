@@ -1,0 +1,27 @@
+select {
+  appearance: none;
+  background: url("../assets/images/br_down.png") white no-repeat calc(100% - 10px) !important;
+  font-weight: bold;
+  background: {
+    color: $light;
+    position: right;
+    repeat: no-repeat;
+  }
+  border: {
+    color: mix($primary, black, 80%);
+    radius: .5em;
+    style: solid;
+    width: 1px;
+    right-color: mix($primary, black, 60%);
+    bottom-color: mix($primary, black, 60%);
+  }
+  color: $dark;
+  padding: .7em .5em;
+  width: 100%;
+  &::-ms-expand {
+    display: none;
+  }
+  &:hover{
+    color:  $primary;
+  }
+}

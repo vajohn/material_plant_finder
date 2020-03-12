@@ -6,6 +6,11 @@
   height: 100vh;
 }
 
+hr {
+  width: 70%;
+  border: 0.3px solid rgba(0, 0, 0, 0.2);
+}
+
 .menu-icon {
   position: fixed; /* Needs to stay visible for all mobile scrolling */
   display: flex;
@@ -13,23 +18,26 @@
   left: 10px;
   align-items: center;
   justify-content: center;
-  background-color: #DADAE3;
+  background-color: $primary;
   border-radius: 50%;
-  z-index: 1;
+  z-index: 7;
   cursor: pointer;
-  padding: 12px;
+  padding: 8px;
+
+  em {
+    color: $light;
+  }
 }
 
 /* Give every child element its grid name */
 app-header {
   grid-area: header;
-  z-index: 100;
-  box-shadow: 1px 2px 5px rgba(0,0,0,0.7);
+  box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  background-color: $primary;
+  background-color: $light;
 
 }
 
@@ -50,7 +58,12 @@ app-side-menu {
   transition: all .6s ease-in-out;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
   z-index: 8; /* Needs to sit above the hamburger menu icon */
-  background-color:  darken($light, 5%);
+  background-color: lighten($primary, 5%);
+
+  img {
+    width: 66%;
+    margin: 5% 17%;
+  }
 }
 
 app-side-menu.active {
@@ -64,28 +77,74 @@ app-side-menu.active {
   right: 12px;
   cursor: pointer;
   font-size: 20px;
-  color: #ddd;
+  color: $light;
 }
 
-.sidenav__list {
-  padding: 0;
-  margin-top: 85px;
-  list-style-type: none;
+.sidenav {
+  &__list {
+    overflow: hidden;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      z-index: -1;
+
+    }
+    input:checked {
+      + .tab-label {
+        background: darken($primary, 10%);
+        &::after {
+          transform: rotate(90deg);
+        }
+      }
+      ~ .tab-content {
+        max-height: 100vh;
+        padding: 1em;
+      }
+    }
+  }
+
+  &__list-item {
+    color: $light;
+    margin: 10px 20px 10px 30px;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  &-content {
+    max-height: 0;
+    padding: 0 1em;
+    color: $primary;
+    background: $light;
+    transition: all .35s;
+  }
 }
 
-.sidenav__list-item {
-  padding: 20px 20px 20px 40px;
-  color: #ddd;
+//.sidenav__list-item {
+//  color: $light;
+//  margin: 10px 20px 10px 30px;
+//  padding: 10px;
+//  border-radius: 8px;
+//}
+
+.inner-nav__list {
+  display: none;
 }
 
 .sidenav__list-item:hover {
   background-color: rgba(255, 255, 255, 0.2);
   cursor: pointer;
+  transition-timing-function: ease-in;
+  transition: 200ms;
+  transition-delay: 250ms;
 }
 
 .main {
   grid-area: main;
-
+  padding: 1rem;
 }
 
 .main-header {
@@ -120,30 +179,6 @@ app-side-menu.active {
   margin: 20px;
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  background-color: #82bef6;
-  margin-bottom: 20px;
-  -webkit-column-break-inside: avoid;
-  padding: 24px;
-  box-sizing: border-box;
-}
-
-/* Force varying heights to simulate dynamic content */
-.card:first-child {
-  height: 485px;
-}
-
-.card:nth-child(2) {
-  height: 200px;
-}
-
-.card:nth-child(3) {
-  height: 265px;
-}
 
 app-footer {
   grid-area: footer;

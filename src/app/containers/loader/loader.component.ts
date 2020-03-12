@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {LoaderService} from '../../services/loader.service';
+import {OverlayRef} from '@angular/cdk/overlay';
+
 
 @Component({
   selector: 'app-loader',
@@ -7,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(public overlayRef: OverlayRef) { }
 
   ngOnInit() {
+  }
+
+  dismiss() {
+    this.overlayRef.dispose();
   }
 
 }

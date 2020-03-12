@@ -1,0 +1,86 @@
+.tab {
+  input {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+
+    &:checked {
+      + .tab-label {
+        background: lighten($primary, 10%);
+
+        &::after {
+          transform: rotate(90deg);
+        }
+      }
+
+      ~ .tab-content {
+        max-height: 100vh;
+        padding: 0.5em 0;
+      }
+    }
+  }
+
+  width: 100%;
+  color: white;
+  overflow: hidden;
+
+  &-label {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em 1.1em;
+    margin: 0.5em 0.5em;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    /* Icon */
+    &:hover {
+      background: lighten($primary, 10%);
+    }
+
+    &::after {
+      content: "\276F";
+      width: 1em;
+      height: 1em;
+      text-align: center;
+      transition: all .35s;
+    }
+  }
+
+  &-content {
+    max-height: 0;
+    color: $primary;
+    background: white;
+    transition: all .35s;
+
+    .item {
+      padding: 1em 0 1em 1em;
+      margin: 0 0.5em;
+      border-radius: 8px;
+
+      &:hover {
+        background: lighten($primary, 50%);
+      }
+    }
+
+    p {
+      //
+      //&:nth-child(2){
+      //  border-top: #6D3593 solid 1px;
+      //  padding-top: 1em;
+      //}
+    }
+  }
+
+  &-close {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1em;
+    font-size: 0.75em;
+    //background: $primary;
+    cursor: pointer;
+
+    &:hover {
+      //background: darken($primary, 10%);
+    }
+  }
+}

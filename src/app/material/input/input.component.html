@@ -1,1 +1,7 @@
-<p>input works!</p>
+<div class="form__group field">
+  <input [type]="type" [placeholder]="placeholder" class="form__field" [formControlName]="formControlName" [name]='name' [id]="id" />
+  <em class="material-icons form__icon">
+    {{icon}}
+  </em>
+  <label [for]="id" class="form__label">{{placeholder}}</label>
+</div>

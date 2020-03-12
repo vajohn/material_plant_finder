@@ -1,1 +1,13 @@
-<p>table works!</p>
+<ng-content></ng-content>
+<table class="data-table">
+
+  <caption>{{caption}}</caption>
+  <tr class="head">
+    <th [id]="col" *ngFor="let col of displayedColumns">{{showHeader(col.split('.', 1)[0])}}</th>
+  </tr>
+
+  <tr class="body" *ngFor="let data of dataForTable">
+    <td *ngFor="let col of displayedColumns" [attr.data-label]="col">{{data[col] || buildOther(data, col.split('.'))}}</td>
+  </tr>
+
+</table>

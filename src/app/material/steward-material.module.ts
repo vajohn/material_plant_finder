@@ -30,5 +30,5 @@ import {TooltipComponent} from './tooltip/tooltip.component';
   exports: [ButtonComponent, HeaderComponent, SideMenuComponent, FooterComponent, InputComponent, TableComponent, TooltipComponent],
 
 })
-export class MaterialModule {
+export class StewardMaterialModule {
 }

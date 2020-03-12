@@ -1,1 +1,18 @@
-<aside class="sidenav"></aside>
+<aside #sideNavButton >
+  <a routerLink="/dashboard">
+    <img src="assets/brand/logo-alt.png" alt="Logo" >
+  </a>
+
+  <div class="tab" *ngFor="let nav of navItems; let i = index" >
+    <input type="radio" [id]="nav.name" name="rd" >
+    <label class="tab-label" [for]="nav.name">{{nav.name}}</label>
+    <div class="tab-content">
+
+      <div class="item" *ngFor="let child of nav.children" [routerLink]="child.url" [routerLinkActive]="'active'">
+        {{child.name}}
+      </div>
+
+    </div>
+  </div>
+  <ng-content ></ng-content>
+</aside>

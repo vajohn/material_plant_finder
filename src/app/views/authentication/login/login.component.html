@@ -1,1 +1,76 @@
-<app-button (click)="router.navigateByUrl('/dashboard')">TO home</app-button>
+<section class="item-main">
+  <app-card class="row center-xs" [background]=0.7 [classes]="'login'">
+    <div class="card__header pt-1">
+      <img src="assets/brand/logo.png" alt="Logo">
+    </div>
+    <hr>
+    <div class="card__title">
+      <h2>Bureau de Change</h2>
+    </div>
+    <form [formGroup]="login" (ngSubmit)="onSubmit()">
+      <div class="row center-xs">
+        <div class="form__group field">
+          <input type="text" placeholder="User number" formControlName="nationalIdNumber" class="form__field"
+                 id="nationalIdNumber"/>
+          <em class="material-icons form__icon">
+            account_circle
+          </em>
+          <label for="nationalIdNumber" class="form__label">User number</label>
+          <div class="form__error" *ngIf="submitted && f.nationalIdNumber.errors">
+            <p *ngIf="f.nationalIdNumber.errors.required">
+              Please enter required ID
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row center-xs">
+        <div class="form__group field">
+          <input [type]="visibility ? 'text' : 'password'" placeholder="*********" class="form__field"
+                 formControlName="password" name="password" id='password'/>
+          <em class="material-icons form__icon">
+            lock
+          </em>
+          <label for="password" class="form__label">Password</label>
+          <em class="material-icons form__icon__suffix" (click)="visibility = !visibility">
+            {{ visibility ? 'visibility' : 'visibility_off'}}
+          </em>
+          <div class="form__error" *ngIf="submitted && f.password.errors">
+            <p *ngIf="f.password.errors.required">
+              Please enter required password
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="card__subtitle__link">
+          <p (click)="router.navigateByUrl('/dashboard')">Forgotten your password ?</p>
+      </div>
+      <div class="row center-xs pb-1">
+        <app-button type="submit">Sign In</app-button>
+      </div>
+
+    </form>
+  </app-card>
+</section>
+<section class="item-footer">
+  <div class="row center-xs">
+    <p>By signing in I acknowledge that I have read and understand the <br>
+      Terms and Conditions when using Steward Bank bureau de change</p>
+  </div>
+
+  <div class="row center-xs">
+    <p>
+      TOLL FREE 0808 8888 or <a href="#">email us</a><br>
+      <a href="#">Privacy and Security</a>
+    </p>
+  </div>
+
+  <div class="row center-xs">
+    <p>
+      © Copyright {{year}}  STEWARD | BANK. A Registered Commercial Bank.
+    </p>
+  </div>
+</section>
+
+
+
+<!--  router.navigateByUrl('/dashboard')-->

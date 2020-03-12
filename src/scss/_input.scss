@@ -1,28 +1,103 @@
-.label {
-  font-size: 1.2rem;
-  margin-left: 0.2rem;
-  margin-top: 0.7rem;
-  display: block;
-  transition: all 0.3s;
-  transform: translateY(-4.5rem);
+
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  color: $dark;
+  width: 70%;
+  @media (max-width: 680px) {
+    width: 95%;
+  }
+  h4{
+    margin: .5em;
+    em{
+      color: $primary;
+    }
+  }
 }
 
-.input {
+.form__field {
+  text-indent:32px;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid $darkLight;
+  outline: 0;
+  font-size: 16px;
+
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .form__label {
+    font-size: 16px;
+    cursor: text;
+    top: 20px;
+  }
+
+
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  left: 30px;
+  display: block;
+  transition: 0.2s;
   font-size: 1rem;
-  margin: 0 auto;
-  padding: 0.5rem 0.7rem;
-  border-radius: 0.3rem;
-  background-color: $light;
-  border: none;
-  width: 90%;
-  display: block;
-  border-bottom: 0.3rem solid transparent;
-  transition: all 0.3s;
 }
 
-.input:placeholder-shown + .label {
-  opacity: 0;
-  visibility: hidden;
-  -webkit-transform: translateY(-4rem);
-  transform: translateY(-4rem);
+.form__error{
+  color: red;
+  font-size: 0.7rem;
+  float: left;
+}
+
+.form__icon {
+  position: absolute;
+  top: 20px;
+  display: block;
+  transition: 0.2s;
+
+}
+
+.form__icon__suffix{
+  position: absolute;
+  top: 20px;
+  right: 0;
+  display: block;
+  transition: 0.2s;
+
+}
+
+.form__field:focus {
+  ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: $primary;
+    font-weight:700;
+  }
+  ~ .form__icon {
+    transition: 0.2s;
+    color: $primary;
+  }
+  ~ .form__icon__suffix {
+    transition: 0.2s;
+    color: $primary;
+  }
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, $primary,$secondary) 1;
+
+}
+/* reset input */
+.form__field{
+  &:required,&:invalid { box-shadow:none; }
 }
