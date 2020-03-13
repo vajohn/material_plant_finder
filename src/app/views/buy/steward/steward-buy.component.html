@@ -1,34 +1,41 @@
-<app-card>
+<mat-card class="mb-1">
+  <form  [formGroup]="checkUserForm" (ngSubmit)="checkById()" class="row" >
+    <mat-form-field class="col-xs-6">
+      <mat-label>National Id</mat-label>
+      <input matInput placeholder="082020936Q75" formControlName="nationalIdNumber">
+      <mat-error *ngIf="submittedID && g.nationalIdNumber.errors">
+        <p *ngIf="g.nationalIdNumber.errors.required">
+          Please enter a national ID
+        </p>
+      </mat-error>
+    </mat-form-field>
+    <div class="col-xs-1"></div>
+    <div class="col-xs-2">
+      <app-button type="submit">Check customer</app-button>
+    </div>
+    <div class="col-xs-2">
+      <app-button (click)="customerRegistrationService.open()">Add new customer</app-button>
+    </div>
+  </form>
+</mat-card>
+
+<mat-card >
   <form [formGroup]="buyStewardForm" (ngSubmit)="onSubmit()">
     <section class="row pc-2">
       <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="first name" formControlName="amountPaid" class="form__field"
-                 id="amountPaid"/>
-          <em class="material-icons form__icon">
-            attach_money
-          </em>
-          <label for="amountPaid" class="form__label">Amount Paid</label>
-          <div class="form__error" *ngIf="submitted && f.amountPaid.errors">
+        <mat-form-field class="col-xs-6">
+          <mat-label>National Id</mat-label>
+          <input matInput placeholder="082020936Q75" formControlName="nationalIdNumber">
+          <mat-error *ngIf="submittedID && g.amountPaid.errors">
             <p *ngIf="f.amountPaid.errors.required">
               Please enter amount paid
             </p>
-          </div>
-        </div>
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="col-xs-6">
         <div class="form__group field">
-          <input type="text" placeholder="Last number" formControlName="fcaAmount" class="form__field"
-                 id="fcaAmount"/>
-          <em class="material-icons form__icon">
-            monetization_on
-          </em>
-          <label for="fcaAmount" class="form__label">FCA amount</label>
-          <div class="form__error" *ngIf="submitted && f.fcaAmount.errors">
-            <p *ngIf="f.fcaAmount.errors.required">
-              Please enter FCA amount
-            </p>
-          </div>
+          <h4>Converted amount: <em>{{fcaAmount}}</em></h4>
         </div>
       </div>
     </section>
@@ -123,4 +130,4 @@
       </div>
     </section>
   </form>
-</app-card>
+</mat-card >

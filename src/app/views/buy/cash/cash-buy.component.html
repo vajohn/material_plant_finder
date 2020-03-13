@@ -9,7 +9,7 @@
         </p>
       </mat-error>
     </mat-form-field>
-    <div class="col-xs-2"></div>
+    <div class="col-xs-1"></div>
     <div class="col-xs-2">
       <app-button type="submit">Check customer</app-button>
     </div>
@@ -20,22 +20,18 @@
 </mat-card>
 
 <mat-card>
-  <form [formGroup]="buyCashForm" (ngSubmit)="onSubmit()" class="pa-1">
+  <form [formGroup]="buyCashForm" (ngSubmit)="buyCash()" class="pa-1">
     <section class="row pc-2">
       <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="first name" formControlName="cashPaid" class="form__field"
-                 id="cashPaid" />
-          <em class="material-icons form__icon">
-            attach_money
-          </em>
-          <label for="cashPaid" class="form__label">Amount bought</label>
-          <div class="form__error" *ngIf="submitted && f.cashPaid.errors">
+        <mat-form-field class="col-xs-6">
+          <mat-label>Amount bought</mat-label>
+          <input matInput placeholder="12" formControlName="cashPaid">
+          <mat-error *ngIf="submittedOne && f.cashPaid.errors">
             <p *ngIf="f.cashPaid.errors.required">
-              Please enter amount bought
+              Please enter a amount bought
             </p>
-          </div>
-        </div>
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="col-xs-6">
         <div class="form__group field">
@@ -66,7 +62,7 @@
           <select name="currencySwitchedTo" id="currencySwitchedTo" formControlName="currencySwitchedTo"
                   (change)="onCurrencySwitchedToSelect($event)" class="custom-select sources">
             <option value="" disabled selected>Select currency switched to</option>
-            <option *ngFor="let rates of exchange" [value]="rates.name">{{rates.name}}</option>
+            <option *ngFor="let rates of exchange" [value]="rates.buyrate">{{rates.currency}}</option>
           </select>
           <div class="form__error" *ngIf="submitted && f.currencySwitchedTo.errors">
             <p *ngIf="f.currencySwitchedTo.errors.required">
@@ -78,19 +74,15 @@
     </section>
     <section class="row pc-2">
       <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="customerId" formControlName="customerId" class="form__field"
-                 id="customerId"/>
-          <em class="material-icons form__icon">
-            assignment_ind
-          </em>
-          <label for="customerId" class="form__label">National ID</label>
-          <div class="form__error" *ngIf="submitted && f.customerId.errors">
+        <mat-form-field class="col-xs-6">
+          <mat-label>National ID</mat-label>
+          <input matInput placeholder="185" formControlName="customerId">
+          <mat-error *ngIf="submittedOne && f.customerId.errors">
             <p *ngIf="f.customerId.errors.required">
               Please enter customer Id
             </p>
-          </div>
-        </div>
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="col-xs-6">
         <div class="form__group field">

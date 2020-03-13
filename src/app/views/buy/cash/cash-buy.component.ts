@@ -5,12 +5,13 @@ import {ToastrService} from 'ngx-toastr';
 import {BuyService} from '../../../services/buy.service';
 import {LoginService} from '../../../services/login.service';
 import {JWTResponse} from '../../../models/authentication';
-import {currencyListTest} from '../../../utilities/_mockData';
+import {currencyListTest, exchangeRateListTest} from '../../../utilities/_mockData';
 import {AuthenticationService} from '../../../services/authentication.service';
-import {toCentsFromFour} from '../../../utilities/reusables';
+import {toCentsFromFour, toTwoCents} from '../../../utilities/reusables';
 import {CustomerRegistrationService} from '../../../containers/customer-registration/customer-registration.service';
 import {CustomerService} from '../../../services/customer.service';
 import {CurrenciesService} from '../../../services/currencies.service';
+import {CurrencyModel, ExchangeRate} from '../../../models/currency';
 
 @Component({
   selector: 'app-cash',
@@ -23,10 +24,11 @@ export class CashBuyComponent implements OnInit {
   public submittedOne = false;
   token: JWTResponse;
   private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.toast);
-  currencies = currencyListTest;
-  exchange = currencyListTest;
+  currencies: CurrencyModel[] = [];
+  exchange: ExchangeRate[] = [];
   rateUsed: number;
   fcaAmount: number;
+  currencyName: string;
   checkUserForm: FormGroup;
 
   constructor(
@@ -37,17 +39,25 @@ export class CashBuyComponent implements OnInit {
     private as: AuthenticationService,
     public cs: CustomerRegistrationService,
     private customerService: CustomerService,
-    private currenciesService: CurrenciesService
+    public currenciesService: CurrenciesService
   ) {
   }
 
   ngOnInit(): void {
-
+    this.currenciesService.getCurrencies().subscribe(d => this.currencies = d);
+    this.exchange = exchangeRateListTest;
+    // this.currenciesService.getZWL().subscribe(d => {
+    //   this.exceptionHandler.checkResult(d);
+    // });
     this.buyCashForm = this.formBuilder.group({
-      cashPaid: [0, [Validators.required, Validators.minLength(4)]],
+      cashPaid: [0, [Validators.required]],
       currencyBought: ['', [Validators.required]],
       currencySwitchedTo: ['', [Validators.required]],
-      customerId: ['', [Validators.required]]
+      customerId: ['', [Validators.required]],
+      rateUsed: [0],
+      fcaAmount: [0],
+      userId: [0],
+      transactionType: ['SWITCH_FROM_CASH'],
     });
 
     this.checkUserForm = this.formBuilder.group({
@@ -65,7 +75,7 @@ export class CashBuyComponent implements OnInit {
     return this.buyCashForm.controls;
   }
 
-  onSubmit() {
+  buyCash() {
     this.submitted = true;
 
     if (this.buyCashForm.invalid) {
@@ -74,41 +84,48 @@ export class CashBuyComponent implements OnInit {
     this.buyCashForm.patchValue({
       userId: this.token.userId,
       rateUsed: this.rateUsed,
-      fcaAmount: toCentsFromFour(this.fcaAmount)
+      fcaAmount: toCentsFromFour(this.fcaAmount),
+      currencySwitchedTo: this.currencyName
     });
+
     this.bs.buyCash(this.buyCashForm.value).subscribe(d => {
       this.exceptionHandler.checkResult(d);
     });
   }
 
   onCurrencyBoughtSelect($event: Event) {
-    // todo: assign the value of rates bought
+
+    switch (this.f.currencyBought.value) {
+      case 'ZWL':
+        this.exchange = exchangeRateListTest;
+        break;
+      case 'USD':
+        this.exchange = [];
+        break;
+      default:
+        this.exchange = [];
+    }
+
+    // this.currenciesService.getZWL().subscribe(d => {
+    //   this.exceptionHandler.checkResult(d);
+    // });
   }
 
   onCurrencySwitchedToSelect($event: Event) {
 
-    if (this.f.currencyBought.value === 'ZWL' && this.f.currencySwitchedTo.value === 'ZWL'
-      || this.f.currencyBought.value === 'USD' && this.f.currencySwitchedTo.value === 'USD') {
-      this.rateUsed = 1;
-    }
-    if (this.f.currencyBought.value === 'USD' && this.f.currencySwitchedTo.value === 'ZWL') {
-      this.rateUsed = 17.6079;
-    }
-    if (this.f.currencyBought.value === 'ZWL' && this.f.currencySwitchedTo.value === 'USD') {
-      this.rateUsed = 0.1;
-    }
-    this.bs.getBuyingRate(this.f.currencyBought.value, this.f.currencySwitchedTo.value).subscribe(d => {
-        // this.rateUsed = d.responseBody;
-        // todo assign the value of rates switched to
-        // todo round down
+    this.rateUsed = this.f.currencySwitchedTo.value;
+    // we check the amount bought to find the currency name, not the best solution
+    this.exchange.forEach(result => {
+      if (result.buyrate === this.f.currencySwitchedTo.value) {
+        this.currencyName = result.currency;
       }
-    );
+    });
+
   }
 
 
   private getOtherVariables() {
     this.token = this.ls.getDecodedAccessToken();
-    this.rateUsed = 17.8;
     // this.bs.getBuyingRate('ZWL', 'ZWL').subscribe(d => {
     //   this.rateUsed = 17.8;
     //     // this.rateUsed = d.responseBody;
@@ -118,26 +135,8 @@ export class CashBuyComponent implements OnInit {
 
 
   paying() {
-    this.f.cashPaid.valueChanges.subscribe(v => this.fcaAmount = this.rateUsed * this.f.cashPaid.value);
+    this.f.cashPaid.valueChanges.subscribe(v => this.fcaAmount = toTwoCents(this.rateUsed * this.f.cashPaid.value));
   }
-
-  addNewCustomer() {
-
-  }
-
-  checkForCustomer() {
-
-    if (this.f.customerId.invalid) {
-      this.toast.error('Please insert customer ID', 'Error on customer check');
-    }
-
-    if (!this.f.customerId.invalid) {
-      this.as.checkForCustomer(this.f.customerId.value).subscribe(d =>
-        this.exceptionHandler.checkResult(d)
-      );
-    }
-  }
-
 
   checkById() {
     this.submittedOne = true;
@@ -148,11 +147,12 @@ export class CashBuyComponent implements OnInit {
 
     this.customerService.findCustomerByNationalID(this.checkUserForm.value).subscribe(d => {
         this.exceptionHandler.checkResult(d);
-
+        toTwoCents(0);
         this.buyCashForm.patchValue({
           customerId: d.responseBody.id,
         });
       }
     );
   }
+
 }

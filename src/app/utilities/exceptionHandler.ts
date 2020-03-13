@@ -5,7 +5,7 @@ export class ExceptionHandler {
   constructor(private ts: ToastrService) {
   }
 
-  public checkResult(response: DefaultResponse): object {
+  public checkResult(response): object {
 
 
     switch (response.statusCode) {

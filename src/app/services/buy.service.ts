@@ -12,14 +12,11 @@ export class BuyService {
   constructor(private http: HttpClient) { }
 
   buyCash(data: BuyModel.Cash): Observable<DefaultResponse> {
-    return this.http.post<DefaultResponse>(`transactions/transact/switch-fca-to-sbz-account`, data);
+    return this.http.post<DefaultResponse>(`transactions/transact/switch-from-cash`, data);
   }
 
   buyToAccount(data: BuyModel.Steward): Observable<DefaultResponse> {
     return this.http.post<DefaultResponse>(`transactions/transact/switch-fca-to-sbz-account`, data);
   }
 
-  getBuyingRate(currencyBought: string, currencySwitchedTo: string): Observable<DefaultResponse> {
-    return this.http.get<DefaultResponse>(``);
-  }
 }
