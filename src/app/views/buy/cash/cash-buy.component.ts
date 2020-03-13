@@ -9,6 +9,8 @@ import {currencyListTest} from '../../../utilities/_mockData';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {toCentsFromFour} from '../../../utilities/reusables';
 import {CustomerRegistrationService} from '../../../containers/customer-registration/customer-registration.service';
+import {CustomerService} from '../../../services/customer.service';
+import {CurrenciesService} from '../../../services/currencies.service';
 
 @Component({
   selector: 'app-cash',
@@ -18,11 +20,14 @@ import {CustomerRegistrationService} from '../../../containers/customer-registra
 export class CashBuyComponent implements OnInit {
   buyCashForm: FormGroup;
   public submitted = false;
+  public submittedOne = false;
   token: JWTResponse;
   private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.toast);
   currencies = currencyListTest;
+  exchange = currencyListTest;
   rateUsed: number;
   fcaAmount: number;
+  checkUserForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,7 +35,9 @@ export class CashBuyComponent implements OnInit {
     private ls: LoginService,
     private bs: BuyService,
     private as: AuthenticationService,
-    public cs: CustomerRegistrationService
+    public cs: CustomerRegistrationService,
+    private customerService: CustomerService,
+    private currenciesService: CurrenciesService
   ) {
   }
 
@@ -42,8 +49,16 @@ export class CashBuyComponent implements OnInit {
       currencySwitchedTo: ['', [Validators.required]],
       customerId: ['', [Validators.required]]
     });
+
+    this.checkUserForm = this.formBuilder.group({
+      nationalIdNumber: ['', [Validators.required]]
+    });
     this.getOtherVariables();
     this.paying();
+  }
+
+  get fg() {
+    return this.checkUserForm.controls;
   }
 
   get f() {
@@ -67,7 +82,7 @@ export class CashBuyComponent implements OnInit {
   }
 
   onCurrencyBoughtSelect($event: Event) {
-    // todo: assign the value of currency bought
+    // todo: assign the value of rates bought
   }
 
   onCurrencySwitchedToSelect($event: Event) {
@@ -84,7 +99,7 @@ export class CashBuyComponent implements OnInit {
     }
     this.bs.getBuyingRate(this.f.currencyBought.value, this.f.currencySwitchedTo.value).subscribe(d => {
         // this.rateUsed = d.responseBody;
-        // todo assign the value of currency switched to
+        // todo assign the value of rates switched to
         // todo round down
       }
     );
@@ -124,4 +139,20 @@ export class CashBuyComponent implements OnInit {
   }
 
 
+  checkById() {
+    this.submittedOne = true;
+
+    if (this.checkUserForm.invalid) {
+      return;
+    }
+
+    this.customerService.findCustomerByNationalID(this.checkUserForm.value).subscribe(d => {
+        this.exceptionHandler.checkResult(d);
+
+        this.buyCashForm.patchValue({
+          customerId: d.responseBody.id,
+        });
+      }
+    );
+  }
 }

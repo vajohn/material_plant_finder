@@ -10,6 +10,7 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   @Input() caption: string;
   @Input() displayedColumns = ['key'];
+  @Input() displayedHeaders = ['key'];
   @Input() dataForTable = [];
   @Input() currentList = ListTypes.Org;
   sortOrder = false;

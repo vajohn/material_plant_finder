@@ -7,10 +7,11 @@ import { UserListComponent } from './user-list/user-list.component';
 import {SharedComponentsModule} from '../../shared-components/shared-components.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {StewardMaterialModule} from '../../material/steward-material.module';
+import { CustomerListComponent } from './customer-list/customer-list.component';
 
 
 @NgModule({
-  declarations: [UserFormComponent, UserListComponent],
+  declarations: [UserFormComponent, UserListComponent, CustomerListComponent],
     imports: [
         CommonModule,
         UsersRoutingModule,

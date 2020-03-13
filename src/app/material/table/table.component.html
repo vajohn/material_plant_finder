@@ -3,7 +3,7 @@
 
   <caption>{{caption}}</caption>
   <tr class="head">
-    <th [id]="col" *ngFor="let col of displayedColumns">{{showHeader(col.split('.', 1)[0])}}</th>
+    <th [id]="header" *ngFor="let header of displayedHeaders">{{header}}</th>
   </tr>
 
   <tr class="body" *ngFor="let data of dataForTable">

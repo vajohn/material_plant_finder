@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {OrganizationListResponse, OrganizationResponseBody} from '../../../models/organization';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ExceptionHandler} from '../../../utilities/exceptionHandler';
@@ -16,7 +16,8 @@ import {BranchesService} from '../../../services/branches.service';
 export class BranchAllComponent implements OnInit {
   organizations: OrganizationResponseBody[] = [];
   branches: BranchListResponseBody[] = [];
-  displayedColumns = ['name', 'agentCode', 'organization.companyName'];
+  displayedColumns = ['name', 'agentCode', 'organization.companyName', 'organization.contactPersonName', 'organization.contactPersonMobile', 'organization.emailAddress'];
+  displayedHeaders = ['Branch', 'Agent code', 'Company name', 'Contact person', 'Contact mobile', 'Contact email'];
   organizationListForm: FormGroup;
   submitted = false;
 

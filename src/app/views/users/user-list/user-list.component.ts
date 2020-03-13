@@ -19,6 +19,7 @@ export class UserListComponent implements OnInit {
   organizations: OrganizationResponseBody[] = [];
   users: UsersListResponseBody[] = [];
   displayedColumns = ['firstName', 'lastName', 'roles.[0].name' , 'organization.companyName', 'branch.name'];
+  displayedHeaders = ['First name', 'Surname', 'Role' , 'Organization', 'Branch'];
   organizationListForm: FormGroup;
   submitted = false;
 

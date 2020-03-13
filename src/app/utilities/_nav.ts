@@ -96,7 +96,7 @@ export const navItems: INavData[] = [
     icon: 'fas fa-money-bill-wave',
     children: [
       {
-        name: 'All',
+        name: 'All users',
         url: '/users/list',
         icon: 'fas fa-funnel-dollar'
       },
@@ -105,6 +105,11 @@ export const navItems: INavData[] = [
         url: '/users/form',
         icon: 'fas fa-funnel-dollar'
       },
+      {
+        name: 'All customers',
+        url: '/users/customers',
+        icon: 'fas fa-funnel-dollar'
+      }
     ]
   },
   {

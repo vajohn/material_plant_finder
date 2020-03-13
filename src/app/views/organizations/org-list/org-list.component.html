@@ -1,4 +1,4 @@
-<app-table [dataForTable]="organizations" [displayedColumns]="displayedColumns">
+<app-table [dataForTable]="organizations" [displayedColumns]="displayedColumns" [displayedHeaders]="displayedColumns">
   <form [formGroup]="organizationListForm" (ngSubmit)="onSubmit()">
     <section class="row pc-2">
       <div class="col-xs-6">
