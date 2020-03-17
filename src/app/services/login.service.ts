@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
-import {HttpBackend, HttpClient} from '@angular/common/http';
+import {HttpBackend, HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {JWTResponse, LoginRequest, UserDetails} from '../models/authentication';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {DefaultResponse} from '../models/default';
 import {environment} from '../../environments/environment';
 import * as jwt_decode from 'jwt-decode';
-import {finalize, first, map} from 'rxjs/operators';
+import {catchError, finalize, first, map} from 'rxjs/operators';
 import {StorageCase} from '../utilities/constants';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {UsersListResponseBody, UsersResponse} from '../models/users';
+import {ToastrService} from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class LoginService {
   private currentUserInfoSubject: BehaviorSubject<UserDetails>;
   public currentInfoUser: Observable<UserDetails>;
 
-  constructor(private http: HttpClient, handler: HttpBackend, private spinner: NgxSpinnerService) {
+  constructor(private http: HttpClient, handler: HttpBackend, private spinner: NgxSpinnerService, private toast: ToastrService) {
     this.http = new HttpClient(handler);
     this.currentUserSubject = new BehaviorSubject<JWTResponse>(this.getDecodedAccessToken());
     this.currentUserInfoSubject = new BehaviorSubject<UserDetails>(this.getDecodedUserInfo());
@@ -31,12 +32,30 @@ export class LoginService {
     this.spinner.show();
     return this.http.post<DefaultResponse>(`${environment.baseUrl}users/login`, data, {observe: 'response'}).pipe(
       first(),
+      catchError((error: HttpErrorResponse) => {
+        let errorMessage: string;
+        let errorCode: string;
+        if (error.error instanceof ErrorEvent) {
+          // client-side error
+          errorMessage = `Error: ${error.error.message}`;
+        } else {
+          // server-side error
+          errorMessage = `${error.error.message}\nMessage: Failed to connect please try again later`;
+          errorCode = `Error Code: ${error.status}`;
+        }
+        this.toast.error(errorMessage, `${errorCode}`);
+        return throwError(errorMessage);
+      }),
       map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         const result: UsersResponse = user.body as UsersResponse;
         sessionStorage.setItem(StorageCase.token, user.headers.get('authorization'));
         sessionStorage.setItem(StorageCase.currentUser,
-          JSON.stringify({orgId: result.responseBody.organization.id, branchId: result.responseBody.branch.id }));
+          JSON.stringify({
+            orgId: result.responseBody.organization.id,
+            branchId: result.responseBody.branch.id,
+            userInfo: result.responseBody
+          }));
         this.currentUserSubject.next(this.getDecodedAccessToken());
         this.currentUserInfoSubject.next(this.getDecodedUserInfo());
         return user.body;
@@ -67,5 +86,11 @@ export class LoginService {
 
   public get currentUserInfoValue(): UserDetails {
     return this.currentUserInfoSubject.value;
+  }
+
+  logout() {
+    this.currentUserSubject.unsubscribe();
+    this.currentUserInfoSubject.unsubscribe();
+    sessionStorage.clear();
   }
 }

@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../services/login.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ExceptionHandler} from '../../../utilities/exceptionHandler';
-import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -14,10 +12,10 @@ export class LoginComponent implements OnInit {
   login: FormGroup;
   submitted = false;
   visibility = false;
+  response;
   year = new Date().getFullYear();
-  private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.toast);
 
-  constructor(public router: Router, public ls: LoginService, private formBuilder: FormBuilder, private toast: ToastrService) {
+  constructor(public router: Router, public ls: LoginService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
@@ -39,7 +37,6 @@ export class LoginComponent implements OnInit {
     }
 
     this.ls.login(this.login.value).subscribe(d => {
-        this.exceptionHandler.checkResult(d);
         this.router.navigateByUrl('/dashboard', {replaceUrl: true}).then(() => this.login.reset());
       }
     );

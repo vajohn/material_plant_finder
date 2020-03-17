@@ -24,9 +24,9 @@
     <section class="row pc-2">
       <div class="col-xs-6">
         <mat-form-field class="col-xs-6">
-          <mat-label>National Id</mat-label>
-          <input matInput placeholder="082020936Q75" formControlName="nationalIdNumber">
-          <mat-error *ngIf="submittedID && g.amountPaid.errors">
+          <mat-label>Amount paid</mat-label>
+          <input matInput placeholder="12" formControlName="nationalIdNumber">
+          <mat-error *ngIf="submitted && g.amountPaid.errors">
             <p *ngIf="f.amountPaid.errors.required">
               Please enter amount paid
             </p>
@@ -34,71 +34,62 @@
         </mat-form-field>
       </div>
       <div class="col-xs-6">
-        <div class="form__group field">
-          <h4>Converted amount: <em>{{fcaAmount}}</em></h4>
-        </div>
+        <div>Converted amount: <em>{{fcaAmount}}</em></div>
       </div>
     </section>
     <section class="row pc-2">
       <div class="col-xs-6">
         <div class="form__group field">
-          <input type="text" placeholder="currencyBought" formControlName="currencyBought" class="form__field"
-                 id="currencyBought"/>
-          <em class="material-icons form__icon">
-            attach_file
-          </em>
-          <label for="currencyBought" class="form__label">CurrencyBought</label>
-          <div class="form__error" *ngIf="submitted && f.currencyBought.errors">
-            <p *ngIf="f.currencyBought.errors.required">
-              Please enter currency Bought
-            </p>
-          </div>
+          <mat-form-field class="col-xs-6">
+            <mat-label >Currency bought</mat-label>
+            <mat-select name="currencyBought" formControlName="currencyBought"
+                        (change)="onCurrencyBoughtSelect($event)">
+              <mat-option *ngFor="let currency of currencies" [value]="currency.name">
+                {{currency.name}}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="submitted && f.currencyBought.errors">
+              <p *ngIf="f.currencyBought.errors.required">
+                Please enter currencyBought
+              </p>
+            </mat-error>
+          </mat-form-field>
         </div>
       </div>
       <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="currencySwitchedTo" formControlName="currencySwitchedTo" class="form__field"
-                 id="currencySwitchedTo"/>
-          <em class="material-icons form__icon">
-            business_center
-          </em>
-          <label for="currencySwitchedTo" class="form__label">currency Switched To</label>
-          <div class="form__error" *ngIf="submitted && f.currencySwitchedTo.errors">
+        <mat-form-field class="col-xs-6">
+          <mat-label >Target currency</mat-label>
+          <mat-select formControlName="currencySwitchedTo"
+                      (change)="onCurrencySwitchedToSelect($event)">
+            <mat-option *ngFor="let rates of exchange" [value]="rates.buyrate">{{rates.currency}}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="submitted && f.currencySwitchedTo.errors">
             <p *ngIf="f.currencySwitchedTo.errors.required">
-              Please enter currency Switched To
+              Please enter target currency
             </p>
-          </div>
-        </div>
+          </mat-error>
+        </mat-form-field>
       </div>
     </section>
     <section class="row pc-2">
       <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="customerId" formControlName="customerId" class="form__field"
-                 id="customerId"/>
-          <em class="material-icons form__icon">
-            assignment_ind
-          </em>
-          <label for="customerId" class="form__label">customerId</label>
-          <div class="form__error" *ngIf="submitted && f.customerId.errors">
+        <mat-form-field class="col-xs-6">
+          <mat-label>Customer ID</mat-label>
+          <input matInput placeholder="1" formControlName="customerId">
+          <mat-error *ngIf="submitted && g.customerId.errors">
             <p *ngIf="f.customerId.errors.required">
-              Please enter customer Id
+              Please enter customer
             </p>
-          </div>
-        </div>
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="col-xs-6">
         <div class="form__group field">
-          <input type="text" placeholder="rateUsed" formControlName="rateUsed" class="form__field"
-                 id="rateUsed"/>
-          <em class="material-icons form__icon">
-            assignment_ind
-          </em>
-          <label for="rateUsed" class="form__label">rateUsed</label>
-          <div class="form__error" *ngIf="submitted && f.customerId.errors">
-            <p *ngIf="f.rateUsed.errors.required">
-              Please enter rate Used
-            </p>
+          <div class="form__group field">
+            <div>Current buying rate: <em>{{rateUsed}}</em></div>
           </div>
         </div>
       </div>

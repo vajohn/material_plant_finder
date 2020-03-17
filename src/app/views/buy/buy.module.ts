@@ -8,18 +8,20 @@ import {StewardBuyComponent} from './steward/steward-buy.component';
 import {StewardMaterialModule} from '../../material/steward-material.module';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [CashBuyComponent, StewardBuyComponent],
-  imports: [
-    CommonModule,
-    BuyRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SharedComponentsModule,
-    StewardMaterialModule,
-    MatCardModule,
-    MatInputModule
-  ]
+    imports: [
+        CommonModule,
+        BuyRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedComponentsModule,
+        StewardMaterialModule,
+        MatCardModule,
+        MatInputModule,
+        MatSelectModule
+    ]
 })
 export class BuyModule { }

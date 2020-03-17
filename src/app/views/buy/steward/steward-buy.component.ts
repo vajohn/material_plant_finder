@@ -46,6 +46,7 @@ export class StewardBuyComponent implements OnInit {
     this.token = this.ls.getDecodedAccessToken();
     this.currenciesService.getCurrencies().subscribe(d => this.currencies = d);
     this.exchange = exchangeRateListTest;
+
     this.buyStewardForm = this.formBuilder.group({
       amountPaid: ['', [Validators.required]],
       beneficiaryAccount: ['', [Validators.required]],
@@ -54,6 +55,10 @@ export class StewardBuyComponent implements OnInit {
       customerId: ['', [Validators.required]],
       fcaAmount: [''],
       rateUsed: ['']
+    });
+
+    this.checkUserForm = this.formBuilder.group({
+      nationalIdNumber: ['', [Validators.required]]
     });
   }
 
@@ -94,5 +99,31 @@ export class StewardBuyComponent implements OnInit {
         });
       }
     );
+  }
+
+  onCurrencyBoughtSelect($event: Event) {
+
+    switch (this.f.currencyBought.value) {
+      case 'ZWL':
+        this.exchange = exchangeRateListTest;
+        break;
+      case 'USD':
+        this.exchange = [];
+        break;
+      default:
+        this.exchange = [];
+    }
+  }
+
+  onCurrencySwitchedToSelect($event: Event) {
+
+    this.rateUsed = this.f.currencySwitchedTo.value;
+    // we check the amount bought to find the currency name, not the best solution
+    this.exchange.forEach(result => {
+      if (result.buyrate === this.f.currencySwitchedTo.value) {
+        this.currencyName = result.currency;
+      }
+    });
+
   }
 }

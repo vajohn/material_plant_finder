@@ -35,10 +35,10 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.userForm = this.formBuilder.group({
-      firstName: ['', [Validators.required, Validators.minLength(4)]],
+      firstName: ['', [Validators.required]],
       hasBeenTrained: [false, Validators.required],
-      lastName: ['', [Validators.required, Validators.minLength(4)]],
-      mobileNumber: ['', [Validators.required, Validators.minLength(4)]],
+      lastName: ['', [Validators.required]],
+      mobileNumber: ['', [Validators.required]],
       emailAddress: ['', [Validators.required, Validators.email]],
       nationalIdNumber: ['', Validators.required],
       branchId: [''],

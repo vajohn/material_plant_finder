@@ -1,14 +1,14 @@
 import {Injectable, Injector, TemplateRef, Type} from '@angular/core';
-import {Overlay, OverlayConfig, OverlayRef} from '@angular/cdk/overlay';
+import {Overlay, OverlayConfig} from '@angular/cdk/overlay';
 import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
-import {CustomerRegistrationComponent} from './customer-registration.component';
-import {FormOverlayRef} from './form-overlay.ref';
+import {ReceiptComponent} from './receipt.component';
+import {ReceiptOverlayRef} from './receipt-overlay.ref';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class CustomerRegistrationService {
+export class ReceiptService {
 // Inject overlay service
   constructor(private overlay: Overlay, private injector: Injector) { }
 
@@ -18,9 +18,9 @@ export class CustomerRegistrationService {
       positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
       hasBackdrop: true,
     });
-    overlayRef.attach(new ComponentPortal(CustomerRegistrationComponent));
+    overlayRef.attach(new ComponentPortal(ReceiptComponent));
 
-    const myOverlayRef = new FormOverlayRef<R, T>(overlayRef, content, data);
+    const myOverlayRef = new ReceiptOverlayRef<R, T>(overlayRef, content, data);
 
     const injector = this.createInjector(myOverlayRef, this.injector);
     // overlayRef.attach(new ComponentPortal(ReceiptComponent, null, injector));
@@ -28,8 +28,8 @@ export class CustomerRegistrationService {
     return myOverlayRef;
   }
 
-  createInjector(ref: FormOverlayRef, inj: Injector) {
-    const injectorTokens = new WeakMap([[FormOverlayRef, ref]]);
+  createInjector(ref: ReceiptOverlayRef, inj: Injector) {
+    const injectorTokens = new WeakMap([[ReceiptOverlayRef, ref]]);
     return new PortalInjector(inj, injectorTokens);
   }
 

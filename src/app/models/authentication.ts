@@ -1,3 +1,5 @@
+import {UsersListResponseBody} from './users';
+
 export interface UserRegistrationRequest {
   emailAddress: string;
   firstName: string;
@@ -47,6 +49,7 @@ export interface JWTResponse {
 export interface UserDetails {
   orgId: number;
   branchId: number;
+  userInfo: UsersListResponseBody;
 }
 
 export interface RoleListResponse {

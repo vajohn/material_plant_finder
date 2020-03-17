@@ -10,6 +10,8 @@ import {RouterModule} from '@angular/router';
 import {TableComponent} from './table/table.component';
 import {TooltipDirective} from './tooltip/tooltip.directive';
 import {TooltipComponent} from './tooltip/tooltip.component';
+import {MaterialComponentsModule} from '../material.module';
+import { DropdownComponent } from './dropdown/dropdown.component';
 
 @NgModule({
   declarations: [
@@ -19,15 +21,25 @@ import {TooltipComponent} from './tooltip/tooltip.component';
     FooterComponent,
     InputComponent,
     TableComponent,
+    TooltipComponent,
+    DropdownComponent
+  ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        RouterModule,
+        FormsModule,
+        MaterialComponentsModule
+    ],
+  exports: [
+    ButtonComponent,
+    HeaderComponent,
+    SideMenuComponent,
+    FooterComponent,
+    InputComponent,
+    TableComponent,
     TooltipComponent
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    FormsModule
-  ],
-  exports: [ButtonComponent, HeaderComponent, SideMenuComponent, FooterComponent, InputComponent, TableComponent, TooltipComponent],
 
 })
 export class StewardMaterialModule {

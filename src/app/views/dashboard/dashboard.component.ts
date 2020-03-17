@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {LoginService} from '../../services/login.service';
+import {ReceiptService} from '../../containers/receipt/receipt.service';
+import {MatDialog} from '@angular/material/dialog';
+import {ReceiptComponent} from '../../containers/receipt/receipt.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,9 +10,8 @@ import {LoginService} from '../../services/login.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  items = [];
 
-  constructor(public router: Router, private as: LoginService) {
+  constructor(public router: Router, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -18,11 +19,10 @@ export class DashboardComponent implements OnInit {
   }
 
   check() {
-    const token = this.as.getDecodedAccessToken();
-    console.log('token', token);
-  }
 
-  change($event: any) {
-    console.log($event);
+    const dialogRef = this.dialog.open(ReceiptComponent, {
+      // width: '250px',
+      data: {name: 'this.name', animal: 'this.animal'}
+    });
   }
 }

@@ -8,6 +8,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {NgModule} from '@angular/core';
     MatRadioModule,
     MatInputModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
   ],
   exports: [
     MatButtonModule,
@@ -31,7 +33,8 @@ import {NgModule} from '@angular/core';
     MatRadioModule,
     MatInputModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
   ],
 })
 export class MaterialComponentsModule {

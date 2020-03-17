@@ -21,7 +21,9 @@ import {ToastrModule} from 'ngx-toastr';
 import {ToastComponent} from './shared-components/toast/toast.component';
 import {HttpCustomInterceptor} from './services/http.interceptor';
 import {CustomerRegistrationComponent} from './containers/customer-registration/customer-registration.component';
-
+import {ReceiptComponent} from './containers/receipt/receipt.component';
+import {MaterialComponentsModule} from './material.module';
+import {NgxPrintModule} from 'ngx-print';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent,
@@ -29,21 +31,26 @@ const APP_CONTAINERS = [
 ];
 
 const APP_COMPONENTS = [
-  LoginComponent, P404Component, P500Component, ToastComponent, CustomerRegistrationComponent
+  LoginComponent, P404Component, P500Component
+];
+
+const APP_MODALS = [
+  ReceiptComponent, ToastComponent, CustomerRegistrationComponent
 ];
 
 @NgModule({
-  entryComponents: [ToastComponent, CustomerRegistrationComponent],
+  entryComponents: [...APP_MODALS],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
-    ...APP_COMPONENTS
+    ...APP_COMPONENTS,
+    ...APP_MODALS
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedComponentsModule,
-
+    NgxPrintModule,
     StewardMaterialModule,
     NgxSpinnerModule,
     OverlayModule,
@@ -57,6 +64,7 @@ const APP_COMPONENTS = [
       toastComponent: ToastComponent,
     }),
     BrowserAnimationsModule,
+    MaterialComponentsModule,
   ],
   providers: [
     {

@@ -1,6 +1,7 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {navItems} from 'src/app/utilities/_nav';
 import {SideMenuComponent} from '../../material/side-menu/side-menu.component';
+import {HeaderService} from '../../material/header/header.service';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class DefaultLayoutComponent {
     }
   }
 
-  constructor() {
+  constructor(public headerService: HeaderService) {
     // this.userName = (JSON.parse(sessionStorage.getItem(StorageCase.currentUser)) as UserModel.User);
   }
 
