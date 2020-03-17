@@ -32,10 +32,9 @@ export class HeaderComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
 
       switch (result) {
-        case 'Logout':
+        case 'logout':
           this.loginService.logout();
           this.router.navigateByUrl('/login');
           break;

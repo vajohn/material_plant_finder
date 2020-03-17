@@ -89,8 +89,6 @@ export class LoginService {
   }
 
   logout() {
-    this.currentUserSubject.unsubscribe();
-    this.currentUserInfoSubject.unsubscribe();
     sessionStorage.clear();
   }
 }

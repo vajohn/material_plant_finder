@@ -17,6 +17,6 @@ export class DropdownComponent implements OnInit {
   }
 
   headerPress() {
-    this.dialogRef.close('headerPress');
+    this.dialogRef.close('logout');
   }
 }
