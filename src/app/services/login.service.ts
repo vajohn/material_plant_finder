@@ -8,7 +8,7 @@ import * as jwt_decode from 'jwt-decode';
 import {catchError, finalize, first, map} from 'rxjs/operators';
 import {StorageCase} from '../utilities/constants';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {UsersListResponseBody, UsersResponse} from '../models/users';
+import {UsersResponse} from '../models/users';
 import {ToastrService} from 'ngx-toastr';
 
 @Injectable({
@@ -64,9 +64,67 @@ export class LoginService {
     );
   }
 
+  forgotPasswordRequest(value: any): Observable<DefaultResponse> {
+    this.spinner.show();
+    return this.http.post<DefaultResponse>(`${environment.baseUrl}users/request-password-reset`, value)
+      .pipe(
+        first(),
+        catchError((error: HttpErrorResponse) => {
+          let errorCode: string;
+          let message: string;
+          if (error.error instanceof ErrorEvent) {
+            message = `Error: ${error.error.message}`;
+          } else {
+            message = `${error.error.message}\nMessage: Failed to connect please try again later`;
+            errorCode = `Error Code: ${error.status}`;
+          }
+          this.toast.error(message, `${errorCode}`);
+          return throwError(message);
+        }),
+        map(user => {
+          this.toast.success('', `${user.message}`);
+          return user;
+        }),
+        finalize(() => this.spinner.hide())
+      );
+  }
+
+  passwordResetRequest(value: any): Observable<DefaultResponse> {
+    this.spinner.show();
+    return this.http.post<DefaultResponse>(`${environment.baseUrl}users/process-password-reset`, value)
+      .pipe(
+        first(),
+        catchError((error: HttpErrorResponse) => {
+          let errorCode: string;
+          let message: string;
+          if (error.error instanceof ErrorEvent) {
+            message = `Error: ${error.error.message}`;
+          } else {
+            message = `${error.error.message}\nMessage: Failed to connect please try again later`;
+            errorCode = `Error Code: ${error.status}`;
+          }
+          this.toast.error(message, `${errorCode}`);
+          return throwError(message);
+        }),
+        map(user => {
+          this.toast.success('', `${user.message}`);
+          return user;
+        }),
+        finalize(() => this.spinner.hide())
+      );
+  }
+
   getDecodedAccessToken(): JWTResponse {
     try {
       return jwt_decode(sessionStorage.getItem(StorageCase.token));
+    } catch (Error) {
+      return null;
+    }
+  }
+
+  getAccessToken() {
+    try {
+      return sessionStorage.getItem(StorageCase.token);
     } catch (Error) {
       return null;
     }

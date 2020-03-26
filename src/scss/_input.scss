@@ -81,7 +81,7 @@ mat-form-field{
     top: 0;
     display: block;
     transition: 0.2s;
-    font-size: 1rem;
+    font-size: 0.75rem;
     color: $primary;
     font-weight:700;
   }
@@ -102,4 +102,15 @@ mat-form-field{
 /* reset input */
 .form__field{
   &:required,&:invalid { box-shadow:none; }
+}
+
+.two-col-form{
+  //padding: 1em;
+  //display: grid;
+  //width: 180px;
+  //grid-column-gap: 2em;
+  //
+  //grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+
+  display: flex;
 }

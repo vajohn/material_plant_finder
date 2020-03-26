@@ -42,7 +42,7 @@ export interface LoginRequest {
 
 export interface JWTResponse {
   userId: number;
-  role: RoleModel[];
+  role: number;
   exp: number;
 }
 
@@ -61,4 +61,7 @@ export interface RoleListResponse {
 export interface RoleModel {
   id: number;
   name: string;
+  admin: boolean;
+  bank: boolean;
+  agent: boolean;
 }

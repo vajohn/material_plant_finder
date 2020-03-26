@@ -23,4 +23,27 @@ export namespace BuyModel {
     userId: number;
   }
 
+  export interface BuyResponse {
+    statusCode: number;
+    message: string;
+    responseBody: BuyResponseBody;
+  }
+
+  export interface BuyResponseBody {
+    transactionType: string;
+    customerFullName: string;
+    customerMobileNumber: string;
+    customerAddress: string;
+    agentCode: string;
+    fcaAmount: number;
+    rateUsed: number;
+    currencyBought: string;
+    currencySwitchedTo: string;
+    amountPaid?: number;
+    cashPaid?: number;
+    beneficiaryAccount?: string;
+    transactionReference: string;
+    rrnReference?: string;
+    ecocashReference?: string;
+  }
 }

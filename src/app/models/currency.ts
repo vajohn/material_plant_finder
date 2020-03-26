@@ -1,7 +1,7 @@
 export interface ExchangeRatesResponse {
   statusCode: string;
   message: string;
-  responseBody: ExchangeRateResponseBody;
+  responseBody: ExchangeRate[];
 }
 export interface CurrencyResponse {
   statusCode: number;
@@ -15,9 +15,9 @@ interface ExchangeRateResponseBody {
 
 export interface ExchangeRate {
   currency: string;
-  ccyname: string;
-  buyrate: string;
-  sellrate: string;
+  ccyName: string;
+  buyRate: string;
+  sellRate: string;
 }
 
 export interface CurrencyModel {

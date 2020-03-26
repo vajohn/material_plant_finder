@@ -3,6 +3,7 @@ import {HttpClient, HttpEvent} from '@angular/common/http';
 import {Observable, forkJoin} from 'rxjs';
 import {DefaultResponse} from '../models/default';
 import {OrganizationListResponse, OrganizationResponse} from '../models/organization';
+import {BranchListResponse} from '../models/branches';
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +26,9 @@ export class OrganizationsService {
   }
 
   getForUserForm(): Observable<any[]> {
-    const organizations = this.http.get<DefaultResponse>('organizations/');
-    const branches = this.http.get<DefaultResponse>('branches/by-organization/1');
-    const roles = this.http.get<DefaultResponse>('roles/');
-    return forkJoin([organizations, branches, roles]);
+    const organizations = this.http.get<OrganizationListResponse>('organizations/');
+    const branches = this.http.get<BranchListResponse>('branches/by-organization/1');
+    return forkJoin([organizations, branches]);
   }
 
 }

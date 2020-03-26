@@ -7,17 +7,19 @@ import {OrgAddComponent} from './org-add/org-add.component';
 import {SharedComponentsModule} from '../../shared-components/shared-components.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {StewardMaterialModule} from '../../material/steward-material.module';
+import {MaterialComponentsModule} from '../../material.module';
 
 
 @NgModule({
   declarations: [OrgListComponent, OrgAddComponent],
-  imports: [
-    CommonModule,
-    OrganizationsRoutingModule,
-    StewardMaterialModule,
-    SharedComponentsModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        OrganizationsRoutingModule,
+        StewardMaterialModule,
+        SharedComponentsModule,
+        ReactiveFormsModule,
+        MaterialComponentsModule
+    ]
 })
 export class OrganizationsModule {
 }

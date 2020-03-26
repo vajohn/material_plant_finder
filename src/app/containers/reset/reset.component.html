@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>Activate account</h2>
+<form [formGroup]="resetPasswordForm" (ngSubmit)="activatePassword()">
+  <div mat-dialog-content>
+    <p>Please check your email for the token</p>
+    <mat-form-field>
+      <mat-label>National ID number</mat-label>
+      <input matInput placeholder="55892126578C39" formControlName="nationalIdNumber">
+    </mat-form-field>
+    <mat-error *ngIf="submitted && form.nationalIdNumber.errors">
+      <p *ngIf="form.nationalIdNumber.errors.required">
+        Please enter a email
+      </p>
+
+    </mat-error>
+    <mat-form-field>
+      <mat-label>Token</mat-label>
+      <input matInput formControlName="token">
+    </mat-form-field>
+    <mat-error *ngIf="submitted && form.token.errors">
+      <p *ngIf="form.token.errors.required">
+        Please enter token that was sent to email
+      </p>
+    </mat-error>
+    <mat-form-field>
+      <mat-label>New password</mat-label>
+      <input matInput formControlName="newPassword"  [type]="show ? 'text' : 'password'">
+      <mat-icon matSuffix (click)="show = !show">{{show ? 'visibility' : 'visibility_off'}}</mat-icon>
+    </mat-form-field>
+    <mat-error *ngIf="submitted && form.newPassword.errors">
+      <p *ngIf="form.newPassword.errors.required">
+        Please enter new password
+      </p>
+    </mat-error>
+    <mat-form-field>
+      <mat-label>Confirm password</mat-label>
+      <input matInput formControlName="confirmPassword" [type]="show ? 'text' : 'password'">
+      <mat-icon matSuffix (click)="show = !show">{{show ? 'visibility' : 'visibility_off'}}</mat-icon>
+    </mat-form-field>
+    <mat-error *ngIf="submitted && form.confirmPassword.errors">
+      <p *ngIf="form.confirmPassword.errors.required">
+        Please re-enter password
+      </p>
+    </mat-error>
+  </div>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+    <button mat-raised-button (click)="retryReset()">Retry reset</button>
+    <button mat-raised-button type="submit" color="primary">Activate account</button>
+  </mat-dialog-actions>
+</form>

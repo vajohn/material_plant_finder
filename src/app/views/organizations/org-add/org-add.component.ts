@@ -21,13 +21,13 @@ export class OrgAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.organizationForm = this.formBuilder.group({
-      companyName: ['', [Validators.required, Validators.minLength(4)]],
-      companyNumber: ['', [Validators.required, Validators.minLength(4)]],
+      companyName: ['', [Validators.required]],
+      companyNumber: ['', [Validators.required]],
       contactPersonMobile: ['', [Validators.required, Validators.minLength(4)]],
-      contactPersonName: ['', [Validators.required, Validators.minLength(4)]],
+      contactPersonName: ['', [Validators.required]],
       emailAddress: ['', [Validators.required, Validators.email, Validators.minLength(4)]],
       // organizationLogoUrl: [''],
-      physicalAddress: ['', [Validators.required, Validators.minLength(4)]],
+      physicalAddress: ['', [Validators.required]],
       tradingName: ['', [Validators.required]]
     });
   }

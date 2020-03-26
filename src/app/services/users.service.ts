@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {BranchListResponse} from '../models/branches';
@@ -9,7 +9,8 @@ import {UsersListResponse} from '../models/users';
 })
 export class UsersService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getAllUsers(): Observable<UsersListResponse> {
     return this.http.get<UsersListResponse>(`users/`);
@@ -17,5 +18,9 @@ export class UsersService {
 
   getUsersByOrg(orgId: number): Observable<UsersListResponse> {
     return this.http.get<UsersListResponse>(`users/by-organization/${orgId}`);
+  }
+
+  approveUser(userId, approverId, userData): Observable<UsersListResponse> {
+    return this.http.put<UsersListResponse>(`users/approve-user/${userId}/approved-by/${approverId}`, {});
   }
 }

@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Forgot password</h2>
+<form [formGroup]="forgotPasswordForm" (ngSubmit)="forgetPassword()">
+  <div mat-dialog-content>
+    <p>Enter your email here,</p>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+    <mat-error *ngIf="submitted && form.email.errors">
+      <p *ngIf="form.email.errors.required">
+        Please enter a email
+      </p>
+      <p *ngIf="form.email.errors.email">
+        Please enter a valid email
+      </p>
+    </mat-error>
+  </div>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+    <button mat-raised-button type="button" (click)="activateAccount()">Activate</button>
+    <button mat-raised-button type="submit" color="primary">Request reset</button>
+  </mat-dialog-actions>
+</form>

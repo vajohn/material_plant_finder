@@ -22,47 +22,13 @@
 <mat-card >
   <form [formGroup]="buyStewardForm" (ngSubmit)="onSubmit()">
     <section class="row pc-2">
-      <div class="col-xs-6">
-        <mat-form-field class="col-xs-6">
-          <mat-label>Amount paid</mat-label>
-          <input matInput placeholder="12" formControlName="nationalIdNumber">
-          <mat-error *ngIf="submitted && g.amountPaid.errors">
-            <p *ngIf="f.amountPaid.errors.required">
-              Please enter amount paid
-            </p>
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="col-xs-6">
-        <div>Converted amount: <em>{{fcaAmount}}</em></div>
-      </div>
-    </section>
-    <section class="row pc-2">
-      <div class="col-xs-6">
-        <div class="form__group field">
-          <mat-form-field class="col-xs-6">
-            <mat-label >Currency bought</mat-label>
-            <mat-select name="currencyBought" formControlName="currencyBought"
-                        (change)="onCurrencyBoughtSelect($event)">
-              <mat-option *ngFor="let currency of currencies" [value]="currency.name">
-                {{currency.name}}
-              </mat-option>
-            </mat-select>
-
-            <mat-error *ngIf="submitted && f.currencyBought.errors">
-              <p *ngIf="f.currencyBought.errors.required">
-                Please enter currencyBought
-              </p>
-            </mat-error>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="col-xs-6">
-        <mat-form-field class="col-xs-6">
+      <div class="col-md-4">
+        <mat-form-field>
           <mat-label >Target currency</mat-label>
           <mat-select formControlName="currencySwitchedTo"
-                      (change)="onCurrencySwitchedToSelect($event)">
-            <mat-option *ngFor="let rates of exchange" [value]="rates.buyrate">{{rates.currency}}
+                      (selectionChange)="onCurrencySwitchedToSelect($event)">
+            <mat-option *ngFor="let rates of exchange" [value]="rates.buyRate">
+              {{rates.ccyName}} ({{rates.currency}})
             </mat-option>
           </mat-select>
 
@@ -73,44 +39,64 @@
           </mat-error>
         </mat-form-field>
       </div>
-    </section>
-    <section class="row pc-2">
-      <div class="col-xs-6">
-        <mat-form-field class="col-xs-6">
-          <mat-label>Customer ID</mat-label>
-          <input matInput placeholder="1" formControlName="customerId">
-          <mat-error *ngIf="submitted && g.customerId.errors">
-            <p *ngIf="f.customerId.errors.required">
-              Please enter customer
+      <div class="col-md-8">
+        <mat-form-field>
+          <mat-label>Amount bought</mat-label>
+          <input matInput placeholder="12" formControlName="amountPaid">
+          <mat-error *ngIf="submitted && g.amountPaid.errors">
+            <p *ngIf="f.amountPaid.errors.required">
+              Please enter amount paid
             </p>
           </mat-error>
         </mat-form-field>
       </div>
-      <div class="col-xs-6">
-        <div class="form__group field">
-          <div class="form__group field">
-            <div>Current buying rate: <em>{{rateUsed}}</em></div>
-          </div>
-        </div>
+    </section>
+    <section class="row pc-2">
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label >Currency bought</mat-label>
+          <mat-select name="currencyBought" formControlName="currencyBought"
+                      (selectionChange)="onCurrencyBoughtSelect($event)">
+            <mat-option *ngFor="let currency of currencies" [value]="currency.name">
+              {{currency.name}}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="submitted && f.currencyBought.errors">
+            <p *ngIf="f.currencyBought.errors.required">
+              Please enter currencyBought
+            </p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-8">
+        <h4><em>{{fcaAmount}}</em></h4>
       </div>
     </section>
     <section class="row pc-2">
-      <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="customerId" formControlName="beneficiaryAccount" class="form__field"
-                 id="beneficiaryAccount"/>
-          <em class="material-icons form__icon">
-            assignment_ind
-          </em>
-          <label for="beneficiaryAccount" class="form__label">Beneficiary account</label>
-          <div class="form__error" *ngIf="submitted && f.beneficiaryAccount.errors">
-            <p *ngIf="f.beneficiaryAccount.errors.required">
-              Please enter beneficiary account
-            </p>
+      <div class="col-md-4">
+        <section class="row">
+          <div class="col-md-6">
+            <h4>Current buying rate:</h4>
           </div>
-        </div>
+          <div class="col-md-6">
+            <h4><em>{{rateUsed}}</em></h4>
+          </div>
+        </section>
+      </div>
+      <div class="col-md-8">
+        <mat-form-field>
+          <mat-label>Steward account</mat-label>
+          <input matInput placeholder="1" formControlName="beneficiaryAccount">
+          <mat-error *ngIf="submitted && g.beneficiaryAccount.errors">
+            <p *ngIf="f.beneficiaryAccount.errors.required">
+              Please enter account
+            </p>
+          </mat-error>
+        </mat-form-field>
       </div>
     </section>
+
     <section class="row  pt-2">
       <div class="col-xs-6"></div>
       <div class="col-xs-3">

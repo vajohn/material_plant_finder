@@ -11,6 +11,7 @@ import {LoaderService} from './loader.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ToastrService} from 'ngx-toastr';
 import {environment} from '../../environments/environment';
+import {LoginService} from './login.service';
 
 
 @Injectable()
@@ -19,7 +20,8 @@ export class HttpCustomInterceptor implements HttpCustomInterceptor {
 
   constructor(private ls: LoaderService,
               private spinner: NgxSpinnerService,
-              private toast: ToastrService
+              private toast: ToastrService,
+              private loginService: LoginService
   ) {
   }
 
@@ -30,7 +32,7 @@ export class HttpCustomInterceptor implements HttpCustomInterceptor {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         // tslint:disable-next-line:max-line-length
-        Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwODIwMjA5MzZRNzUiLCJleHAiOjE1ODQyNjE2Njl9.J5Ua75EDw3_qVSgCDAUIG8vtm4m68iHubhKUlRzsdy-yZatreXiC9TbslGrAPfJBzg6Zt4yg2zJ4NrwtY_MyFg'
+        Authorization: this.loginService.getAccessToken()
       }),
       url: environment.baseUrl + request.url
     });

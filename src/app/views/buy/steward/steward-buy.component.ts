@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {JWTResponse} from '../../../models/authentication';
+import {UserDetails} from '../../../models/authentication';
 import {ExceptionHandler} from '../../../utilities/exceptionHandler';
 import {ToastrService} from 'ngx-toastr';
 import {LoginService} from '../../../services/login.service';
 import {BuyService} from '../../../services/buy.service';
 import {CurrencyModel, ExchangeRate} from '../../../models/currency';
-import {exchangeRateListTest} from '../../../utilities/_mockData';
 import {CustomerService} from '../../../services/customer.service';
 import {CurrenciesService} from '../../../services/currencies.service';
-import {toTwoCents} from '../../../utilities/reusables';
+import {toCentsFromFour, toTwoCents} from '../../../utilities/reusables';
 import {CustomerRegistrationService} from '../../../containers/customer-registration/customer-registration.service';
+import {MatSelectChange} from '@angular/material/select';
 
 @Component({
   selector: 'app-steward',
@@ -22,14 +22,13 @@ export class StewardBuyComponent implements OnInit {
   checkUserForm: FormGroup;
   public submitted = false;
   public submittedID = false;
-  token: JWTResponse;
   private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.toast);
   currencies: CurrencyModel[] = [];
   exchange: ExchangeRate[] = [];
-  rateUsed: number;
-  fcaAmount: number;
+  rateUsed = 0.0000;
+  fcaAmount = 0.0000;
   currencyName: string;
-
+  user: UserDetails;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,23 +42,10 @@ export class StewardBuyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.token = this.ls.getDecodedAccessToken();
-    this.currenciesService.getCurrencies().subscribe(d => this.currencies = d);
-    this.exchange = exchangeRateListTest;
-
-    this.buyStewardForm = this.formBuilder.group({
-      amountPaid: ['', [Validators.required]],
-      beneficiaryAccount: ['', [Validators.required]],
-      currencyBought: ['', [Validators.required]],
-      currencySwitchedTo: ['', [Validators.required]],
-      customerId: ['', [Validators.required]],
-      fcaAmount: [''],
-      rateUsed: ['']
-    });
-
-    this.checkUserForm = this.formBuilder.group({
-      nationalIdNumber: ['', [Validators.required]]
-    });
+    this.user = this.ls.currentUserInfoValue;
+    this.getOtherVariables();
+    this.setForms();
+    this.paying();
   }
 
   get f() {
@@ -77,7 +63,10 @@ export class StewardBuyComponent implements OnInit {
       return;
     }
     this.buyStewardForm.patchValue({
-      userId: this.token.userId
+      userId: this.user.userInfo.id,
+      rateUsed: this.rateUsed,
+      fcaAmount: toCentsFromFour(this.fcaAmount),
+      currencySwitchedTo: this.currencyName
     });
     this.bs.buyToAccount(this.buyStewardForm.value).subscribe(d => {
       this.exceptionHandler.checkResult(d);
@@ -101,11 +90,14 @@ export class StewardBuyComponent implements OnInit {
     );
   }
 
-  onCurrencyBoughtSelect($event: Event) {
+  onCurrencyBoughtSelect($event: MatSelectChange) {
 
     switch (this.f.currencyBought.value) {
       case 'ZWL':
-        this.exchange = exchangeRateListTest;
+        this.currenciesService.getZWLExchange().subscribe(d => {
+          this.exceptionHandler.checkResult(d);
+          this.exchange = d.responseBody;
+        });
         break;
       case 'USD':
         this.exchange = [];
@@ -115,15 +107,52 @@ export class StewardBuyComponent implements OnInit {
     }
   }
 
-  onCurrencySwitchedToSelect($event: Event) {
+  onCurrencySwitchedToSelect($event: MatSelectChange) {
 
     this.rateUsed = this.f.currencySwitchedTo.value;
     // we check the amount bought to find the currency name, not the best solution
-    this.exchange.forEach(result => {
-      if (result.buyrate === this.f.currencySwitchedTo.value) {
-        this.currencyName = result.currency;
+    this.exchange.some((result, index) => {
+      if (result.buyRate === this.f.currencySwitchedTo.value) {
+        return true;
+
+
       }
+      console.log(this.currencyName[index]);
     });
 
+  }
+
+  paying() {
+    this.f.amountPaid.valueChanges.subscribe(v => this.fcaAmount = toTwoCents(this.rateUsed * this.f.amountPaid.value));
+  }
+
+  private getOtherVariables() {
+    this.currenciesService.getZWLExchange().subscribe(d => {
+      this.exceptionHandler.checkResult(d);
+      this.exchange = d.responseBody;
+    });
+
+    this.currenciesService.getCurrencies().subscribe(d => {
+      const resp = this.exceptionHandler.checkResult(d);
+      this.currencies = resp as CurrencyModel[];
+    });
+  }
+
+  private setForms() {
+    this.buyStewardForm = this.formBuilder.group({
+      amountPaid: ['', [Validators.required]],
+      beneficiaryAccount: ['', [Validators.required]],
+      currencyBought: ['', [Validators.required]],
+      currencySwitchedTo: ['', [Validators.required]],
+      customerId: [''],
+      fcaAmount: [''],
+      rateUsed: [''],
+      transactionType: ['SWITCH_TO_ACCOUNT'],
+      userId: [0]
+    });
+
+    this.checkUserForm = this.formBuilder.group({
+      nationalIdNumber: ['', [Validators.required]]
+    });
   }
 }

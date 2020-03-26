@@ -12,10 +12,10 @@ export class BaseGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const currentUser = this.ls.currentUserValue;
+    const currentUser = this.ls.currentUserInfoValue;
     if (currentUser) {
       // check if route is restricted by role
-      if (next.data.roles && next.data.roles.indexOf(currentUser.role) === -1) {
+      if (next.data.roles && next.data.roles.indexOf(currentUser.userInfo.roles) === -1) {
         // role not authorised so redirect to home page
         this.router.navigate(['/dashboard']);
         return false;

@@ -4,14 +4,17 @@ import {ExceptionHandler} from '../../../utilities/exceptionHandler';
 import {ToastrService} from 'ngx-toastr';
 import {BuyService} from '../../../services/buy.service';
 import {LoginService} from '../../../services/login.service';
-import {JWTResponse} from '../../../models/authentication';
-import {currencyListTest, exchangeRateListTest} from '../../../utilities/_mockData';
+import {UserDetails} from '../../../models/authentication';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {toCentsFromFour, toTwoCents} from '../../../utilities/reusables';
 import {CustomerRegistrationService} from '../../../containers/customer-registration/customer-registration.service';
 import {CustomerService} from '../../../services/customer.service';
 import {CurrenciesService} from '../../../services/currencies.service';
 import {CurrencyModel, ExchangeRate} from '../../../models/currency';
+import {MatDialog} from '@angular/material/dialog';
+import {ReceiptComponent} from '../../../containers/receipt/receipt.component';
+import {CustomerRegistrationComponent} from '../../../containers/customer-registration/customer-registration.component';
+import {MatSelectChange} from '@angular/material/select';
 
 @Component({
   selector: 'app-cash',
@@ -20,16 +23,16 @@ import {CurrencyModel, ExchangeRate} from '../../../models/currency';
 })
 export class CashBuyComponent implements OnInit {
   buyCashForm: FormGroup;
+  checkUserForm: FormGroup;
+  user: UserDetails;
   public submitted = false;
   public submittedOne = false;
-  token: JWTResponse;
   private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.toast);
   currencies: CurrencyModel[] = [];
   exchange: ExchangeRate[] = [];
-  rateUsed: number;
-  fcaAmount: number;
+  rateUsed = 0.0000;
+  fcaAmount = 0.0000;
   currencyName: string;
-  checkUserForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,30 +42,14 @@ export class CashBuyComponent implements OnInit {
     private as: AuthenticationService,
     public cs: CustomerRegistrationService,
     private customerService: CustomerService,
-    public currenciesService: CurrenciesService
+    public currenciesService: CurrenciesService,
+    public dialog: MatDialog
   ) {
   }
 
   ngOnInit(): void {
-    this.currenciesService.getCurrencies().subscribe(d => this.currencies = d);
-    this.exchange = exchangeRateListTest;
-    // this.currenciesService.getZWL().subscribe(d => {
-    //   this.exceptionHandler.checkResult(d);
-    // });
-    this.buyCashForm = this.formBuilder.group({
-      cashPaid: [0, [Validators.required]],
-      currencyBought: ['', [Validators.required]],
-      currencySwitchedTo: ['', [Validators.required]],
-      customerId: ['', [Validators.required]],
-      rateUsed: [0],
-      fcaAmount: [0],
-      userId: [0],
-      transactionType: ['SWITCH_FROM_CASH'],
-    });
-
-    this.checkUserForm = this.formBuilder.group({
-      nationalIdNumber: ['', [Validators.required]]
-    });
+    this.user = this.ls.currentUserInfoValue;
+    this.setForms();
     this.getOtherVariables();
     this.paying();
   }
@@ -77,27 +64,38 @@ export class CashBuyComponent implements OnInit {
 
   buyCash() {
     this.submitted = true;
-
+    this.submittedOne = true;
     if (this.buyCashForm.invalid) {
       return;
     }
+
+    if (this.checkUserForm.invalid) {
+      return;
+    }
+    // console.time('tranStart');
     this.buyCashForm.patchValue({
-      userId: this.token.userId,
+      userId: this.user.userInfo.id,
       rateUsed: this.rateUsed,
       fcaAmount: toCentsFromFour(this.fcaAmount),
       currencySwitchedTo: this.currencyName
     });
 
     this.bs.buyCash(this.buyCashForm.value).subscribe(d => {
-      this.exceptionHandler.checkResult(d);
+      const dialogRef = this.dialog.open(ReceiptComponent, {
+        data: this.exceptionHandler.checkResult(d)
+      });
+      dialogRef.afterClosed().subscribe(() => this.buyCashForm.reset());
     });
   }
 
-  onCurrencyBoughtSelect($event: Event) {
-
+  onCurrencyBoughtSelect($event: MatSelectChange) {
     switch (this.f.currencyBought.value) {
       case 'ZWL':
-        this.exchange = exchangeRateListTest;
+        // this.exchange = exchangeRateListTest;
+        this.currenciesService.getZWLExchange().subscribe(d => {
+          this.exceptionHandler.checkResult(d);
+          this.exchange = d.responseBody;
+        });
         break;
       case 'USD':
         this.exchange = [];
@@ -111,12 +109,12 @@ export class CashBuyComponent implements OnInit {
     // });
   }
 
-  onCurrencySwitchedToSelect($event: Event) {
+  onCurrencySwitchedToSelect($event: MatSelectChange) {
 
     this.rateUsed = this.f.currencySwitchedTo.value;
     // we check the amount bought to find the currency name, not the best solution
     this.exchange.forEach(result => {
-      if (result.buyrate === this.f.currencySwitchedTo.value) {
+      if (result.buyRate === this.f.currencySwitchedTo.value) {
         this.currencyName = result.currency;
       }
     });
@@ -125,12 +123,15 @@ export class CashBuyComponent implements OnInit {
 
 
   private getOtherVariables() {
-    this.token = this.ls.getDecodedAccessToken();
-    // this.bs.getBuyingRate('ZWL', 'ZWL').subscribe(d => {
-    //   this.rateUsed = 17.8;
-    //     // this.rateUsed = d.responseBody;
-    //   }
-    // );
+    this.currenciesService.getCurrencies().subscribe(d => {
+      const resp = this.exceptionHandler.checkResult(d);
+      this.currencies = resp as CurrencyModel[];
+    });
+
+    this.currenciesService.getZWLExchange().subscribe(d => {
+      this.exceptionHandler.checkResult(d);
+      this.exchange = d.responseBody;
+    });
   }
 
 
@@ -155,4 +156,26 @@ export class CashBuyComponent implements OnInit {
     );
   }
 
+  addNewCustomer() {
+    this.dialog.open(CustomerRegistrationComponent, {
+      data: this.fg.nationalIdNumber.value
+    });
+  }
+
+  private setForms() {
+    this.buyCashForm = this.formBuilder.group({
+      cashPaid: ['', [Validators.required]],
+      currencyBought: ['', [Validators.required]],
+      currencySwitchedTo: ['', [Validators.required]],
+      customerId: ['', Validators.required],
+      rateUsed: [0],
+      fcaAmount: [0],
+      userId: [0],
+      transactionType: ['SWITCH_FROM_CASH'],
+    });
+
+    this.checkUserForm = this.formBuilder.group({
+      nationalIdNumber: ['', [Validators.required]]
+    });
+  }
 }

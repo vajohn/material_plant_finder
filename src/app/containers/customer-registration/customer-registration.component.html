@@ -1,147 +1,83 @@
-<app-card [background]=1>
-  <div class="row">
-    <div class="col-xs-12">  </div>
-  </div>
-  <form [formGroup]="addCustomerForm" (ngSubmit)="onSubmit()" class="pa-1">
-    <!-- first and surname-->
-    <section class="row pc-2">
-      <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="first name" formControlName="firstName" class="form__field"
-                 id="firstName" />
-          <em class="material-icons form__icon">
-            attach_money
-          </em>
-          <label for="firstName" class="form__label">First name</label>
-          <div class="form__error" *ngIf="submitted && f.firstName.errors">
-            <p *ngIf="f.firstName.errors.required">
-              Please enter first name
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="first name" formControlName="lastName" class="form__field"
-                 id="lastName" />
-          <em class="material-icons form__icon">
-            attach_money
-          </em>
-          <label for="lastName" class="form__label">Surname</label>
-          <div class="form__error" *ngIf="submitted && f.lastName.errors">
-            <p *ngIf="f.lastName.errors.required">
-              Please enter surname
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- mobileNumber and emailAddress-->
-    <section class="row pc-2">
-      <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="emailAddress" formControlName="emailAddress" class="form__field"
-                 id="emailAddress" />
-          <em class="material-icons form__icon">
-            mail
-          </em>
-          <label for="emailAddress" class="form__label">email</label>
-          <div class="form__error" *ngIf="submitted && f.emailAddress.errors">
-            <p *ngIf="f.emailAddress.errors.required">
-              Please enter email
-            </p>
-            <p *ngIf="f.emailAddress.errors.email">
-              Please enter correct email
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="mobileNumber" formControlName="mobileNumber" class="form__field"
-                 id="mobileNumber" />
-          <em class="material-icons form__icon">
-            phone
-          </em>
-          <label for="mobileNumber" class="form__label">Mobile number</label>
-          <div class="form__error" *ngIf="submitted && f.mobileNumber.errors">
-            <p *ngIf="f.mobileNumber.errors.required">
-              Please enter mobile number
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- address1 and nationalIdNumber-->
-    <section class="row pc-2">
-      <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="address1" formControlName="address1" class="form__field"
-                 id="address1" />
-          <em class="material-icons form__icon">
-            attach_money
-          </em>
-          <label for="address1" class="form__label">Address</label>
-          <div class="form__error" *ngIf="submitted && f.address1.errors">
-            <p *ngIf="f.address1.errors.required">
-              Please enter address
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="nationalIdNumber" formControlName="nationalIdNumber" class="form__field"
-                 id="nationalIdNumber" />
-          <em class="material-icons form__icon">
-            attach_money
-          </em>
-          <label for="nationalIdNumber" class="form__label">National ID Number</label>
-          <div class="form__error" *ngIf="submitted && f.nationalIdNumber.errors">
-            <p *ngIf="f.nationalIdNumber.errors.required">
-              Please enter national ID number
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- address2 and sourceOfFunds-->
-    <section class="row pc-2">
-      <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="address2" formControlName="address2" class="form__field"
-                 id="address2" />
-          <em class="material-icons form__icon">
-            attach_money
-          </em>
-          <label for="address2" class="form__label">Address</label>
-        </div>
-      </div>
-      <div class="col-xs-6">
-        <div class="form__group field">
-          <input type="text" placeholder="sourceOfFunds" formControlName="sourceOfFunds" class="form__field"
-                 id="sourceOfFunds" />
-          <em class="material-icons form__icon">
-            attach_money
-          </em>
-          <label for="sourceOfFunds" class="form__label">Source of funds</label>
-          <div class="form__error" *ngIf="submitted && f.sourceOfFunds.errors">
-            <p *ngIf="f.sourceOfFunds.errors.required">
-              Please enter source of funds
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+<mat-card class="width-60">
+  <mat-card-title>Add customer</mat-card-title>
+  <form [formGroup]="addCustomerForm" (ngSubmit)="onSubmit()" class="row">
+    <mat-form-field class="col-md-6">
+      <mat-label>First name</mat-label>
+      <input matInput formControlName="firstName" placeholder="Amal">
+      <mat-error *ngIf="submitted && f.firstName.errors">
+        <p *ngIf="f.firstName.errors.required">
+          Please enter first name
+        </p>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-md-6">
+      <mat-label>Surname</mat-label>
+      <input matInput formControlName="lastName" placeholder="John">
+      <mat-error *ngIf="submitted && f.lastName.errors">
+        <p *ngIf="f.lastName.errors.required">
+          Please enter surname
+        </p>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-md-6">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address1" placeholder="1 House, Town road">
+      <mat-error *ngIf="submitted && f.address1.errors">
+        <p *ngIf="f.address1.errors.required">
+          Please enter address
+        </p>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-md-6">
+      <mat-label>email</mat-label>
+      <input matInput formControlName="emailAddress" placeholder="EX. example@email.com">
+      <mat-error *ngIf="submitted && f.emailAddress.errors">
+        <p *ngIf="f.emailAddress.errors.required">
+          Please enter enter address
+        </p>
+        <p *ngIf="f.emailAddress.errors.email">
+          Please enter valid email address
+        </p>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-md-6">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address2" placeholder="Avenues, Harare">
+    </mat-form-field>
+    <mat-form-field class="col-md-6">
+      <mat-label>Mobile number</mat-label>
+      <input matInput formControlName="mobileNumber" placeholder="00263773123678">
+      <mat-error *ngIf="submitted && f.mobileNumber.errors">
+        <p *ngIf="f.mobileNumber.errors.required">
+          Please enter mobile number
+        </p>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-md-6">
+      <mat-label>National ID number</mat-label>
+      <input matInput formControlName="nationalIdNumber" placeholder="15P2553678C80">
+      <mat-error *ngIf="submitted && f.nationalIdNumber.errors">
+        <p *ngIf="f.nationalIdNumber.errors.required">
+          Please enter national ID number
+        </p>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-md-6">
+      <mat-label>Source of funds</mat-label>
+      <input matInput formControlName="sourceOfFunds" placeholder="Salary">
+      <mat-error *ngIf="submitted && f.sourceOfFunds.errors">
+        <p *ngIf="f.sourceOfFunds.errors.required">
+          Please enter source of funds
+        </p>
+      </mat-error>
+    </mat-form-field>
 
-    <section class="row  pt-2">
-      <div class="col-xs-6">
-        <app-button (click)="addCustomerForm.reset()">Reset</app-button>
-      </div>
-      <div class="col-xs-6">
-        <app-button type="submit">Add</app-button>
-      </div>
-    </section>
+    <div class="col-md-6"></div>
+    <div class="col-md-6 row">
+      <app-button class="col-md-4" (click)="addCustomerForm.reset()">Reset</app-button>
+      <div class="col-md-4"></div>
+      <app-button class="col-md-4" type="submit">Add</app-button>
+    </div>
+
   </form>
-
-</app-card>
+</mat-card>

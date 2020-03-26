@@ -30,4 +30,6 @@ export class AuthenticationService {
   checkForCustomer(customerId: number): Observable<DefaultResponse> {
     return this.http.get<DefaultResponse>(`/${customerId}`);
   }
+
+
 }

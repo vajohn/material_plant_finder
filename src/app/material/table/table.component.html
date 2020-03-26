@@ -7,7 +7,9 @@
   </tr>
 
   <tr class="body" *ngFor="let data of dataForTable">
-    <td *ngFor="let col of displayedColumns" [attr.data-label]="col">{{data[col] || buildOther(data, col.split('.'))}}</td>
+    <td *ngFor="let col of displayedColumns" [attr.data-label]="col" (click)="fieldId(data)">{{data[col] || buildOther(data, col.split('.'))}} </td>
+
   </tr>
+
 
 </table>

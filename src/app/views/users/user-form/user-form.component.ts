@@ -4,11 +4,12 @@ import {ExceptionHandler} from '../../../utilities/exceptionHandler';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {ToastrService} from 'ngx-toastr';
 import {OrganizationsService} from '../../../services/organizations.service';
-import {OrganizationListResponse} from '../../../models/organization';
-import {RoleModel, RoleListResponse} from '../../../models/authentication';
-import {branchesListTest, organizationsListTest, rolesListTest} from '../../../utilities/_mockData';
+import {OrganizationResponseBody} from '../../../models/organization';
+import {RoleModel, UserDetails} from '../../../models/authentication';
 import {BranchListResponseBody} from '../../../models/branches';
 import {BranchesService} from '../../../services/branches.service';
+import {LoginService} from '../../../services/login.service';
+import {RolesService} from '../../../services/roles.service';
 
 @Component({
   selector: 'app-user-form',
@@ -16,44 +17,30 @@ import {BranchesService} from '../../../services/branches.service';
   styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit {
-  organizations = [];
+  organizations: OrganizationResponseBody[] = [];
   roles: RoleModel[] = [];
+  branches: BranchListResponseBody[] = [];
+  user: UserDetails;
   userForm: FormGroup;
   submitted = false;
   orgId = 1;
-  branches: BranchListResponseBody[] = [];
   private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.toast);
 
   constructor(
     private formBuilder: FormBuilder,
     public as: AuthenticationService,
     private toast: ToastrService,
-    public os: OrganizationsService,
-    private bs: BranchesService
+    public organizationsService: OrganizationsService,
+    private bs: BranchesService,
+    private rolesService: RolesService,
+    private loginService: LoginService
   ) {
   }
 
   ngOnInit(): void {
-    this.userForm = this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      hasBeenTrained: [false, Validators.required],
-      lastName: ['', [Validators.required]],
-      mobileNumber: ['', [Validators.required]],
-      emailAddress: ['', [Validators.required, Validators.email]],
-      nationalIdNumber: ['', Validators.required],
-      branchId: [''],
-      roleId: [''],
-      orgId: ['']
-    });
-    // this.organizations = organizationsListTest;
-    // this.branches = branchesListTest;
-    // this.roles = rolesListTest;
-
-    this.os.getForUserForm().subscribe(responseList => {
-      this.organizations = responseList[0].responseBody;
-      this.branches = responseList[1].responseBody;
-      this.roles = responseList[2].responseBody;
-    });
+    this.user = this.loginService.currentUserInfoValue;
+    this.setFormFields();
+    this.getFormData();
   }
 
   get f() {
@@ -73,13 +60,47 @@ export class UserFormComponent implements OnInit {
   }
 
   onOrganizationSelect($event: any) {
-    console.log(this.f.orgId.value);
     this.orgId = this.f.orgId.value;
 
     this.bs.getBranchesByOrg(this.orgId).subscribe(d => this.branches = d.responseBody);
   }
 
   onRoleSelect($event: any) {
+
+  }
+
+  private setFormFields(): void {
+    this.userForm = this.formBuilder.group({
+      firstName: ['', [Validators.required]],
+      hasBeenTrained: [false, Validators.required],
+      lastName: ['', [Validators.required]],
+      mobileNumber: ['', [Validators.required]],
+      emailAddress: ['', [Validators.required, Validators.email]],
+      nationalIdNumber: ['', Validators.required],
+      branchId: [''],
+      roleId: [''],
+      orgId: ['']
+    });
+  }
+
+  private getFormData(): void {
+    if (this.user.userInfo.roles[0].admin) {
+
+      this.rolesService.getSpecificRoles('admin-roles').subscribe(adminRoles => this.roles.push(...adminRoles.responseBody));
+      this.rolesService.getSpecificRoles('bank-roles').subscribe(bankRoles =>  this.roles.push(...bankRoles.responseBody));
+      this.organizations = [this.user.userInfo.organization];
+      this.branches = [this.user.userInfo.branch];
+
+    }
+
+    if (this.user.userInfo.roles[0].bank) {
+      this.rolesService.getSpecificRoles().subscribe(agentRoles =>  this.roles = agentRoles.responseBody);
+      this.organizationsService.getForUserForm()
+        .subscribe(response => {
+          this.organizations = response[0].responseBody;
+          this.branches = response[1].responseBody;
+        });
+    }
 
   }
 }

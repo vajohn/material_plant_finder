@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {OverlayRef} from '@angular/cdk/overlay';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {JWTResponse, UserDetails} from '../../models/authentication';
@@ -7,6 +7,7 @@ import {ToastrService} from 'ngx-toastr';
 import {toCentsFromFour} from '../../utilities/reusables';
 import {CustomerService} from '../../services/customer.service';
 import {LoginService} from '../../services/login.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-customer-registration',
@@ -25,6 +26,8 @@ export class CustomerRegistrationComponent implements OnInit {
     private toast: ToastrService,
     private cs: CustomerService,
     private ls: LoginService,
+    public dialogRef: MatDialogRef<CustomerRegistrationComponent>,
+    @Inject(MAT_DIALOG_DATA) public data
   ) {
   }
 
@@ -41,6 +44,7 @@ export class CustomerRegistrationComponent implements OnInit {
       nationalIdNumber: ['', Validators.required],
       sourceOfFunds: ['', Validators.required],
     });
+
     this.addCustomerForm.reset();
   }
 
@@ -50,7 +54,7 @@ export class CustomerRegistrationComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log('clicked');
+
     if (this.addCustomerForm.invalid) {
       return;
     }
@@ -59,8 +63,8 @@ export class CustomerRegistrationComponent implements OnInit {
       userId: this.token.userId,
       branchId: this.user.branchId
     });
-    console.log('started');
-    this.cs.registerCustomer(this.addCustomerForm.value, this.token.userId, this.user.branchId).subscribe(d => {
+
+    this.cs.registerCustomer(this.addCustomerForm.value, this.user.userInfo.id, this.user.branchId).subscribe(d => {
       this.exceptionHandler.checkResult(d);
     });
   }

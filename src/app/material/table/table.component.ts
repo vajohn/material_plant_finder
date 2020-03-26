@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ListTypes} from '../../utilities/constants';
 
 @Component({
@@ -15,6 +15,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() currentList = ListTypes.Org;
   sortOrder = false;
   @Input() hasButtons = false;
+  @Output() fieldIdFound: EventEmitter<any> = new EventEmitter();
 
   constructor() {
   }
@@ -27,7 +28,6 @@ export class TableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     if (this.dataForTable[0] !== undefined) {
       this.displayedColumns = Object.keys(this.dataForTable[0]);
-      console.log('list', this.displayedColumns);
     }
   }
 
@@ -42,5 +42,10 @@ export class TableComponent implements OnInit, AfterViewInit {
   showHeader(col: string) {
     // we split the string, join it with space then capitalize the first letter of each word
     return col.split(/(?=[A-Z])/).join(' ').replace(/\b\w/g, v => v.toUpperCase());
+  }
+
+
+  fieldId(data) {
+    this.fieldIdFound.emit(data);
   }
 }

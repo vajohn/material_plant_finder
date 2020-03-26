@@ -12,6 +12,7 @@ import {TooltipDirective} from './tooltip/tooltip.directive';
 import {TooltipComponent} from './tooltip/tooltip.component';
 import {MaterialComponentsModule} from '../material.module';
 import { DropdownComponent } from './dropdown/dropdown.component';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { DropdownComponent } from './dropdown/dropdown.component';
         ReactiveFormsModule,
         RouterModule,
         FormsModule,
-        MaterialComponentsModule
+        MaterialComponentsModule,
+        MatIconModule
     ],
   exports: [
     ButtonComponent,

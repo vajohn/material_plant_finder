@@ -24,6 +24,9 @@ import {CustomerRegistrationComponent} from './containers/customer-registration/
 import {ReceiptComponent} from './containers/receipt/receipt.component';
 import {MaterialComponentsModule} from './material.module';
 import {NgxPrintModule} from 'ngx-print';
+import { ApproveComponent } from './containers/approve/approve.component';
+import { ForgotComponent } from './containers/forgot/forgot.component';
+import { ResetComponent } from './containers/reset/reset.component';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent,
@@ -35,7 +38,12 @@ const APP_COMPONENTS = [
 ];
 
 const APP_MODALS = [
-  ReceiptComponent, ToastComponent, CustomerRegistrationComponent
+  ReceiptComponent,
+  ToastComponent,
+  CustomerRegistrationComponent,
+  ApproveComponent,
+  ForgotComponent,
+  ResetComponent
 ];
 
 @NgModule({

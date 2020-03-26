@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../services/login.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
+import {ForgotComponent} from '../../../containers/forgot/forgot.component';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,12 @@ export class LoginComponent implements OnInit {
   response;
   year = new Date().getFullYear();
 
-  constructor(public router: Router, public ls: LoginService, private formBuilder: FormBuilder) {
+  constructor(
+    public router: Router,
+    public ls: LoginService,
+    private formBuilder: FormBuilder,
+    public dialog: MatDialog
+  ) {
   }
 
   ngOnInit() {
@@ -40,5 +47,9 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/dashboard', {replaceUrl: true}).then(() => this.login.reset());
       }
     );
+  }
+
+  onForgot() {
+    const dialogRef = this.dialog.open(ForgotComponent, {});
   }
 }
