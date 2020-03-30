@@ -1,6 +1,16 @@
-<app-card>
-  <app-button (click)="check()">Back to login</app-button>
-
-
-</app-card>
+<ngx-charts-bar-vertical-2d
+  [view]="view"
+  [scheme]="colorScheme"
+  [results]="transactionsChart"
+  [gradient]="gradient"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [legendTitle]="legendTitle"
+>
+</ngx-charts-bar-vertical-2d>
 <!--router.navigateByUrl('/login')-->

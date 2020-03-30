@@ -10,7 +10,9 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
-
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatListModule} from "@angular/material/list";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [],
@@ -25,7 +27,10 @@ import {MatIconModule} from '@angular/material/icon';
     MatFormFieldModule,
     MatSelectModule,
     MatDialogModule,
-    MatIconModule
+    MatIconModule,
+    MatSidenavModule,
+    MatListModule,
+    MatExpansionModule
   ],
   exports: [
     MatButtonModule,
@@ -37,7 +42,10 @@ import {MatIconModule} from '@angular/material/icon';
     MatFormFieldModule,
     MatSelectModule,
     MatDialogModule,
-    MatIconModule
+    MatIconModule,
+    MatSidenavModule,
+    MatListModule,
+    MatExpansionModule
   ],
 })
 export class MaterialComponentsModule {

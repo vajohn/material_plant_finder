@@ -89,7 +89,7 @@ export class CashBuyComponent implements OnInit {
   }
 
   onCurrencyBoughtSelect($event: MatSelectChange) {
-    switch (this.f.currencyBought.value) {
+    switch ($event.value) {
       case 'ZWL':
         // this.exchange = exchangeRateListTest;
         this.currenciesService.getZWLExchange().subscribe(d => {
@@ -111,10 +111,10 @@ export class CashBuyComponent implements OnInit {
 
   onCurrencySwitchedToSelect($event: MatSelectChange) {
 
-    this.rateUsed = this.f.currencySwitchedTo.value;
+    this.rateUsed = $event.value;
     // we check the amount bought to find the currency name, not the best solution
     this.exchange.forEach(result => {
-      if (result.buyRate === this.f.currencySwitchedTo.value) {
+      if (result.buyRate === $event.value) {
         this.currencyName = result.currency;
       }
     });
@@ -136,7 +136,7 @@ export class CashBuyComponent implements OnInit {
 
 
   paying() {
-    this.f.cashPaid.valueChanges.subscribe(v => this.fcaAmount = toTwoCents(this.rateUsed * this.f.cashPaid.value));
+    this.f.cashPaid.valueChanges.subscribe(() => this.fcaAmount = toTwoCents(this.rateUsed * this.f.cashPaid.value));
   }
 
   checkById() {

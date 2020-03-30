@@ -92,7 +92,7 @@ export class StewardBuyComponent implements OnInit {
 
   onCurrencyBoughtSelect($event: MatSelectChange) {
 
-    switch (this.f.currencyBought.value) {
+    switch ($event.value) {
       case 'ZWL':
         this.currenciesService.getZWLExchange().subscribe(d => {
           this.exceptionHandler.checkResult(d);
@@ -108,22 +108,19 @@ export class StewardBuyComponent implements OnInit {
   }
 
   onCurrencySwitchedToSelect($event: MatSelectChange) {
-
-    this.rateUsed = this.f.currencySwitchedTo.value;
+    this.rateUsed = $event.value;
     // we check the amount bought to find the currency name, not the best solution
     this.exchange.some((result, index) => {
-      if (result.buyRate === this.f.currencySwitchedTo.value) {
+      if (result.buyRate === $event.value) {
+        this.currencyName = this.exchange[index].currency;
         return true;
-
-
       }
-      console.log(this.currencyName[index]);
     });
 
   }
 
   paying() {
-    this.f.amountPaid.valueChanges.subscribe(v => this.fcaAmount = toTwoCents(this.rateUsed * this.f.amountPaid.value));
+    this.f.amountPaid.valueChanges.subscribe(() => this.fcaAmount = toTwoCents(this.rateUsed * this.f.amountPaid.value));
   }
 
   private getOtherVariables() {

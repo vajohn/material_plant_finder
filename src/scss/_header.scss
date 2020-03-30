@@ -1,11 +1,14 @@
-.header{
-display: flex;
-  justify-content: space-between;
-  &__user{
-    float: right;
-    color: $primary;
+
+  .header{
+
+    display: flex;
+    justify-content: space-between;
+    &__user{
+      float: right;
+      color: $primary;
+    }
+    &__dropdown{
+      z-index: 9999;
+    }
   }
-  &__dropdown{
-    z-index: 9999;
-  }
-}
+

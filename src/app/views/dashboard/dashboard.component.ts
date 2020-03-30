@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {ReceiptService} from '../../containers/receipt/receipt.service';
 import {MatDialog} from '@angular/material/dialog';
-import {ReceiptComponent} from '../../containers/receipt/receipt.component';
+import {transactionListTest} from "../../utilities/_mockData";
+import {ChartsModel} from "../../models/charts";
 
 @Component({
   selector: 'app-dashboard',
@@ -10,19 +10,90 @@ import {ReceiptComponent} from '../../containers/receipt/receipt.component';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  transactionsChart: any[];
+  view: any[] = [600, 500];
+
+  showXAxis: boolean = true;
+  showYAxis: boolean = true;
+  gradient: boolean = false;
+  showLegend: boolean = true;
+  showXAxisLabel: boolean = true;
+  xAxisLabel: string = 'Transaction Type';
+  showYAxisLabel: boolean = true;
+  yAxisLabel: string = 'Transactions';
+  legendTitle: string = 'Status';
+
+  colorScheme = {
+    domain: ['#5AA454', 'red', '#AAAAAA']
+  };
 
   constructor(public router: Router, public dialog: MatDialog) {
+    // Object.assign(this, {transactionsChart})
   }
 
   ngOnInit() {
-
+    this.transactionsChart = this.check();
   }
 
-  check() {
+  check(): ChartsModel[] {
+    //
+    const data = transactionListTest;
+    const success = 'SUCCESS';
+    const fail = 'FAILED';
+    let cashSuccess = 0;
+    let cashFail = 0;
+    let accountSuccess = 0;
+    let accountFail = 0;
 
-    const dialogRef = this.dialog.open(ReceiptComponent, {
-      // width: '250px',
-      data: {name: 'this.name', animal: 'this.animal'}
+    data.forEach( d => {
+      if(d.transactionType === 'SWITCH_FROM_CASH'){
+        if (d.transactionStatus === success){
+          cashSuccess+=1;
+        }
+        if (d.transactionStatus === fail){
+          cashFail+=1;
+        }
+      }
+
+      if(d.transactionType === 'SWITCH_TO_ACCOUNT'){
+        if (d.transactionStatus === success){
+          accountSuccess+=1;
+        }
+        if (d.transactionStatus === fail){
+          accountFail+=1;
+        }
+      }
     });
+
+    return [
+      {
+        name: "SWITCH_TO_ACCOUNT",
+        series: [
+          {
+            name: "SUCCESS",
+            value: accountSuccess
+          },
+          {
+            name: "FAILED",
+            value: accountFail
+          }
+        ]
+      },
+
+      {
+        name: "SWITCH_FROM_CASH",
+        series: [
+          {
+            name: "SUCCESS",
+            value: cashSuccess
+          },
+          {
+            name: "FAILED",
+            value: cashFail
+          }
+        ]
+      },
+
+    ];
   }
 }

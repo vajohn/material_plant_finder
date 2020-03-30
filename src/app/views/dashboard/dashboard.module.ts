@@ -5,6 +5,8 @@ import {DashboardRoutingModule} from './dashboard-routing.module';
 import {SharedComponentsModule} from '../../shared-components/shared-components.module';
 import {StewardMaterialModule} from '../../material/steward-material.module';
 import {MatDialogModule} from '@angular/material/dialog';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {MatCardModule} from "@angular/material/card";
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     StewardMaterialModule,
     DashboardRoutingModule,
     SharedComponentsModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxChartsModule,
+    MatCardModule
   ]
 })
 export class DashboardModule {

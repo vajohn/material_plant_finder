@@ -18,6 +18,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {ToastComponent} from './shared-components/toast/toast.component';
 import {HttpCustomInterceptor} from './services/http.interceptor';
 import {CustomerRegistrationComponent} from './containers/customer-registration/customer-registration.component';
@@ -27,6 +28,7 @@ import {NgxPrintModule} from 'ngx-print';
 import { ApproveComponent } from './containers/approve/approve.component';
 import { ForgotComponent } from './containers/forgot/forgot.component';
 import { ResetComponent } from './containers/reset/reset.component';
+
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent,
@@ -61,6 +63,7 @@ const APP_MODALS = [
     NgxPrintModule,
     StewardMaterialModule,
     NgxSpinnerModule,
+    NgxChartsModule,
     OverlayModule,
     HttpClientModule,
     ReactiveFormsModule,
@@ -72,7 +75,7 @@ const APP_MODALS = [
       toastComponent: ToastComponent,
     }),
     BrowserAnimationsModule,
-    MaterialComponentsModule,
+    MaterialComponentsModule
   ],
   providers: [
     {

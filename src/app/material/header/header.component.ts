@@ -1,10 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LoginService} from '../../services/login.service';
-import {HeaderService} from './header.service';
-import {ReceiptComponent} from '../../containers/receipt/receipt.component';
-import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
-import {DropdownComponent} from '../dropdown/dropdown.component';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +11,7 @@ export class HeaderComponent implements OnInit {
   username: string;
   show = false;
 
-  constructor(private loginService: LoginService, public dialog: MatDialog, private router: Router) {
+  constructor(private loginService: LoginService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -24,25 +20,5 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  open() {
-    const dialogRef = this.dialog.open(DropdownComponent, {
-      data: {name: 'this.name', animal: 'this.animal'},
-      position: {right: `0.5em`, top: `4.5em`},
-      backdropClass: 'clearHeader'
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-
-      switch (result) {
-        case 'logout':
-          this.loginService.logout();
-          this.router.navigateByUrl('/login');
-          break;
-        case 'settings':
-          break;
-
-
-      }
-    });
-  }
 }
