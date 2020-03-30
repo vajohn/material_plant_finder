@@ -3,8 +3,7 @@ import {
   adminNavigationList,
   agentNavigationList,
   bankNavigationList,
-  guestNavigationList,
-  navItems
+  guestNavigationList
 } from 'src/app/utilities/_nav';
 import {INavData} from "../../models/navigation";
 import {LoginService} from "../../services/login.service";
@@ -41,21 +40,10 @@ export class SideMenuComponent implements OnInit {
 
 
   private setNavigation(): INavData[] {
-    // switch (this.loginService.currentUserInfoValue.userInfo.roles[0].name) {
-    //   case '':
-    //     break;
-    //   case '':
-    //     break;
-    //   case '':
-    //     break;
-    //   default:
-    //     this.navItems = [];
-    //     break;
-    // }
 
     if (this.loginService.currentUserInfoValue.userInfo.roles[0].admin) {
-      return navItems;
-      // return adminNavigationList;
+      // return navItems;
+      return adminNavigationList;
     }
 
     if (this.loginService.currentUserInfoValue.userInfo.roles[0].agent) {

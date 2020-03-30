@@ -144,6 +144,18 @@ export const adminNavigationList: INavData[] = [
       }
     ]
   },
+  {
+    name: 'Reports',
+    url: '/reports',
+    icon: 'fas fa-money-bill-wave',
+    children: [
+      {
+        name: 'All',
+        url: '/reports/list',
+        icon: 'fas fa-funnel-dollar'
+      },
+    ]
+  },
 ];
 
 export const guestNavigationList: INavData[] = [
@@ -196,7 +208,6 @@ export const bankNavigationList: INavData[] = [
       },
     ]
   },
-
   {
     name: 'Branches',
     url: '/branches',

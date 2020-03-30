@@ -147,6 +147,8 @@ export class LoginService {
   }
 
   logout() {
+    this.currentUserInfoSubject.next(null);
+    this.currentUserSubject.next(null);
     sessionStorage.clear();
   }
 }
