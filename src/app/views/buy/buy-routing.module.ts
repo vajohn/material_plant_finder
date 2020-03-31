@@ -7,13 +7,22 @@ import {StewardBuyComponent} from './steward/steward-buy.component';
 const routes: Routes = [
   {
     path: 'cash',
-    component: CashBuyComponent
+    component: CashBuyComponent,
+    data: {
+      allowedRoles: ['AGENT_CAPTURER']
+    }
   },
   {
     path: 'steward',
-    component: StewardBuyComponent
+    component: StewardBuyComponent,
+    data: {
+      allowedRoles: ['AGENT_CAPTURER']
+    }
   },
-  {path: '**', component: P404Component},
+  {
+    path: '**',
+    component: P404Component
+  }
 ];
 
 @NgModule({

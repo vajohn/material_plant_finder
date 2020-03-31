@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../../../services/authentication.service';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {ToastrService} from 'ngx-toastr';
 import {ExceptionHandler} from '../../../utilities/exceptionHandler' ;
+import {AlertService} from "../../../modals/alert/alert.service";
 
 @Component({
   selector: 'app-org-add',
@@ -13,10 +12,13 @@ import {ExceptionHandler} from '../../../utilities/exceptionHandler' ;
 export class OrgAddComponent implements OnInit {
   organizationForm: FormGroup;
   submitted = false;
-  private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.toastr);
+  private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.toast);
 
-
-  constructor(private formBuilder: FormBuilder, private as: AuthenticationService, private toastr: ToastrService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private as: AuthenticationService,
+    private toast: AlertService
+  ) {
   }
 
   ngOnInit(): void {

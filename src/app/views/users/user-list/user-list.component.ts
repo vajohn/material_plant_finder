@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {OrganizationListResponse, OrganizationResponseBody} from '../../../models/organization';
+import { OrganizationResponseBody} from '../../../models/organization';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ExceptionHandler} from '../../../utilities/exceptionHandler';
 import {OrganizationsService} from '../../../services/organizations.service';
 import {AuthenticationService} from '../../../services/authentication.service';
-import {ToastrService} from 'ngx-toastr';
 import {UsersService} from '../../../services/users.service';
 import {UsersListResponse, UsersListResponseBody} from '../../../models/users';
 import {LoginService} from '../../../services/login.service';
 import {MatDialog} from '@angular/material/dialog';
-import {ApproveComponent} from '../../../containers/approve/approve.component';
 import {UserDetails} from '../../../models/authentication';
+import {ApproveComponent} from "../../../modals/approve/approve.component";
+import {AlertService} from "../../../modals/alert/alert.service";
 
 
 @Component({
@@ -34,7 +34,7 @@ export class UserListComponent implements OnInit {
     private formBuilder: FormBuilder,
     private as: AuthenticationService,
     private us: UsersService,
-    private toast: ToastrService,
+    private toast: AlertService,
     private loginService: LoginService,
     public dialog: MatDialog
   ) {
@@ -62,7 +62,6 @@ export class UserListComponent implements OnInit {
   }
 
   approveUser(userData: UsersListResponseBody) {
-    console.log('hey', userData);
     const dialogRef = this.dialog.open(ApproveComponent, {
       width: '250px',
       data: {statement: 'approve user'}

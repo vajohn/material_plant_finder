@@ -4,9 +4,7 @@ import {OrganizationListResponse, OrganizationResponseBody} from '../../../model
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ExceptionHandler} from '../../../utilities/exceptionHandler';
 import {AuthenticationService} from '../../../services/authentication.service';
-import {ToastrService} from 'ngx-toastr';
-import {DefaultResponse} from '../../../models/default';
-import {map} from 'rxjs/operators';
+import {AlertService} from "../../../modals/alert/alert.service";
 
 @Component({
   selector: 'app-org-list',
@@ -26,7 +24,7 @@ export class OrgListComponent implements OnInit {
     public os: OrganizationsService,
     private formBuilder: FormBuilder,
     private as: AuthenticationService,
-    private toast: ToastrService
+    private toast: AlertService
   ) {
   }
 

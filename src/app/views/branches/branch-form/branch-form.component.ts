@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ExceptionHandler} from '../../../utilities/exceptionHandler';
 import {AuthenticationService} from '../../../services/authentication.service';
-import {ToastrService} from 'ngx-toastr';
 import {OrganizationListResponse, OrganizationResponseBody} from '../../../models/organization';
 import {OrganizationsService} from '../../../services/organizations.service';
+import {AlertService} from "../../../modals/alert/alert.service";
 
 @Component({
   selector: 'app-branch-form',
@@ -15,13 +15,13 @@ export class BranchFormComponent implements OnInit {
   branchForm: FormGroup;
   submitted = false;
   organizations: OrganizationResponseBody[] = [];
-  private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.toastr);
+  private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.alertService);
 
   constructor(
     private formBuilder: FormBuilder,
     private as: AuthenticationService,
     public os: OrganizationsService,
-    private toastr: ToastrService
+    private alertService: AlertService
   ) {
   }
 

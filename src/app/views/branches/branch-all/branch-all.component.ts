@@ -4,9 +4,10 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ExceptionHandler} from '../../../utilities/exceptionHandler';
 import {OrganizationsService} from '../../../services/organizations.service';
 import {AuthenticationService} from '../../../services/authentication.service';
-import {ToastrService} from 'ngx-toastr';
 import {BranchListResponse, BranchListResponseBody} from '../../../models/branches';
 import {BranchesService} from '../../../services/branches.service';
+import {LoginService} from "../../../services/login.service";
+import {AlertService} from "../../../modals/alert/alert.service";
 
 @Component({
   selector: 'app-branch-all',
@@ -16,7 +17,13 @@ import {BranchesService} from '../../../services/branches.service';
 export class BranchAllComponent implements OnInit {
   organizations: OrganizationResponseBody[] = [];
   branches: BranchListResponseBody[] = [];
-  displayedColumns = ['name', 'agentCode', 'organization.companyName', 'organization.contactPersonName', 'organization.contactPersonMobile', 'organization.emailAddress'];
+  displayedColumns = [
+    'name', 'agentCode',
+    'organization.companyName',
+    'organization.contactPersonName',
+    'organization.contactPersonMobile',
+    'organization.emailAddress'
+  ];
   displayedHeaders = ['Branch', 'Agent code', 'Company name', 'Contact person', 'Contact mobile', 'Contact email'];
   organizationListForm: FormGroup;
   submitted = false;
@@ -28,16 +35,31 @@ export class BranchAllComponent implements OnInit {
     private formBuilder: FormBuilder,
     private as: AuthenticationService,
     private bs: BranchesService,
-    private toast: ToastrService
+    private toast: AlertService,
+    public loginService: LoginService
   ) {
   }
 
   ngOnInit(): void {
-    this.os.getAllOrganizations().subscribe((d: OrganizationListResponse) => this.organizations = d.responseBody);
-    this.bs.getAllBranches().subscribe((d: BranchListResponse) => this.branches = d.responseBody);
+    this.getData();
     this.organizationListForm = this.formBuilder.group({
       searchCriteria: ['', Validators.required],
     });
+  }
+
+  private getData() {
+
+    if(this.loginService.currentUserInfoValue.userInfo.roles[0].bank){
+      this.os.getAllOrganizations().subscribe((d: OrganizationListResponse) => this.organizations = d.responseBody);
+      this.bs.getAllBranches().subscribe((d: BranchListResponse) => this.branches = d.responseBody);
+    }
+
+    if(!this.loginService.currentUserInfoValue.userInfo.roles[0].bank){
+      this.os.getAllBranchesByOrganization(this.loginService.currentUserInfoValue.userInfo.organization.id)
+        .subscribe((d: BranchListResponse) => this.branches = d.responseBody);
+      this.organizations = [];
+    }
+
   }
 
   get f() {
@@ -57,5 +79,6 @@ export class BranchAllComponent implements OnInit {
       this.branches = d.responseBody;
     });
   }
+
 
 }

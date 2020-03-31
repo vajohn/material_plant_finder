@@ -15,10 +15,10 @@ export class BankGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const currentUser = this.ls.currentUserInfoValue;
-
+    console.log(currentUser.userInfo.roles[0].name);
     if (currentUser) {
       // check if route is restricted by role
-      if (!currentUser.userInfo.roles[0].bank || currentUser.userInfo.roles[0].name === 'GUEST') {
+      if (!currentUser.userInfo.roles[0].bank && currentUser.userInfo.roles[0].name !== 'GUEST') {
         // role not authorised so redirect to home page
         this.router.navigate(['/dashboard']);
         return false;

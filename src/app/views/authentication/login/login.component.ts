@@ -3,7 +3,8 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../services/login.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
-import {ForgotComponent} from '../../../containers/forgot/forgot.component';
+import {ForgotComponent} from "../../../modals/forgot/forgot.component";
+
 
 @Component({
   selector: 'app-login',
@@ -43,13 +44,13 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.ls.login(this.login.value).subscribe(d => {
+    this.ls.login(this.login.value).subscribe(() => {
         this.router.navigateByUrl('/dashboard', {replaceUrl: true}).then(() => this.login.reset());
       }
     );
   }
 
   onForgot() {
-    const dialogRef = this.dialog.open(ForgotComponent, {});
+    this.dialog.open(ForgotComponent, {});
   }
 }

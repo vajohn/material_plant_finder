@@ -9,7 +9,7 @@ import {catchError, finalize, first, map} from 'rxjs/operators';
 import {StorageCase} from '../utilities/constants';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {UsersResponse} from '../models/users';
-import {ToastrService} from 'ngx-toastr';
+import {AlertService} from "../modals/alert/alert.service";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class LoginService {
   private currentUserInfoSubject: BehaviorSubject<UserDetails>;
   public currentInfoUser: Observable<UserDetails>;
 
-  constructor(private http: HttpClient, handler: HttpBackend, private spinner: NgxSpinnerService, private toast: ToastrService) {
+  constructor(private http: HttpClient, handler: HttpBackend, private spinner: NgxSpinnerService,  private alertService: AlertService,) {
     this.http = new HttpClient(handler);
     this.currentUserSubject = new BehaviorSubject<JWTResponse>(this.getDecodedAccessToken());
     this.currentUserInfoSubject = new BehaviorSubject<UserDetails>(this.getDecodedUserInfo());
@@ -43,7 +43,9 @@ export class LoginService {
           errorMessage = `${error.error.message}\nMessage: Failed to connect please try again later`;
           errorCode = `Error Code: ${error.status}`;
         }
-        this.toast.error(errorMessage, `${errorCode}`);
+
+        this.alertService
+          .show({title: `Error ${errorCode}`, description: errorMessage, style: 'error'});
         return throwError(errorMessage);
       }),
       map(user => {
@@ -78,11 +80,14 @@ export class LoginService {
             message = `${error.error.message}\nMessage: Failed to connect please try again later`;
             errorCode = `Error Code: ${error.status}`;
           }
-          this.toast.error(message, `${errorCode}`);
+
+          this.alertService
+            .show({title: `Error ${errorCode}`, description: message, style: 'error'});
           return throwError(message);
         }),
         map(user => {
-          this.toast.success('', `${user.message}`);
+          this.alertService
+            .show({title: `Success`, description: user.message, style: 'success'});
           return user;
         }),
         finalize(() => this.spinner.hide())
@@ -103,11 +108,13 @@ export class LoginService {
             message = `${error.error.message}\nMessage: Failed to connect please try again later`;
             errorCode = `Error Code: ${error.status}`;
           }
-          this.toast.error(message, `${errorCode}`);
+          this.alertService
+            .show({title: `Error ${errorCode}`, description: message, style: 'error'});
           return throwError(message);
         }),
         map(user => {
-          this.toast.success('', `${user.message}`);
+          this.alertService
+            .show({title: `Success`, description: user.message, style: 'success'});
           return user;
         }),
         finalize(() => this.spinner.hide())
@@ -150,5 +157,24 @@ export class LoginService {
     this.currentUserInfoSubject.next(null);
     this.currentUserSubject.next(null);
     sessionStorage.clear();
+  }
+
+  isAuthorized(allowedRoles: string[]): boolean {
+    // check if the list of allowed roles is empty, if empty, authorize the user to access the page
+    console.log(allowedRoles);
+    if (allowedRoles == null || allowedRoles.length === 0) {
+      return true;
+    }
+
+    // get token from local storage or state management
+    const decodeToken = this.getAccessToken();
+
+    // check if it was decoded successfully, if not the token is not valid, deny access
+    if (!decodeToken) {
+      return false;
+    }
+
+    // check if the user roles is in the list of allowed roles, return true if allowed and false if not allowed
+    return allowedRoles.includes(this.currentUserInfoValue.userInfo.roles[0].name);
   }
 }

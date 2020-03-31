@@ -2,15 +2,17 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserDetails} from '../../../models/authentication';
 import {ExceptionHandler} from '../../../utilities/exceptionHandler';
-import {ToastrService} from 'ngx-toastr';
 import {LoginService} from '../../../services/login.service';
 import {BuyService} from '../../../services/buy.service';
 import {CurrencyModel, ExchangeRate} from '../../../models/currency';
 import {CustomerService} from '../../../services/customer.service';
 import {CurrenciesService} from '../../../services/currencies.service';
 import {toCentsFromFour, toTwoCents} from '../../../utilities/reusables';
-import {CustomerRegistrationService} from '../../../containers/customer-registration/customer-registration.service';
 import {MatSelectChange} from '@angular/material/select';
+import {CustomerRegistrationService} from "../../../modals/customer-registration/customer-registration.service";
+import {ReceiptComponent} from "../../../modals/receipt/receipt.component";
+import {MatDialog} from "@angular/material/dialog";
+import {AlertService} from "../../../modals/alert/alert.service";
 
 @Component({
   selector: 'app-steward',
@@ -22,7 +24,7 @@ export class StewardBuyComponent implements OnInit {
   checkUserForm: FormGroup;
   public submitted = false;
   public submittedID = false;
-  private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.toast);
+  private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.alertService);
   currencies: CurrencyModel[] = [];
   exchange: ExchangeRate[] = [];
   rateUsed = 0.0000;
@@ -32,11 +34,12 @@ export class StewardBuyComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private toast: ToastrService,
+    private alertService: AlertService,
     private ls: LoginService,
     private bs: BuyService,
     private customerService: CustomerService,
     public currenciesService: CurrenciesService,
+    public dialog: MatDialog,
     public customerRegistrationService: CustomerRegistrationService
   ) {
   }
@@ -69,6 +72,9 @@ export class StewardBuyComponent implements OnInit {
       currencySwitchedTo: this.currencyName
     });
     this.bs.buyToAccount(this.buyStewardForm.value).subscribe(d => {
+      this.dialog.open(ReceiptComponent, {
+        data: this.exceptionHandler.checkResult(d)
+      });
       this.exceptionHandler.checkResult(d);
     });
   }

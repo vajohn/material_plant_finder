@@ -9,9 +9,9 @@ import {catchError, finalize, map} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {LoaderService} from './loader.service';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {ToastrService} from 'ngx-toastr';
 import {environment} from '../../environments/environment';
 import {LoginService} from './login.service';
+import {AlertService} from "../modals/alert/alert.service";
 
 
 @Injectable()
@@ -21,7 +21,7 @@ export class HttpCustomInterceptor implements HttpCustomInterceptor {
   constructor(
     private ls: LoaderService,
     private spinner: NgxSpinnerService,
-    private toast: ToastrService,
+    private alertService: AlertService,
     private loginService: LoginService
   ) {
   }
@@ -42,7 +42,9 @@ export class HttpCustomInterceptor implements HttpCustomInterceptor {
           return data;
         }),
         catchError((error: HttpErrorResponse) => {
-          this.toast.error(error?.error?.message, `${error?.error?.responseBody}`);
+          this.alertService
+            .show({title: `Error ${error?.error?.statusCode}`, description: error?.error?.message, style: 'error'});
+          // this.toast(error?.error?.message, `${error?.error?.responseBody}`);
           return throwError(error?.error?.message);
         }),
         finalize(() => this.spinner.hide())

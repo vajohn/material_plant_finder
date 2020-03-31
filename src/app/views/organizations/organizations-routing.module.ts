@@ -5,9 +5,24 @@ import {OrgAddComponent} from './org-add/org-add.component';
 import {P404Component} from '../errors/p404/p404.component';
 
 const routes: Routes = [
-  {path: 'list', component: OrgListComponent},
-  {path: 'form', component: OrgAddComponent},
-  {path: '**', component: P404Component},
+  {
+    path: 'list',
+    component: OrgListComponent,
+    data: {
+      allowedRoles: ['BANK_SUPERVISOR', 'BANK_MANAGER']
+    }
+  },
+  {
+    path: 'form',
+    component: OrgAddComponent,
+    data: {
+      allowedRoles: ['BANK_CAPTURER']
+    }
+  },
+  {
+    path: '**',
+    component: P404Component
+  },
 ];
 
 @NgModule({

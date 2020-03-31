@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpEvent} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable, forkJoin} from 'rxjs';
-import {DefaultResponse} from '../models/default';
 import {OrganizationListResponse, OrganizationResponse} from '../models/organization';
 import {BranchListResponse} from '../models/branches';
 
@@ -21,8 +20,8 @@ export class OrganizationsService {
     return this.http.get<OrganizationResponse>(`organizations/by-name-or-trading-name/`,  {params: data});
   }
 
-  getAllBranchesByOrganization(branchId: number): Observable<DefaultResponse> {
-    return this.http.get<DefaultResponse>(`branches/by-organization/${branchId}`);
+  getAllBranchesByOrganization(organizationId: number): Observable<BranchListResponse> {
+    return this.http.get<BranchListResponse>(`branches/by-organization/${organizationId}`);
   }
 
   getForUserForm(): Observable<any[]> {

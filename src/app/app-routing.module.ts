@@ -5,10 +5,7 @@ import {LoginComponent} from './views/authentication/login/login.component';
 import {P500Component} from './views/errors/p500/p500.component';
 import {P404Component} from './views/errors/p404/p404.component';
 import {BaseGuard} from './guards/base.guard';
-import {AgentGuard} from "./guards/agent.guard";
-import {GuestGuard} from "./guards/guest.guard";
-import {BankGuard} from "./guards/bank.guard";
-import {AdminGuard} from "./guards/admin.guard";
+import {AuthorizationGuard} from "./guards/authorization.guard";
 
 
 const routes: Routes = [
@@ -42,34 +39,38 @@ const routes: Routes = [
       },
       {
         path: 'buy',
-        canActivate: [AgentGuard],
+        canActivateChild: [AuthorizationGuard],
         loadChildren: () => import('./views/buy/buy.module').then(m => m.BuyModule)
       },
       {
         path: 'sell',
-        canActivate: [AgentGuard],
+        canActivateChild: [AuthorizationGuard],
         loadChildren: () => import('./views/sell/sell.module').then(m => m.SellModule)
       },
       {
         path: 'organization',
-        canActivate: [BankGuard],
+        canActivateChild: [AuthorizationGuard],
         loadChildren: () => import('./views/organizations/organizations.module').then(m => m.OrganizationsModule)
       },
       {
         path: 'branches',
-        canActivate: [BankGuard],
+        canActivateChild: [AuthorizationGuard],
         loadChildren: () => import('./views/branches/branches.module').then(m => m.BranchesModule)
       },
       {
         path: 'users',
-        canActivate: [BankGuard, AdminGuard, GuestGuard],
+        canActivateChild: [AuthorizationGuard],
         loadChildren: () => import('./views/users/users.module').then(m => m.UsersModule)
       },
       {
         path: 'reports',
-        canActivate: [BankGuard, AdminGuard, GuestGuard],
+        canActivateChild: [AuthorizationGuard],
         loadChildren: () => import('./views/users/users.module').then(m => m.UsersModule)
       },
+      {
+        path: '**',
+        component: P404Component
+      }
     ]
   },
   {path: '**', component: P404Component},

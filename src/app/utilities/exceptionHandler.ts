@@ -1,22 +1,22 @@
-import {ToastrService} from 'ngx-toastr';
-import {DefaultResponse} from '../models/default';
+
+import {AlertService} from "../modals/alert/alert.service";
 
 export class ExceptionHandler {
-  constructor(private ts: ToastrService) {
+  constructor(private ts: AlertService) {
   }
 
   public checkResult(response): object {
 
-
     switch (response.statusCode) {
       case 200:
-        this.ts.success(response.message, response.message);
+        this.ts.show({title: `Success`, description: response.message, style: 'success'});
         break;
       case 201:
-        this.ts.success(response.message, response.responseBody.toString());
+        this.ts.show({title: `Success`, description: response.message + ' ' +
+            response.responseBody.toString(), style: 'success'});
         break;
       default:
-        this.ts.error(response.message, response.statusCode.toString());
+        this.ts.show({title: `Error ${response.statusCode}`, description: response.message, style: 'error'});
     }
 
     return response.responseBody;

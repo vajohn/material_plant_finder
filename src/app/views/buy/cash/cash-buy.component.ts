@@ -1,20 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ExceptionHandler} from '../../../utilities/exceptionHandler';
-import {ToastrService} from 'ngx-toastr';
 import {BuyService} from '../../../services/buy.service';
 import {LoginService} from '../../../services/login.service';
 import {UserDetails} from '../../../models/authentication';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {toCentsFromFour, toTwoCents} from '../../../utilities/reusables';
-import {CustomerRegistrationService} from '../../../containers/customer-registration/customer-registration.service';
 import {CustomerService} from '../../../services/customer.service';
 import {CurrenciesService} from '../../../services/currencies.service';
 import {CurrencyModel, ExchangeRate} from '../../../models/currency';
 import {MatDialog} from '@angular/material/dialog';
-import {ReceiptComponent} from '../../../containers/receipt/receipt.component';
-import {CustomerRegistrationComponent} from '../../../containers/customer-registration/customer-registration.component';
 import {MatSelectChange} from '@angular/material/select';
+import {CustomerRegistrationService} from "../../../modals/customer-registration/customer-registration.service";
+import {ReceiptComponent} from "../../../modals/receipt/receipt.component";
+import {CustomerRegistrationComponent} from "../../../modals/customer-registration/customer-registration.component";
+import {AlertService} from "../../../modals/alert/alert.service";
 
 @Component({
   selector: 'app-cash',
@@ -27,7 +27,7 @@ export class CashBuyComponent implements OnInit {
   user: UserDetails;
   public submitted = false;
   public submittedOne = false;
-  private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.toast);
+  private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.alertService);
   currencies: CurrencyModel[] = [];
   exchange: ExchangeRate[] = [];
   rateUsed = 0.0000;
@@ -36,7 +36,7 @@ export class CashBuyComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private toast: ToastrService,
+    private alertService: AlertService,
     private ls: LoginService,
     private bs: BuyService,
     private as: AuthenticationService,

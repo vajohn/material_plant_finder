@@ -19,7 +19,7 @@ export class GuestGuard implements CanActivate {
     console.log(currentUser.userInfo.roles[0].name);
     if (currentUser) {
       // check if route is restricted by role
-      if (!currentUser.userInfo.roles[0].bank || currentUser.userInfo.roles[0].name !== 'GUEST') {
+      if (currentUser.userInfo.roles[0].name !== 'GUEST') {
         // role not authorised so redirect to home page
         this.router.navigate(['/dashboard']);
         return false;

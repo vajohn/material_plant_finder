@@ -17,18 +17,10 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ToastrModule} from 'ngx-toastr';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import {ToastComponent} from './shared-components/toast/toast.component';
 import {HttpCustomInterceptor} from './services/http.interceptor';
-import {CustomerRegistrationComponent} from './containers/customer-registration/customer-registration.component';
-import {ReceiptComponent} from './containers/receipt/receipt.component';
 import {MaterialComponentsModule} from './material.module';
 import {NgxPrintModule} from 'ngx-print';
-import { ApproveComponent } from './containers/approve/approve.component';
-import { ForgotComponent } from './containers/forgot/forgot.component';
-import { ResetComponent } from './containers/reset/reset.component';
-
+import {ModalsModule} from "./modals/modals.module";
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent,
@@ -36,25 +28,16 @@ const APP_CONTAINERS = [
 ];
 
 const APP_COMPONENTS = [
-  LoginComponent, P404Component, P500Component
-];
-
-const APP_MODALS = [
-  ReceiptComponent,
-  ToastComponent,
-  CustomerRegistrationComponent,
-  ApproveComponent,
-  ForgotComponent,
-  ResetComponent
+  LoginComponent,
+  P404Component,
+  P500Component
 ];
 
 @NgModule({
-  entryComponents: [...APP_MODALS],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
-    ...APP_COMPONENTS,
-    ...APP_MODALS
+    ...APP_COMPONENTS
   ],
   imports: [
     BrowserModule,
@@ -63,17 +46,11 @@ const APP_MODALS = [
     NgxPrintModule,
     StewardMaterialModule,
     NgxSpinnerModule,
-    NgxChartsModule,
     OverlayModule,
+    ModalsModule,
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    ToastrModule.forRoot({
-      positionClass: 'toast-top-center',
-      preventDuplicates: true,
-      toastClass: '',
-      toastComponent: ToastComponent,
-    }),
     BrowserAnimationsModule,
     MaterialComponentsModule
   ],

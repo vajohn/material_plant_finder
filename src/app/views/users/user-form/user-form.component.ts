@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ExceptionHandler} from '../../../utilities/exceptionHandler';
 import {AuthenticationService} from '../../../services/authentication.service';
-import {ToastrService} from 'ngx-toastr';
 import {OrganizationsService} from '../../../services/organizations.service';
 import {OrganizationResponseBody} from '../../../models/organization';
 import {RoleModel, UserDetails} from '../../../models/authentication';
@@ -10,6 +9,7 @@ import {BranchListResponseBody} from '../../../models/branches';
 import {BranchesService} from '../../../services/branches.service';
 import {LoginService} from '../../../services/login.service';
 import {RolesService} from '../../../services/roles.service';
+import {AlertService} from "../../../modals/alert/alert.service";
 
 @Component({
   selector: 'app-user-form',
@@ -29,7 +29,7 @@ export class UserFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public as: AuthenticationService,
-    private toast: ToastrService,
+    private toast: AlertService,
     public organizationsService: OrganizationsService,
     private bs: BranchesService,
     private rolesService: RolesService,
