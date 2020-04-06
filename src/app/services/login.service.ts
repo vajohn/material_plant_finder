@@ -40,8 +40,8 @@ export class LoginService {
           errorMessage = `Error: ${error.error.message}`;
         } else {
           // server-side error
-          errorMessage = `${error.error.message}\nMessage: Failed to connect please try again later`;
-          errorCode = `Error Code: ${error.status}`;
+          errorMessage = `${error.error.message}`;
+          errorCode = `${error.status}`;
         }
 
         this.alertService
@@ -77,7 +77,7 @@ export class LoginService {
           if (error.error instanceof ErrorEvent) {
             message = `Error: ${error.error.message}`;
           } else {
-            message = `${error.error.message}\nMessage: Failed to connect please try again later`;
+            message = `${error.error.message}`;
             errorCode = `Error Code: ${error.status}`;
           }
 
@@ -105,7 +105,7 @@ export class LoginService {
           if (error.error instanceof ErrorEvent) {
             message = `Error: ${error.error.message}`;
           } else {
-            message = `${error.error.message}\nMessage: Failed to connect please try again later`;
+            message = `${error.error.message}`;
             errorCode = `Error Code: ${error.status}`;
           }
           this.alertService
@@ -161,7 +161,6 @@ export class LoginService {
 
   isAuthorized(allowedRoles: string[]): boolean {
     // check if the list of allowed roles is empty, if empty, authorize the user to access the page
-    console.log(allowedRoles);
     if (allowedRoles == null || allowedRoles.length === 0) {
       return true;
     }

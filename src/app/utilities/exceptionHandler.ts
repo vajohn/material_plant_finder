@@ -9,11 +9,10 @@ export class ExceptionHandler {
 
     switch (response.statusCode) {
       case 200:
-        this.ts.show({title: `Success`, description: response.message, style: 'success'});
+        this.ts.show({title: `${response.message}`, style: 'success'});
         break;
       case 201:
-        this.ts.show({title: `Success`, description: response.message + ' ' +
-            response.responseBody.toString(), style: 'success'});
+        this.ts.show({title: `${response.message}`, description: response.responseBody.toString(), style: 'success'});
         break;
       default:
         this.ts.show({title: `Error ${response.statusCode}`, description: response.message, style: 'error'});

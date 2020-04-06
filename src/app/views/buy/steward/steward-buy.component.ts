@@ -28,7 +28,7 @@ export class StewardBuyComponent implements OnInit {
   currencies: CurrencyModel[] = [];
   exchange: ExchangeRate[] = [];
   rateUsed = 0.0000;
-  fcaAmount = 0.0000;
+  amountPaid = 0.0000;
   currencyName: string;
   user: UserDetails;
 
@@ -68,8 +68,9 @@ export class StewardBuyComponent implements OnInit {
     this.buyStewardForm.patchValue({
       userId: this.user.userInfo.id,
       rateUsed: this.rateUsed,
-      fcaAmount: toCentsFromFour(this.fcaAmount),
-      currencySwitchedTo: this.currencyName
+      fcaAmount: toCentsFromFour(this.f.fcaAmount.value),
+      currencySwitchedTo: this.currencyName,
+      amountPaid: this.amountPaid,
     });
     this.bs.buyToAccount(this.buyStewardForm.value).subscribe(d => {
       this.dialog.open(ReceiptComponent, {
@@ -87,17 +88,36 @@ export class StewardBuyComponent implements OnInit {
     }
 
     this.customerService.findCustomerByNationalID(this.checkUserForm.value).subscribe(d => {
-        this.exceptionHandler.checkResult(d);
-        toTwoCents(0);
+        // this.exceptionHandler.checkResult(d);
+      this.alertService.show({
+        title: `Success ${d.responseBody.firstName} ${d.responseBody.lastName}`,
+        description: `Found user with ${d.responseBody.nationalIdNumber}`,
+        style: 'success'});
+
+      toTwoCents(0);
         this.buyStewardForm.patchValue({
           customerId: d.responseBody.id,
         });
-      }
+      },
+      error => console.log('found', error)
     );
   }
 
   onCurrencyBoughtSelect($event: MatSelectChange) {
 
+
+
+    this.rateUsed = $event.value;
+    // we check the amount bought to find the currency name, not the best solution
+    this.exchange.some((result, index) => {
+      if (result.buyRate === $event.value) {
+        this.currencyName = this.exchange[index].currency;
+        return true;
+      }
+    });
+  }
+
+  onCurrencySwitchedToSelect($event: MatSelectChange) {
     switch ($event.value) {
       case 'ZWL':
         this.currenciesService.getZWLExchange().subscribe(d => {
@@ -111,22 +131,11 @@ export class StewardBuyComponent implements OnInit {
       default:
         this.exchange = [];
     }
-  }
-
-  onCurrencySwitchedToSelect($event: MatSelectChange) {
-    this.rateUsed = $event.value;
-    // we check the amount bought to find the currency name, not the best solution
-    this.exchange.some((result, index) => {
-      if (result.buyRate === $event.value) {
-        this.currencyName = this.exchange[index].currency;
-        return true;
-      }
-    });
 
   }
 
   paying() {
-    this.f.amountPaid.valueChanges.subscribe(() => this.fcaAmount = toTwoCents(this.rateUsed * this.f.amountPaid.value));
+    this.f.fcaAmount.valueChanges.subscribe(() => this.amountPaid = toTwoCents(this.rateUsed * this.f.fcaAmount.value));
   }
 
   private getOtherVariables() {
@@ -143,12 +152,12 @@ export class StewardBuyComponent implements OnInit {
 
   private setForms() {
     this.buyStewardForm = this.formBuilder.group({
-      amountPaid: ['', [Validators.required]],
+      amountPaid: [''],
       beneficiaryAccount: ['', [Validators.required]],
       currencyBought: ['', [Validators.required]],
       currencySwitchedTo: ['', [Validators.required]],
       customerId: [''],
-      fcaAmount: [''],
+      fcaAmount: ['', Validators.required],
       rateUsed: [''],
       transactionType: ['SWITCH_TO_ACCOUNT'],
       userId: [0]
