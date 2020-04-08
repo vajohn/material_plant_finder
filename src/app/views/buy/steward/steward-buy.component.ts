@@ -69,7 +69,7 @@ export class StewardBuyComponent implements OnInit {
       userId: this.user.userInfo.id,
       rateUsed: this.rateUsed,
       fcaAmount: toCentsFromFour(this.f.fcaAmount.value),
-      currencySwitchedTo: this.currencyName,
+      currencyBought: this.currencyName,
       amountPaid: this.amountPaid,
     });
     this.bs.buyToAccount(this.buyStewardForm.value).subscribe(d => {
@@ -104,9 +104,6 @@ export class StewardBuyComponent implements OnInit {
   }
 
   onCurrencyBoughtSelect($event: MatSelectChange) {
-
-
-
     this.rateUsed = $event.value;
     // we check the amount bought to find the currency name, not the best solution
     this.exchange.some((result, index) => {
