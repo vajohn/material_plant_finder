@@ -1,158 +1,49 @@
 import {INavData} from '../models/navigation';
 
-export const navItems: INavData[] = [
-  {
-    name: 'Buy',
-    url: '/cash',
-    icon: 'fa fa-users',
-    children: [
-      {
-        name: 'Cash',
-        url: '/buy/cash',
-        icon: 'fas fa-user-edit'
-      },
-      {
-        name: 'Steward account',
-        url: '/buy/steward',
-        icon: 'fas fa-address-book'
-      },
-      {
-        name: 'Ecocash',
-        url: '/buy/ecocash',
-        icon: 'fas fa-address-book'
-      },
-      {
-        name: 'Other account',
-        url: '/buy/account',
-        icon: 'fas fa-address-book'
-      }
-    ]
-  },
-  {
-    name: 'Sell',
-    url: '/account',
-    icon: 'fas fa-file-invoice-dollar',
-    children: [
-      {
-        name: 'Cash',
-        url: '/sell/cash',
-        icon: 'fas fa-user-edit'
-      },
-      {
-        name: 'Steward account',
-        url: '/sell/steward',
-        icon: 'fas fa-address-book'
-      },
-      {
-        name: 'Ecocash',
-        url: '/sell/ecocash',
-        icon: 'fas fa-address-book'
-      },
-      {
-        name: 'Other account',
-        url: '/sell/account',
-        icon: 'fas fa-address-book'
-      }
-    ]
-  },
-  {
-    name: 'Organizations',
-    url: '/organization',
-    icon: 'fas fa-money-bill-wave',
-    children: [
-      {
-        name: 'All',
-        url: '/organization/list',
-        icon: 'fas fa-funnel-dollar'
-      },
-      {
-        name: 'Add new',
-        url: '/organization/form',
-        icon: 'fas fa-funnel-dollar'
-      },
-    ]
-  },
-
-  {
-    name: 'Branches',
-    url: '/branches',
-    icon: 'fas fa-money-bill-wave',
-    children: [
-      {
-        name: 'All',
-        url: '/branches/list',
-        icon: 'fas fa-funnel-dollar'
-      },
-      {
-        name: 'Add new',
-        url: '/branches/form',
-        icon: 'fas fa-funnel-dollar'
-      },
-    ]
-  },
+export const adminSupervisorNavigationList: INavData[] = [
   {
     name: 'Users',
     url: '/users',
-    icon: 'fas fa-money-bill-wave',
+    icon: 'users',
     children: [
       {
         name: 'All users',
         url: '/users/list',
-        icon: 'fas fa-funnel-dollar'
-      },
-      {
-        name: 'Add new',
-        url: '/users/form',
-        icon: 'fas fa-funnel-dollar'
-      },
-      {
-        name: 'All customers',
-        url: '/users/customers',
-        icon: 'fas fa-funnel-dollar'
       }
     ]
   },
   {
     name: 'Reports',
     url: '/reports',
-    icon: 'fas fa-money-bill-wave',
+    icon: 'reports',
     children: [
       {
         name: 'All',
         url: '/reports/list',
-        icon: 'fas fa-funnel-dollar'
       },
     ]
   },
 ];
-
 export const adminNavigationList: INavData[] = [
   {
     name: 'Users',
     url: '/users',
-    icon: 'fas fa-money-bill-wave',
+    icon: 'users',
     children: [
-      {
-        name: 'All users',
-        url: '/users/list',
-        icon: 'fas fa-funnel-dollar'
-      },
       {
         name: 'Add new',
         url: '/users/form',
-        icon: 'fas fa-funnel-dollar'
       }
     ]
   },
   {
     name: 'Reports',
     url: '/reports',
-    icon: 'fas fa-money-bill-wave',
+    icon: 'reports',
     children: [
       {
         name: 'All',
         url: '/reports/list',
-        icon: 'fas fa-funnel-dollar'
       },
     ]
   },
@@ -162,7 +53,7 @@ export const guestNavigationList: INavData[] = [
   {
     name: 'Users',
     url: '/users',
-    icon: 'fas fa-money-bill-wave',
+    icon: 'users',
     children: [
       {
         name: 'All users',
@@ -179,7 +70,7 @@ export const guestNavigationList: INavData[] = [
   {
     name: 'Reports',
     url: '/reports',
-    icon: 'fas fa-money-bill-wave',
+    icon: 'reports',
     children: [
       {
         name: 'All',
@@ -190,59 +81,134 @@ export const guestNavigationList: INavData[] = [
   },
 ];
 
-export const bankNavigationList: INavData[] = [
+export const bankNavigationManager: INavData[] = [
   {
     name: 'Organizations',
     url: '/organization',
-    icon: 'fas fa-money-bill-wave',
+    icon: 'organization',
     children: [
       {
         name: 'All',
         url: '/organization/list',
         icon: 'fas fa-funnel-dollar'
-      },
+      }
+    ]
+  },
+  {
+    name: 'Branches',
+    url: '/branches',
+    icon: 'branches',
+    children: [
       {
-        name: 'Add new',
-        url: '/organization/form',
+        name: 'All',
+        url: '/branches/list',
         icon: 'fas fa-funnel-dollar'
+      }
+    ]
+  },
+  {
+    name: 'Users',
+    url: '/users',
+    icon: 'users',
+    children: [
+      {
+        name: 'All customers',
+        url: '/users/customers',
+        icon: 'fas fa-funnel-dollar'
+      }
+    ]
+  },
+  {
+    name: 'Reports',
+    url: '/reports',
+    icon: 'reports',
+    children: [
+      {
+        name: 'All',
+        url: '/reports/list',
+        icon: 'fas fa-funnel-dollar'
+      },
+    ]
+  },
+];
+export const bankNavigationSupervisor: INavData[] = [
+  {
+    name: 'Organizations',
+    url: '/organization',
+    icon: 'organization',
+    children: [
+      {
+        name: 'All',
+        url: '/organization/list',
+      }
+    ]
+  },
+  {
+    name: 'Branches',
+    url: '/branches',
+    icon: 'branches',
+    children: [
+      {
+        name: 'All',
+        url: '/branches/list',
+      }
+    ]
+  },
+  {
+    name: 'Users',
+    url: '/users',
+    icon: 'users',
+    children: [
+      {
+        name: 'All customers',
+        url: '/users/customers',
+      }
+    ]
+  },
+  {
+    name: 'Reports',
+    url: '/reports',
+    icon: 'reports',
+    children: [
+      {
+        name: 'All',
+        url: '/reports/list',
+        icon: 'fas fa-funnel-dollar'
+      },
+    ]
+  },
+];
+export const bankNavigationCapture: INavData[] = [
+  {
+    name: 'Organizations',
+    url: '/organization',
+    icon: 'organization',
+    children: [
+      {
+        name: 'Add organization',
+        url: '/organization/form',
       },
     ]
   },
   {
     name: 'Branches',
     url: '/branches',
-    icon: 'fas fa-money-bill-wave',
+    icon: 'branches',
     children: [
       {
-        name: 'All',
-        url: '/branches/list',
-        icon: 'fas fa-funnel-dollar'
-      },
-      {
-        name: 'Add new',
+        name: 'Add branch',
         url: '/branches/form',
-        icon: 'fas fa-funnel-dollar'
       },
     ]
   },
   {
     name: 'Users',
     url: '/users',
-    icon: 'fas fa-money-bill-wave',
+    icon: 'users',
     children: [
-      {
-        name: 'All users',
-        url: '/users/list',
-        icon: 'fas fa-funnel-dollar'
-      },
       {
         name: 'Add new',
         url: '/users/form',
-        icon: 'fas fa-funnel-dollar'
-      },
-      {
-        name: 'All customers',
-        url: '/users/customers',
         icon: 'fas fa-funnel-dollar'
       }
     ]
@@ -250,7 +216,7 @@ export const bankNavigationList: INavData[] = [
   {
     name: 'Reports',
     url: '/reports',
-    icon: 'fas fa-money-bill-wave',
+    icon: 'reports',
     children: [
       {
         name: 'All',
@@ -261,11 +227,62 @@ export const bankNavigationList: INavData[] = [
   },
 ];
 
-export const agentNavigationList: INavData[] = [
+export const agentNavigationManager: INavData[] = [
+  {
+    name: 'Users',
+    url: '/users',
+    icon: 'users',
+    children: [
+      {
+        name: 'All customers',
+        url: '/users/customers',
+        icon: 'fas fa-funnel-dollar'
+      }
+    ]
+  },
+  {
+    name: 'Reports',
+    url: '/reports',
+    icon: 'reports',
+    children: [
+      {
+        name: 'All',
+        url: '/reports/list',
+        icon: 'fas fa-funnel-dollar'
+      },
+    ]
+  },
+];
+export const agentNavigationSupervisor: INavData[] = [
+  {
+    name: 'Users',
+    url: '/users',
+    icon: 'users',
+    children: [
+      {
+        name: 'All customers',
+        url: '/users/customers',
+      }
+    ]
+  },
+  {
+    name: 'Reports',
+    url: '/reports',
+    icon: 'reports',
+    children: [
+      {
+        name: 'All',
+        url: '/reports/list',
+        icon: 'fas fa-funnel-dollar'
+      },
+    ]
+  },
+];
+export const agentNavigationCapture: INavData[] = [
   {
     name: 'Buy',
     url: '/cash',
-    icon: 'fa fa-users',
+    icon: 'buy',
     children: [
       {
         name: 'Cash',
@@ -292,7 +309,7 @@ export const agentNavigationList: INavData[] = [
   {
     name: 'Sell',
     url: '/account',
-    icon: 'fas fa-file-invoice-dollar',
+    icon: 'sell',
     children: [
       {
         name: 'Cash',
@@ -315,29 +332,5 @@ export const agentNavigationList: INavData[] = [
         icon: 'fas fa-address-book'
       }
     ]
-  },
-  {
-    name: 'Users',
-    url: '/users',
-    icon: 'fas fa-money-bill-wave',
-    children: [
-      {
-        name: 'All customers',
-        url: '/users/customers',
-        icon: 'fas fa-funnel-dollar'
-      }
-    ]
-  },
-  {
-    name: 'Reports',
-    url: '/reports',
-    icon: 'fas fa-money-bill-wave',
-    children: [
-      {
-        name: 'All',
-        url: '/reports/list',
-        icon: 'fas fa-funnel-dollar'
-      },
-    ]
-  },
+  }
 ];

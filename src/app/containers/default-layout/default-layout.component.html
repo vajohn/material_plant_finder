@@ -1,35 +1,6 @@
-<!--<div class="grid-container">-->
-<!--  <div class="menu-icon" (click)="toggleMinimize()">-->
-<!--    <em class="material-icons">menu</em>-->
-<!--  </div>-->
-<!--  <app-header></app-header>-->
-<!--  <app-side-menu #sideNavButton>-->
-<!--    <div class="sidenav__close-icon" (click)="toggleMinimize()">-->
-<!--      <em class="material-icons">close</em>-->
-<!--    </div>-->
-<!--  </app-side-menu>-->
-<!--  <main class="main  mt-1">-->
-<!--    <div class="header__dropdown" *ngIf="headerService.show">hi</div>-->
-<!--    <router-outlet></router-outlet>-->
-<!--  </main>-->
-<!--  <app-footer></app-footer>-->
-<!--</div>-->
-
-
 <mat-sidenav-container>
-
   <mat-sidenav class="mat-elevation-z8" #sidenav mode="side" opened>
     <app-side-menu></app-side-menu>
-
-
-    <!--      <a mat-list-item [routerLink]="'/accounts'"> Accounts </a>-->
-    <!--      <a mat-list-item [routerLink]="'/create-account'"> Create Account </a>-->
-    <!--      <a mat-list-item [routerLink]="'/contacts'"> Contacts </a>-->
-    <!--      <a mat-list-item [routerLink]="'/create-contact'"> Create Contact </a>-->
-    <!--      <a mat-list-item [routerLink]="'/activities'"> Activities </a>-->
-    <!--      <a mat-list-item [routerLink]="'/create-activity'"> Create Activity </a>-->
-    <!--      <a mat-list-item (click)="sidenav.toggle()" href="" mat-list-item>Close</a>-->
-
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar class="mat-elevation-z3">

@@ -7,8 +7,13 @@
     <mat-expansion-panel [hideToggle]="true" *ngFor="let nav of navItems" class="mat-elevation-z0" #icon>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{nav.name}}
+          <div class="svg-icon">
+            <img [src]="'assets/svg/' + nav.icon +'.svg'" [alt]="nav.name" height="30" width="30">
+          </div>
         </mat-panel-title>
+        <mat-panel-description>
+          {{nav.name}}
+        </mat-panel-description>
         <mat-panel-description>
           <mat-icon *ngIf="!icon.expanded">keyboard_arrow_right</mat-icon>
           <mat-icon *ngIf="icon.expanded">keyboard_arrow_down</mat-icon>
@@ -22,17 +27,3 @@
 
   </mat-accordion>
 </div>
-
-<!--  <div class="tab" *ngFor="let nav of navItems; let i = index" >-->
-<!--    <input type="radio" [id]="nav.name" name="rd" >-->
-<!--    <label class="tab-label" [for]="nav.name">{{nav.name}}</label>-->
-<!--    <div class="tab-content">-->
-
-<!--      <div class="item" *ngFor="let child of nav.children" [routerLink]="child.url" [routerLinkActive]="'active'">-->
-<!--        {{child.name}}-->
-<!--      </div>-->
-
-<!--    </div>-->
-<!--  </div>-->
-<!--  <ng-content ></ng-content>-->
-<!--</aside>-->
