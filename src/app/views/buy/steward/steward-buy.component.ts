@@ -9,10 +9,10 @@ import {CustomerService} from '../../../services/customer.service';
 import {CurrenciesService} from '../../../services/currencies.service';
 import {toCentsFromFour, toTwoCents} from '../../../utilities/reusables';
 import {MatSelectChange} from '@angular/material/select';
-import {CustomerRegistrationService} from "../../../modals/customer-registration/customer-registration.service";
 import {ReceiptComponent} from "../../../modals/receipt/receipt.component";
 import {MatDialog} from "@angular/material/dialog";
 import {AlertService} from "../../../modals/alert/alert.service";
+import {CustomerRegistrationComponent} from "../../../modals/customer-registration/customer-registration.component";
 
 @Component({
   selector: 'app-steward',
@@ -39,8 +39,7 @@ export class StewardBuyComponent implements OnInit {
     private bs: BuyService,
     private customerService: CustomerService,
     public currenciesService: CurrenciesService,
-    public dialog: MatDialog,
-    public customerRegistrationService: CustomerRegistrationService
+    public dialog: MatDialog
   ) {
   }
 
@@ -88,13 +87,13 @@ export class StewardBuyComponent implements OnInit {
     }
 
     this.customerService.findCustomerByNationalID(this.checkUserForm.value).subscribe(d => {
-        // this.exceptionHandler.checkResult(d);
-      this.alertService.show({
-        title: `Success ${d.responseBody.firstName} ${d.responseBody.lastName}`,
-        description: `Found user with ${d.responseBody.nationalIdNumber}`,
-        style: 'success'});
+        this.alertService.show({
+          title: `Success ${d.responseBody.firstName} ${d.responseBody.lastName}`,
+          description: `Found user with ${d.responseBody.nationalIdNumber}`,
+          style: 'success'
+        });
 
-      toTwoCents(0);
+        toTwoCents(0);
         this.buyStewardForm.patchValue({
           customerId: d.responseBody.id,
         });
@@ -162,6 +161,12 @@ export class StewardBuyComponent implements OnInit {
 
     this.checkUserForm = this.formBuilder.group({
       nationalIdNumber: ['', [Validators.required]]
+    });
+  }
+
+  addNewCustomer() {
+    this.dialog.open(CustomerRegistrationComponent, {
+      data: this.g.nationalIdNumber.value
     });
   }
 }

@@ -1,27 +1,21 @@
 <mat-card class="mb-1">
-  <mat-card-title >Check customer</mat-card-title>
-  <form [formGroup]="checkUserForm" (ngSubmit)="checkById()">
-    <section class="row pc-2">
-      <mat-form-field class="col-md-6">
-        <mat-label>National Id</mat-label>
-        <input matInput placeholder="082020936Q75" formControlName="nationalIdNumber">
-        <mat-error *ngIf="submittedOne && fg.nationalIdNumber.errors">
-          <p *ngIf="fg.nationalIdNumber.errors.required">
-            Please enter a national ID
-          </p>
-        </mat-error>
-      </mat-form-field>
-      <div class="col-md-1"></div>
-      <div class="col-md-2">
-        <app-button type="submit">Check customer</app-button>
-      </div>
-      <div class="col-md-1"></div>
-      <div class="col-md-2">
-        <app-button (click)="addNewCustomer()">Add new customer</app-button>
-      </div>
-    </section>
-
-
+  <form [formGroup]="checkUserForm" (ngSubmit)="checkById()" class="three-col-form">
+    <mat-form-field >
+      <mat-label>National Id</mat-label>
+      <mat-icon matPrefix>assignment_ind</mat-icon>
+      <input matInput placeholder="082020936Q75" formControlName="nationalIdNumber">
+      <mat-error *ngIf="submittedOne && g.nationalIdNumber.errors">
+        <p *ngIf="g.nationalIdNumber.errors.required">
+          Please enter a national ID
+        </p>
+      </mat-error>
+    </mat-form-field>
+    <div class="pt-1">
+      <button  mat-raised-button type="submit" color="primary" class="default-button">Check customer</button>
+    </div>
+    <div class="pt-1">
+      <button mat-raised-button (click)="addNewCustomer()" color="accent" class="default-button">Add new customer</button>
+    </div>
   </form>
 </mat-card>
 

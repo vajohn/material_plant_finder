@@ -11,9 +11,8 @@ import {CurrenciesService} from '../../../services/currencies.service';
 import {CurrencyModel, ExchangeRate} from '../../../models/currency';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSelectChange} from '@angular/material/select';
-import {CustomerRegistrationService} from "../../../modals/customer-registration/customer-registration.service";
-import {ReceiptComponent} from "../../../modals/receipt/receipt.component";
-import {CustomerRegistrationComponent} from "../../../modals/customer-registration/customer-registration.component";
+import {ReceiptComponent} from '../../../modals/receipt/receipt.component';
+import {CustomerRegistrationComponent} from '../../../modals/customer-registration/customer-registration.component';
 import {AlertService} from "../../../modals/alert/alert.service";
 
 @Component({
@@ -40,7 +39,6 @@ export class CashBuyComponent implements OnInit {
     private ls: LoginService,
     private bs: BuyService,
     private as: AuthenticationService,
-    public cs: CustomerRegistrationService,
     private customerService: CustomerService,
     public currenciesService: CurrenciesService,
     public dialog: MatDialog
@@ -54,7 +52,7 @@ export class CashBuyComponent implements OnInit {
     this.paying();
   }
 
-  get fg() {
+  get g() {
     return this.checkUserForm.controls;
   }
 
@@ -72,7 +70,6 @@ export class CashBuyComponent implements OnInit {
     if (this.checkUserForm.invalid) {
       return;
     }
-    // console.time('tranStart');
     this.buyCashForm.patchValue({
       userId: this.user.userInfo.id,
       rateUsed: this.rateUsed,
@@ -103,10 +100,6 @@ export class CashBuyComponent implements OnInit {
       default:
         this.exchange = [];
     }
-
-    // this.currenciesService.getZWL().subscribe(d => {
-    //   this.exceptionHandler.checkResult(d);
-    // });
   }
 
   onCurrencySwitchedToSelect($event: MatSelectChange) {
@@ -147,7 +140,11 @@ export class CashBuyComponent implements OnInit {
     }
 
     this.customerService.findCustomerByNationalID(this.checkUserForm.value).subscribe(d => {
-        this.exceptionHandler.checkResult(d);
+        this.alertService.show({
+          title: `Success ${d.responseBody.firstName} ${d.responseBody.lastName}`,
+          description: `Found user with ${d.responseBody.nationalIdNumber}`,
+          style: 'success'
+        });
         toTwoCents(0);
         this.buyCashForm.patchValue({
           customerId: d.responseBody.id,
@@ -158,7 +155,7 @@ export class CashBuyComponent implements OnInit {
 
   addNewCustomer() {
     this.dialog.open(CustomerRegistrationComponent, {
-      data: this.fg.nationalIdNumber.value
+      data: this.g.nationalIdNumber.value
     });
   }
 
