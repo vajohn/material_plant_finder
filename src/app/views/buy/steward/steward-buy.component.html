@@ -88,8 +88,12 @@
     </section>
     <section class="row">
       <div class="col-xs-6"></div>
-      <button mat-flat-button class="col-xs-3" (click)="buyStewardForm.reset()" >Reset</button>
-      <app-button class="col-xs-3" type="submit">Transact</app-button>
+      <div class="col-xs-3">
+        <button mat-stroked-button (click)="buyStewardForm.reset()" color="warn" class="default-button">Reset</button>
+      </div>
+      <div class="col-xs-3">
+        <button mat-raised-button type="submit" class="default-button" color="primary">Transact</button>
+      </div>
     </section>
   </form>
 </mat-card>

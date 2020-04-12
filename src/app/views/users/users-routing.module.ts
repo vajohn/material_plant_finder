@@ -17,7 +17,7 @@ const routes: Routes = [
     path: 'form',
     component: UserFormComponent,
     data: {
-      allowedRoles: ['BANK_CAPTURER', 'ADMIN_CAPTURER']
+      allowedRoles: ['BANK_CAPTURER', 'ADMIN_CAPTURER', 'ADMIN_SUPERVISOR']
     }
   },
   {

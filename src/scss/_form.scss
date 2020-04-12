@@ -1,14 +1,19 @@
-.three-col-form{
+.three-col-form {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   grid-column-gap: .5em;
 }
-.default-button:hover{
 
-  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12),
-  0 5px 5px -3px rgba(0, 0, 0, 0.4);
+.default-button {
+  width: 60%;
+
+  &:hover {
+    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12),
+    0 5px 5px -3px rgba(0, 0, 0, 0.4);
+  }
 }
-.mat-form-field-prefix{
+
+.mat-form-field-prefix {
   top: 5px;
 }

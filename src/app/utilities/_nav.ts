@@ -9,6 +9,11 @@ export const adminSupervisorNavigationList: INavData[] = [
       {
         name: 'All users',
         url: '/users/list',
+      },
+      {
+        name: 'Add new',
+        url: '/users/form',
+        icon: 'fas fa-funnel-dollar'
       }
     ]
   },

@@ -3,27 +3,48 @@
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
 
     <section class="row pc-2">
-      <div class="col-xs-4">
-        <label for="orgId"></label>
-        <select name="orgId" id="orgId" formControlName="orgId" (change)="onOrganizationSelect($event)"  class="custom-select sources">
-          <option value="" disabled selected>Select organization</option>
-          <option *ngFor="let orgni of organizations" [value]="orgni.id">{{orgni.companyName}}</option>
-        </select>
-      </div>
-      <div class="col-xs-4">
-        <label for="branchId"></label>
-        <select name="branchId" id="branchId" formControlName="branchId" >
-          <option value="" disabled selected>Select branch</option>
-          <option *ngFor="let orgni of branches" [value]="orgni?.id">{{orgni?.name}}</option>
-        </select>
-      </div>
-      <div class="col-xs-4">
-        <label for="roleId"></label>
-        <select name="roleId" id="roleId" formControlName="roleId" >
-          <option value="" disabled selected>Select user role</option>
-          <option *ngFor="let orgni of roles" [value]="orgni?.id">{{orgni?.name}}</option>
-        </select>
-      </div>
+      <mat-form-field class="col-md-4">
+        <mat-label>Select organization</mat-label>
+        <mat-select formControlName="orgId"
+                    (selectionChange)="onOrganizationSelect($event)">
+          <mat-option *ngFor="let organization of organizations" [value]="organization.id">
+            {{organization.companyName}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="submitted && f.orgId.errors">
+          <p *ngIf="f.orgId.errors.required">
+            Please select organization
+          </p>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <mat-label>Select branch</mat-label>
+        <mat-select formControlName="branchId">
+          <mat-option *ngFor="let branch of branches" [value]="branch.id">
+            {{branch.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="submitted && f.branchId.errors">
+          <p *ngIf="f.branchId.errors.required">
+            Please select branch
+          </p>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <mat-label>Select user role</mat-label>
+        <mat-select formControlName="roleId">
+          <mat-option *ngFor="let role of roles" [value]="role.id">
+            {{role.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="submitted && f.roleId.errors">
+          <p *ngIf="f.roleId.errors.required">
+            Please select role
+          </p>
+        </mat-error>
+      </mat-form-field>
     </section>
     <section class="row pc-2">
       <div class="col-xs-6">
@@ -110,22 +131,17 @@
       </div>
       <div class="col-xs-6 spread">
         <p class="pt-1">Untrained</p>
-        <div class="form__group field width-16">
-          <label class="switch">
-            <input type="checkbox" formControlName="hasBeenTrained" >
-            <span class="slider round"></span>
-          </label>
-        </div>
+        <mat-slide-toggle class="pt-2" color="primary" formControlName="hasBeenTrained"></mat-slide-toggle>
         <p class="pt-1">Trained</p>
       </div>
     </section>
     <section class="row  pt-2">
       <div class="col-xs-6"></div>
       <div class="col-xs-3">
-        <app-button (click)="userForm.reset()">Reset</app-button>
+        <button mat-stroked-button (click)="userForm.reset()" color="warn" class="default-button">Reset</button>
       </div>
       <div class="col-xs-3">
-        <app-button type="submit">Add</app-button>
+        <button mat-raised-button type="submit" class="default-button" color="primary">Add</button>
       </div>
     </section>
   </form>

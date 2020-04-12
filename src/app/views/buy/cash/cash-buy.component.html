@@ -82,13 +82,11 @@
     </section>
     <section class="row pc-2">
       <div class="col-md-6"></div>
-
-      <div class="col-md-3">
-        <app-button (click)="buyCashForm.reset()">Reset</app-button>
+      <div class="col-xs-3">
+        <button mat-stroked-button (click)="buyCashForm.reset()" color="warn" class="default-button">Reset</button>
       </div>
-
-      <div class="col-md-3">
-        <app-button type="submit">Transact</app-button>
+      <div class="col-xs-3">
+        <button mat-raised-button type="submit" class="default-button" color="primary">Transact</button>
       </div>
     </section>
   </form>

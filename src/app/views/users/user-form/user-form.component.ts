@@ -10,6 +10,7 @@ import {BranchesService} from '../../../services/branches.service';
 import {LoginService} from '../../../services/login.service';
 import {RolesService} from '../../../services/roles.service';
 import {AlertService} from "../../../modals/alert/alert.service";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'app-user-form',
@@ -47,26 +48,10 @@ export class UserFormComponent implements OnInit {
     return this.userForm.controls;
   }
 
-  onSubmit() {
-    this.submitted = true;
-
-    if (this.userForm.invalid) {
-      return;
-    }
-
-    this.as.registerUser(this.userForm.value, this.f.branchId.value, this.f.roleId.value).subscribe(d => {
-      this.exceptionHandler.checkResult(d);
-    });
-  }
-
-  onOrganizationSelect($event: any) {
-    this.orgId = this.f.orgId.value;
+  onOrganizationSelect($event: MatSelectChange) {
+    this.orgId = $event.value;
 
     this.bs.getBranchesByOrg(this.orgId).subscribe(d => this.branches = d.responseBody);
-  }
-
-  onRoleSelect($event: any) {
-
   }
 
   private setFormFields(): void {
@@ -84,16 +69,19 @@ export class UserFormComponent implements OnInit {
   }
 
   private getFormData(): void {
-    if (this.user.userInfo.roles[0].admin) {
-
-      this.rolesService.getSpecificRoles('admin-roles').subscribe(adminRoles => this.roles.push(...adminRoles.responseBody));
-      this.rolesService.getSpecificRoles('bank-roles').subscribe(bankRoles =>  this.roles.push(...bankRoles.responseBody));
+    const userRole = this.user.userInfo.roles[0];
+    if (userRole.admin) {
+      if(userRole.name === 'ADMIN_SUPERVISOR'){
+        this.rolesService.getSpecificRoles('admin-roles').subscribe(adminRoles => this.roles.push(...adminRoles.responseBody));
+      }
+      if(userRole.name === 'ADMIN_CAPTURER'){
+        this.rolesService.getSpecificRoles('bank-roles').subscribe(bankRoles =>  this.roles.push(...bankRoles.responseBody));
+      }
       this.organizations = [this.user.userInfo.organization];
       this.branches = [this.user.userInfo.branch];
-
     }
 
-    if (this.user.userInfo.roles[0].bank) {
+    if (userRole.bank) {
       this.rolesService.getSpecificRoles().subscribe(agentRoles =>  this.roles = agentRoles.responseBody);
       this.organizationsService.getForUserForm()
         .subscribe(response => {
@@ -101,6 +89,17 @@ export class UserFormComponent implements OnInit {
           this.branches = response[1].responseBody;
         });
     }
+  }
 
+  onSubmit() {
+    this.submitted = true;
+
+    if (this.userForm.invalid) {
+      return;
+    }
+
+    this.as.registerUser(this.userForm.value, this.f.branchId.value, this.f.roleId.value).subscribe(d => {
+      this.exceptionHandler.checkResult(d);
+    });
   }
 }
