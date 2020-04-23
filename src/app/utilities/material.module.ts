@@ -14,6 +14,8 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   declarations: [],
@@ -32,7 +34,9 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     MatSidenavModule,
     MatListModule,
     MatExpansionModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   exports: [
     MatButtonModule,
@@ -48,7 +52,9 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     MatSidenavModule,
     MatListModule,
     MatExpansionModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
 })
 export class MaterialComponentsModule {

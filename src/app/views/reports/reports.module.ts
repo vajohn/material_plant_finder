@@ -6,13 +6,12 @@ import {MaterialComponentsModule} from "../../utilities/material.module";
 import { LoginSessionsComponent } from './login-sessions/login-sessions.component';
 import { BuyTransactionsComponent } from './buy-transactions/buy-transactions.component';
 
-
 @NgModule({
   declarations: [LoginSessionsComponent, BuyTransactionsComponent],
   imports: [
     CommonModule,
     ReportsRoutingModule,
-    MaterialComponentsModule
+    MaterialComponentsModule,
   ]
 })
 export class ReportsModule { }

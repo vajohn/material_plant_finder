@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 50px 1fr 50px;
-  grid-template-areas: 'header' 'main' 'footer';
+  grid-template-areas: 'header' 'main' 'bottom';
   height: 100vh;
 }
 
@@ -180,7 +180,7 @@ app-side-menu.active {
 
 
 app-footer {
-  grid-area: footer;
+  grid-area: bottom;
   display: flex;
   align-items: center;
   justify-content: space-between;
