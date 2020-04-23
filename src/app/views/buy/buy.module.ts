@@ -9,7 +9,7 @@ import {StewardMaterialModule} from '../../material/steward-material.module';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
-import {MaterialComponentsModule} from "../../material.module";
+import {MaterialComponentsModule} from "../../utilities/material.module";
 
 @NgModule({
   declarations: [CashBuyComponent, StewardBuyComponent],

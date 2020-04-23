@@ -7,8 +7,7 @@ import {OrgAddComponent} from './org-add/org-add.component';
 import {SharedComponentsModule} from '../../shared-components/shared-components.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {StewardMaterialModule} from '../../material/steward-material.module';
-import {MaterialComponentsModule} from '../../material.module';
-
+import {MaterialComponentsModule} from "../../utilities/material.module";
 
 @NgModule({
   declarations: [OrgListComponent, OrgAddComponent],

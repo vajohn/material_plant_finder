@@ -18,9 +18,10 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpCustomInterceptor} from './services/http.interceptor';
-import {MaterialComponentsModule} from './material.module';
+
 import {NgxPrintModule} from 'ngx-print';
 import {ModalsModule} from "./modals/modals.module";
+import {MaterialComponentsModule} from "./utilities/material.module";
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent,

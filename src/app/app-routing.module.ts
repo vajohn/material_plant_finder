@@ -65,7 +65,7 @@ const routes: Routes = [
       {
         path: 'reports',
         canActivateChild: [AuthorizationGuard],
-        loadChildren: () => import('./views/users/users.module').then(m => m.UsersModule)
+        loadChildren: () => import('./views/reports/reports.module').then(m => m.ReportsModule)
       },
       {
         path: '**',

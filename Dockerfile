@@ -5,8 +5,6 @@ RUN npm install
 COPY . .
 RUN npm run build -- --prod
 FROM nginx:1.17.9-alpine
-RUN rm -rf /usr/share/nginx/html/*
-COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build-step /app/dist/bureauDeChange /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

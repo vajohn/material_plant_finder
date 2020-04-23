@@ -23,9 +23,13 @@ export const adminSupervisorNavigationList: INavData[] = [
     icon: 'reports',
     children: [
       {
-        name: 'All',
-        url: '/reports/list',
+        name: 'Login sessions',
+        url: '/reports/login',
       },
+      {
+        name: 'Buy transactions',
+        url: '/reports/buy',
+      }
     ]
   },
 ];
@@ -78,10 +82,13 @@ export const guestNavigationList: INavData[] = [
     icon: 'reports',
     children: [
       {
-        name: 'All',
-        url: '/reports/list',
-        icon: 'fas fa-funnel-dollar'
+        name: 'Login sessions',
+        url: '/reports/login',
       },
+      {
+        name: 'Buy transactions',
+        url: '/reports/buy',
+      }
     ]
   },
 ];
@@ -105,9 +112,12 @@ export const bankNavigationManager: INavData[] = [
     icon: 'branches',
     children: [
       {
-        name: 'All',
-        url: '/branches/list',
-        icon: 'fas fa-funnel-dollar'
+        name: 'Login sessions',
+        url: '/reports/login',
+      },
+      {
+        name: 'Buy transactions',
+        url: '/reports/buy',
       }
     ]
   },
@@ -176,10 +186,13 @@ export const bankNavigationSupervisor: INavData[] = [
     icon: 'reports',
     children: [
       {
-        name: 'All',
-        url: '/reports/list',
-        icon: 'fas fa-funnel-dollar'
+        name: 'Login sessions',
+        url: '/reports/login',
       },
+      {
+        name: 'Buy transactions',
+        url: '/reports/buy',
+      }
     ]
   },
 ];

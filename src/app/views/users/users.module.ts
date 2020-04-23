@@ -8,8 +8,7 @@ import {SharedComponentsModule} from '../../shared-components/shared-components.
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {StewardMaterialModule} from '../../material/steward-material.module';
 import {CustomerListComponent} from './customer-list/customer-list.component';
-import {MaterialComponentsModule} from "../../material.module";
-
+import {MaterialComponentsModule} from "../../utilities/material.module";
 
 @NgModule({
   declarations: [UserFormComponent, UserListComponent, CustomerListComponent],

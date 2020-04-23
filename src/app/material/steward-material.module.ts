@@ -10,9 +10,9 @@ import {RouterModule} from '@angular/router';
 import {TableComponent} from './table/table.component';
 import {TooltipDirective} from './tooltip/tooltip.directive';
 import {TooltipComponent} from './tooltip/tooltip.component';
-import {MaterialComponentsModule} from '../material.module';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import {MatIconModule} from '@angular/material/icon';
+import {MaterialComponentsModule} from "../utilities/material.module";
 
 @NgModule({
   declarations: [
