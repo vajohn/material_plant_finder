@@ -43,4 +43,8 @@ export class BuyTransactionsComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  moreInfo(row: any) {
+    console.log(row);
+  }
 }
