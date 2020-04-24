@@ -34,9 +34,9 @@
       </tr>
       <tr>
         <td>{{data?.currencyBought}}</td>
-        <td>{{convert(data?.fcaAmount)}}</td>
-        <td>{{data?.rateUsed}}</td>
         <td>{{data?.cashPaid || data?.amountPaid}}</td>
+        <td>{{data?.rateUsed}}</td>
+        <td>{{convert(data?.fcaAmount)}}</td>
       </tr>
       <tr>
         <td></td>
@@ -75,7 +75,7 @@
     <div class="total">
       <div class="subTotal">
         <strong>SUB TOTAL</strong>
-        <p>{{data?.cashPaid || data?.amountPaid}}</p>
+        <td>{{convert(data?.fcaAmount)}}</td>
         <strong>TAX</strong>
         <p>--</p>
         <strong>FEES</strong>
@@ -83,7 +83,7 @@
       </div>
       <div class="added">
         <strong>Total</strong>
-        <p>{{data?.cashPaid || data?.amountPaid}}</p>
+        <td>{{convert(data?.fcaAmount)}}</td>
       </div>
     </div>
   </section>
