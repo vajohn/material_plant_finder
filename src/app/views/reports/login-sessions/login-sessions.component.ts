@@ -10,7 +10,7 @@ import {UserLogin} from "../../../models/reports";
   templateUrl: './login-sessions.component.html',
   styleUrls: ['./login-sessions.component.scss']
 })
-export class LoginSessionsComponent implements OnInit,  AfterViewInit {
+export class LoginSessionsComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['date', 'user.firstName', 'user.lastName', 'user.organization.companyName', 'user.branch.name', 'roles[0].name'];
   dataSource: MatTableDataSource<UserLogin>;
 

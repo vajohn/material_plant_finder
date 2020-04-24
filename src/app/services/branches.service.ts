@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
-import {DefaultResponse} from '../models/default';
 import {BranchListResponse} from '../models/branches';
 import {HttpClient} from '@angular/common/http';
 

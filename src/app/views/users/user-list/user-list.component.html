@@ -1,17 +1,72 @@
-<app-table [dataForTable]="users" [displayedColumns]="displayedColumns" [displayedHeaders]="displayedHeaders" (fieldIdFound)="approveUser($event)">
-  <form [formGroup]="organizationListForm" (ngSubmit)="onSubmit()">
-    <section class="row pc-2">
-      <div class="col-xs-6 pt-1">
-        <label for="orgId"></label>
-        <select name="orgId" id="orgId" formControlName="searchCriteria" class="custom-select sources">
-          <option value="" disabled selected>Select organization</option>
-          <option *ngFor="let org of organizations" [value]="org.id">{{org.companyName}}</option>
-        </select>
-      </div>
+<!--<app-table [dataForTable]="users" [displayedColumns]="displayedColumns" [displayedHeaders]="displayedHeaders" (fieldIdFound)="approveUser($event)">-->
+<!--  <form [formGroup]="organizationListForm" (ngSubmit)="onSubmit()">-->
+<!--    <section class="row pc-2">-->
+<!--      <div class="col-xs-6 pt-1">-->
+<!--        <label for="orgId"></label>-->
+<!--        <select name="orgId" id="orgId" formControlName="searchCriteria" class="custom-select sources">-->
+<!--          <option value="" disabled selected>Select organization</option>-->
+<!--          <option *ngFor="let org of organizations" [value]="org.id">{{org.companyName}}</option>-->
+<!--        </select>-->
+<!--      </div>-->
 
-      <div class="col-xs-3 ">
-        <app-button type="submit">Search</app-button>
-      </div>
-    </section>
-  </form>
-</app-table>
+<!--      <div class="col-xs-3 ">-->
+<!--        <app-button type="submit">Search</app-button>-->
+<!--      </div>-->
+<!--    </section>-->
+<!--  </form>-->
+<!--</app-table>-->
+
+
+<div class="row">
+  <mat-form-field class="col-xs-8">
+    <mat-label>Filter</mat-label>
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Type to filter...">
+  </mat-form-field>
+  <mat-form-field class="col-xs-4">
+    <mat-label>Organizations</mat-label>
+    <mat-select (selectionChange)="byOrganization($event)">
+      <mat-option *ngFor="let organization of organization" [value]="organization.id">
+        {{organization.companyName}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="firstName" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>
+      <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Surname</th>
+      <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="roles[0].name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Role</th>
+      <td mat-cell *matCellDef="let element"> {{element.roles[0].name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="organization.companyName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Organization</th>
+      <td mat-cell *matCellDef="let element"> {{element.organization.companyName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="branch.name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Branch</th>
+      <td mat-cell *matCellDef="let element"> {{element.branch.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="hasBeenApproved">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Approved</th>
+      <td mat-cell *matCellDef="let element"> <mat-icon>{{element.hasBeenApproved ? 'done' : 'clear'}}</mat-icon></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="approveUser(row)"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 8, 12]"></mat-paginator>
+</div>

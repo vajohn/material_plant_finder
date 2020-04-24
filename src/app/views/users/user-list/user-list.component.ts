@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { OrganizationResponseBody} from '../../../models/organization';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ExceptionHandler} from '../../../utilities/exceptionHandler';
@@ -11,6 +11,10 @@ import {MatDialog} from '@angular/material/dialog';
 import {UserDetails} from '../../../models/authentication';
 import {ApproveComponent} from "../../../modals/approve/approve.component";
 import {AlertService} from "../../../modals/alert/alert.service";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {MatSelectChange} from "@angular/material/select";
 
 
 @Component({
@@ -18,47 +22,43 @@ import {AlertService} from "../../../modals/alert/alert.service";
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })
-export class UserListComponent implements OnInit {
-  organizations: OrganizationResponseBody[] = [];
-  users: UsersListResponseBody[] = [];
-  displayedColumns = ['firstName', 'lastName', 'roles.[0].name', 'organization.companyName', 'branch.name', 'hasBeenApproved'];
-  displayedHeaders = ['First name', 'Surname', 'Role', 'Organization', 'Branch', 'Approved', ''];
+export class UserListComponent implements OnInit, AfterViewInit {
+  organization: OrganizationResponseBody[] = [];
   user: UserDetails;
-  organizationListForm: FormGroup;
-  submitted = false;
+  displayedColumns: string[] = ['firstName', 'lastName', 'roles[0].name','organization.companyName', 'branch.name', 'hasBeenApproved'];
+  dataSource: MatTableDataSource<UsersListResponseBody>;
 
-  private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.toast);
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
-    public os: OrganizationsService,
+    public organizationsService: OrganizationsService,
     private formBuilder: FormBuilder,
-    private as: AuthenticationService,
-    private us: UsersService,
-    private toast: AlertService,
+    private usersService: UsersService,
     private loginService: LoginService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private alertService: AlertService
   ) {
   }
 
   ngOnInit(): void {
     this.user = this.loginService.currentUserInfoValue;
+    this.dataSource = new MatTableDataSource([]);
     this.getUsers();
-    this.organizationListForm = this.formBuilder.group({
-      searchCriteria: ['', Validators.required],
-    });
+    this.initFilter();
+    this.initSort();
   }
 
-  get f() {
-    return this.organizationListForm.controls;
+  private getUsers() {
+    this.usersService.getAllUsers()
+      .subscribe(result => this.dataSource.data = result.responseBody);
+    this.organizationsService.getAllOrganizations()
+      .subscribe(result => this.organization = result.responseBody);
   }
 
-  onSubmit() {
-    this.submitted = true;
-
-    if (this.organizationListForm.invalid) {
-      return;
-    }
-
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   approveUser(userData: UsersListResponseBody) {
@@ -69,22 +69,47 @@ export class UserListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.us.approveUser(userData.id, this.loginService.currentUserInfoValue.userInfo.id, userData).subscribe(d => {
-          this.exceptionHandler.checkResult(d);
-          this.users = d.responseBody;
+        this.usersService.approveUser(userData.id, this.loginService.currentUserInfoValue.userInfo.id, userData).subscribe(d => {
+          this.alertService
+            .show({title: d.message, description: d.responseBody, style: 'success'});
+          this.usersService.getAllUsers()
+            .subscribe(result => this.dataSource.data = result.responseBody);
         });
       }
     });
 
   }
 
-  private getUsers() {
-    // this.us.getAllUsers().subscribe((d: UsersListResponse) => this.users = d.responseBody);
-    // this.os.getAllOrganizations().subscribe((d: OrganizationListResponse) => this.organizations = d.responseBody);
-    if (this.user.userInfo.roles[0].admin) {
-      this.us.getUsersByOrg(this.user.userInfo.organization.id).subscribe((d: UsersListResponse) => this.users = d.responseBody);
-      this.organizations = [this.user.userInfo.organization];
-    }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  private initFilter() {
+    this.dataSource.filterPredicate = function(data, filter: string): boolean {
+      return data.organization.companyName.toLowerCase().includes(filter)
+        || data.branch.name.toLowerCase().includes(filter)
+        || data.roles[0].name.toLowerCase().includes(filter);
+    };
+  }
+
+  private initSort() {
+    this.dataSource.sortingDataAccessor = (data, property) => {
+      switch(property) {
+        case 'organization.companyName': return data.organization.companyName;
+        case 'branch.name': return data.branch.name;
+        case 'roles[0].name': return data.roles[0].name;
+        default: return data[property];
+      }
+    };
+  }
+
+  byOrganization($event: MatSelectChange) {
+    this.usersService.getUsersByOrg($event.value)
+      .subscribe(result => this.dataSource.data = result.responseBody);
   }
 }

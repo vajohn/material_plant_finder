@@ -22,10 +22,6 @@ export class LoaderService {
   }
 
   show() {
-
-
-    // Returns an OverlayRef (which is a PortalHost)
-
     if (!this.overlayRef) {
       this.overlayRef = this.overlay.create({hasBackdrop: true});
     }

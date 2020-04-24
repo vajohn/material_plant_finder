@@ -1,4 +1,12 @@
 <h3  mat-dialog-title>{{data.title}}</h3>
 <mat-dialog-content>
-  {{data.description}}
+  <div class="ios-alert__icon">
+    <mat-icon *ngIf="data.style === 'warning'" class="ios-alert__warning">warning</mat-icon>
+    <mat-icon *ngIf="data.style === 'error'" class="ios-alert__error">error</mat-icon>
+    <mat-icon *ngIf="data.style === 'success'" class="ios-alert__success">done</mat-icon>
+  </div>
+  <div class="ios-alert__description">
+    {{data.description}}
+  </div>
+
 </mat-dialog-content>

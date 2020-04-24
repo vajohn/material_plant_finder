@@ -12,10 +12,11 @@ export class AlertService {
   constructor(private dialog: MatDialog) { }
 
   show(data:AlertModel ){
-    let dialogRef = this.dialog.open(AlertComponent, {
+    const dialogRef = this.dialog.open(AlertComponent, {
       position: {top: `2.5em`},
       data: data,
-      hasBackdrop: false
+      hasBackdrop: false,
+      panelClass: 'ios-alert'
     });
 
     setInterval(() => dialogRef.close(), 5000)

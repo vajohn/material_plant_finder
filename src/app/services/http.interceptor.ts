@@ -13,10 +13,8 @@ import {environment} from '../../environments/environment';
 import {LoginService} from './login.service';
 import {AlertService} from "../modals/alert/alert.service";
 
-
 @Injectable()
 export class HttpCustomInterceptor implements HttpCustomInterceptor {
-
 
   constructor(
     private ls: LoaderService,
@@ -43,8 +41,7 @@ export class HttpCustomInterceptor implements HttpCustomInterceptor {
         }),
         catchError((error: HttpErrorResponse) => {
           this.alertService
-            .show({title: `Error ${error?.error?.statusCode}`, description: error?.error?.message, style: 'error'});
-          // this.toast(error?.error?.message, `${error?.error?.responseBody}`);
+            .show({title: `Error`, description: error?.error?.message, style: 'error'});
           return throwError(error?.error?.message);
         }),
         finalize(() => this.spinner.hide())

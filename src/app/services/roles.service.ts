@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {OrganizationListResponse} from '../models/organization';
 import {RoleListResponse} from '../models/authentication';
 
 @Injectable({

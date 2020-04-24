@@ -7,6 +7,13 @@ export interface UsersListResponse {
   message: string;
   responseBody: UsersListResponseBody[];
 }
+
+export interface ApproveUserResponse {
+  statusCode: number;
+  message: string;
+  responseBody: string;
+}
+
 export interface UsersResponse {
   statusCode: number;
   message: string;

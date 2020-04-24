@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {transactionListTest} from "../../utilities/_mockData";
 import {ChartsModel} from "../../models/charts";
+import {AlertService} from "../../modals/alert/alert.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -27,7 +28,7 @@ export class DashboardComponent implements OnInit {
     domain: ['#5AA454', 'red', '#AAAAAA']
   };
 
-  constructor(public router: Router, public dialog: MatDialog) {
+  constructor(public router: Router, public dialog: MatDialog, private alertService: AlertService,) {
     // Object.assign(this, {transactionsChart})
   }
 
@@ -95,5 +96,9 @@ export class DashboardComponent implements OnInit {
       },
 
     ];
+  }
+
+  open() {
+    this.alertService.show({title: 'Warning Title', description: 'this is the full blown message', style: 'warning'});
   }
 }

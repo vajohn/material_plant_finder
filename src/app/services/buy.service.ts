@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
-import {DefaultResponse} from '../models/default';
 import {BuyModel} from '../models/buy';
 import {HttpClient} from '@angular/common/http';
 import BuyResponse = BuyModel.BuyResponse;

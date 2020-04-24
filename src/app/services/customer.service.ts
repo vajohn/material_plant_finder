@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {OrganizationRegistrationRequest} from '../models/authentication';
 import {Observable} from 'rxjs';
 import {DefaultResponse} from '../models/default';
 import {CustomerListResponse, CustomerRequest, CustomerResponse} from '../models/customer';

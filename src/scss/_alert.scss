@@ -1,0 +1,51 @@
+.ios-alert {
+  font-family: "Corisande", sans-serif;
+
+  mat-dialog-container {
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+
+
+    .mat-dialog-title {
+      margin: 0 0 21px;
+      padding: 0 1em;
+      display: block;
+      background: #d0d0d0;
+      font-size: 0.9em;
+      font-weight: bold;
+      color: #3C3C3C;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+
+    .mat-dialog-content {
+      padding: 2em;
+      display: flex;
+      justify-content: space-around;
+
+      .ios-alert__icon {
+        flex: 1;
+
+        mat-icon {
+          font-size: 4em;
+          &.ios-alert__warning {
+            color: #E4AF06;
+          }
+
+          &.ios-alert__error {
+            color: darkred;
+          }
+
+          &.ios-alert__success {
+            color: $primary;
+          }
+        }
+      }
+
+      .ios-alert__description {
+        flex: 2;
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ import {SharedComponentsModule} from '../../shared-components/shared-components.
 import {StewardMaterialModule} from '../../material/steward-material.module';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatCardModule} from "@angular/material/card";
+import {MaterialComponentsModule} from "../../utilities/material.module";
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import {MatCardModule} from "@angular/material/card";
     DashboardRoutingModule,
     SharedComponentsModule,
     MatDialogModule,
-    MatCardModule
+    MatCardModule,
+    MaterialComponentsModule
   ]
 })
 export class DashboardModule {
