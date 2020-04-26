@@ -13,6 +13,7 @@ import {ReceiptComponent} from "../../../modals/receipt/receipt.component";
 import {MatDialog} from "@angular/material/dialog";
 import {AlertService} from "../../../modals/alert/alert.service";
 import {CustomerRegistrationComponent} from "../../../modals/customer-registration/customer-registration.component";
+import {BuyModel} from "../../../models/buy";
 
 @Component({
   selector: 'app-steward',
@@ -64,14 +65,16 @@ export class StewardBuyComponent implements OnInit {
     if (this.buyStewardForm.invalid) {
       return;
     }
-    this.buyStewardForm.patchValue({
-      userId: this.user.userInfo.id,
-      rateUsed: this.rateUsed,
-      fcaAmount: toCentsFromFour(this.f.fcaAmount.value),
-      currencyBought: this.currencyName,
-      amountPaid: this.amountPaid,
-    });
-    this.bs.buyToAccount(this.buyStewardForm.value).subscribe(d => {
+
+    const request: BuyModel.Steward = this.buyStewardForm.value;
+
+    request.userId = this.user.userInfo.id;
+    request.rateUsed = this.rateUsed;
+    request.fcaAmount = toCentsFromFour(this.f.fcaAmount.value);
+    request.currencyBought = this.currencyName;
+    request.amountPaid = this.amountPaid;
+
+    this.bs.buyToAccount(request).subscribe(d => {
       this.dialog.open(ReceiptComponent, {
         data: this.exceptionHandler.checkResult(d)
       });
