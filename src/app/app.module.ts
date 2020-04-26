@@ -22,6 +22,7 @@ import {HttpCustomInterceptor} from './services/http.interceptor';
 import {NgxPrintModule} from 'ngx-print';
 import {ModalsModule} from "./modals/modals.module";
 import {MaterialComponentsModule} from "./utilities/material.module";
+import {DirectivesModule} from "./directives/directives.module";
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent,
@@ -53,7 +54,8 @@ const APP_COMPONENTS = [
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
-    MaterialComponentsModule
+    MaterialComponentsModule,
+    DirectivesModule
   ],
   providers: [
     {

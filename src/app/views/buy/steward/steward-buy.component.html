@@ -3,7 +3,7 @@
     <mat-form-field >
       <mat-label>National Id</mat-label>
       <mat-icon matPrefix>assignment_ind</mat-icon>
-      <input matInput placeholder="082020936Q75" formControlName="nationalIdNumber">
+      <input matInput placeholder="082020936Q75" formControlName="nationalIdNumber" upperCaseInput>
       <mat-error *ngIf="submittedID && g.nationalIdNumber.errors">
         <p *ngIf="g.nationalIdNumber.errors.required">
           Please enter a national ID

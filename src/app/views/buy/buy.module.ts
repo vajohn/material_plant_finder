@@ -10,6 +10,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MaterialComponentsModule} from "../../utilities/material.module";
+import {DirectivesModule} from "../../directives/directives.module";
 
 @NgModule({
   declarations: [CashBuyComponent, StewardBuyComponent],
@@ -23,7 +24,8 @@ import {MaterialComponentsModule} from "../../utilities/material.module";
         MatCardModule,
         MatInputModule,
         MatSelectModule,
-        MaterialComponentsModule
+        MaterialComponentsModule,
+        DirectivesModule
     ]
 })
 export class BuyModule { }

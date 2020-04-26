@@ -9,6 +9,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {StewardMaterialModule} from '../../material/steward-material.module';
 import {CustomerListComponent} from './customer-list/customer-list.component';
 import {MaterialComponentsModule} from "../../utilities/material.module";
+import {DirectivesModule} from "../../directives/directives.module";
 
 @NgModule({
   declarations: [UserFormComponent, UserListComponent, CustomerListComponent],
@@ -19,7 +20,8 @@ import {MaterialComponentsModule} from "../../utilities/material.module";
         FormsModule,
         ReactiveFormsModule,
         StewardMaterialModule,
-        MaterialComponentsModule
+        MaterialComponentsModule,
+        DirectivesModule
     ]
 })
 export class UsersModule {
