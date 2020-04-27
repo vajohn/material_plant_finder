@@ -257,19 +257,7 @@ export const agentNavigationManager: INavData[] = [
         icon: 'fas fa-funnel-dollar'
       }
     ]
-  },
-  {
-    name: 'Reports',
-    url: '/reports',
-    icon: 'reports',
-    children: [
-      {
-        name: 'All',
-        url: '/reports/list',
-        icon: 'fas fa-funnel-dollar'
-      },
-    ]
-  },
+  }
 ];
 export const agentNavigationSupervisor: INavData[] = [
   {
@@ -283,20 +271,29 @@ export const agentNavigationSupervisor: INavData[] = [
       }
     ]
   },
-  {
-    name: 'Reports',
-    url: '/reports',
-    icon: 'reports',
-    children: [
-      {
-        name: 'All',
-        url: '/reports/list',
-        icon: 'fas fa-funnel-dollar'
-      },
-    ]
-  },
+
 ];
 export const agentNavigationCapture: INavData[] = [
+  {
+    name: 'Buy',
+    url: '/cash',
+    icon: 'buy',
+    children: [
+      {
+        name: 'Cash',
+        url: '/buy/cash',
+        icon: 'fas fa-user-edit'
+      },
+      {
+        name: 'Steward account',
+        url: '/buy/steward',
+        icon: 'fas fa-address-book'
+      }
+    ]
+  }
+];
+
+export const agentCapture: INavData[] = [
   {
     name: 'Buy',
     url: '/cash',

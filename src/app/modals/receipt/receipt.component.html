@@ -27,13 +27,11 @@
   <section class="invoice__transactionInfo">
     <table>
       <tr>
-        <th>CURRENCY</th>
-        <th>AMOUNT</th>
+        <th>({{data?.currencySwitchedTo}})AMOUNT</th>
         <th>EXCHANGE RATE</th>
-        <th>TOTAL</th>
+        <th>({{data?.currencyBought}})TOTAL</th>
       </tr>
       <tr>
-        <td>{{data?.currencyBought}}</td>
         <td>{{data?.cashPaid || data?.amountPaid}}</td>
         <td>{{data?.rateUsed}}</td>
         <td>{{convert(data?.fcaAmount)}}</td>
@@ -42,22 +40,18 @@
         <td></td>
         <td></td>
         <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
         <td></td>
       </tr>
       <tr>
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
       </tr>
       <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -68,9 +62,7 @@
     <div class="info">
       <h3><strong>Thank you for your business</strong></h3>
       <h3><strong>Terms & Conditions</strong></h3>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
-      <p>Laboriosam consectetur ducimus deleniti sit consequatur</p>
-      <p>pariatur, optio, in esse deserunt ea repellendus quaerat adipisci.</p>
+      <p>www.stewardbank.co.zw/customer-service/contacts/mobile-banking-terms-and-conditions</p>
     </div>
     <div class="total">
       <div class="subTotal">
@@ -91,9 +83,9 @@
     <h3><strong>Payment Info:</strong></h3>
     <div class="account">
       <strong>ACCOUNT:</strong>
-      <p>198788222</p>
+      <p>{{data?.beneficiaryAccount}}</p>
       <strong>A/C NAME</strong>
-      <p>SBZ1234541</p>
+      <p>{{data?.customerFullName}}</p>
       <strong>BANK DETAILS</strong>
       <p>STEWARD BANK</p>
     </div>

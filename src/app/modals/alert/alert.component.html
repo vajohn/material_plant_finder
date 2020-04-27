@@ -8,5 +8,7 @@
   <div class="ios-alert__description">
     {{data.description}}
   </div>
-
 </mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="dialogRef.close()">Dismiss</button>
+</div>
