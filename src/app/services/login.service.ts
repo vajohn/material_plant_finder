@@ -34,18 +34,16 @@ export class LoginService {
       first(),
       catchError((error: HttpErrorResponse) => {
         let errorMessage: string;
-        let errorCode: string;
         if (error.error instanceof ErrorEvent) {
           // client-side error
           errorMessage = `Error: ${error.error.message}`;
         } else {
           // server-side error
           errorMessage = `${error.error.message}`;
-          errorCode = `${error.status}`;
         }
 
         this.alertService
-          .show({title: `Error ${errorCode}`, description: errorMessage, style: 'error'});
+          .show({title: `Error`, description: errorMessage, style: 'error'});
         return throwError(errorMessage);
       }),
       map(user => {
@@ -72,17 +70,15 @@ export class LoginService {
       .pipe(
         first(),
         catchError((error: HttpErrorResponse) => {
-          let errorCode: string;
           let message: string;
           if (error.error instanceof ErrorEvent) {
             message = `Error: ${error.error.message}`;
           } else {
             message = `${error.error.message}`;
-            errorCode = `Error Code: ${error.status}`;
           }
 
           this.alertService
-            .show({title: `Error ${errorCode}`, description: message, style: 'error'});
+            .show({title: `Error`, description: message, style: 'error'});
           return throwError(message);
         }),
         map(user => {
@@ -100,16 +96,14 @@ export class LoginService {
       .pipe(
         first(),
         catchError((error: HttpErrorResponse) => {
-          let errorCode: string;
           let message: string;
           if (error.error instanceof ErrorEvent) {
             message = `Error: ${error.error.message}`;
           } else {
             message = `${error.error.message}`;
-            errorCode = `Error Code: ${error.status}`;
           }
           this.alertService
-            .show({title: `Error ${errorCode}`, description: message, style: 'error'});
+            .show({title: `Error`, description: message, style: 'error'});
           return throwError(message);
         }),
         map(user => {

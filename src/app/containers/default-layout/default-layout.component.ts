@@ -3,6 +3,8 @@ import {DropdownComponent} from '../../material/dropdown/dropdown.component';
 import {LoginService} from '../../services/login.service';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
+import {BnNgIdleService} from "bn-ng-idle";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +15,8 @@ export class DefaultLayoutComponent {
   constructor(
     private loginService: LoginService,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private bnIdle: BnNgIdleService
   ) {
   }
 
@@ -35,5 +38,15 @@ export class DefaultLayoutComponent {
       }
     });
 
+  }
+
+  ngOnInit(): void {
+    // to time out after 300 seconds
+    this.bnIdle.startWatching(environment.timeout).subscribe((isTimedOut: boolean) => {
+      if (isTimedOut) {
+        this.loginService.logout();
+        this.router.navigateByUrl('/login');
+      }
+    });
   }
 }

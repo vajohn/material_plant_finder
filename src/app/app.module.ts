@@ -20,9 +20,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpCustomInterceptor} from './services/http.interceptor';
 
 import {NgxPrintModule} from 'ngx-print';
-import {ModalsModule} from "./modals/modals.module";
-import {MaterialComponentsModule} from "./utilities/material.module";
-import {DirectivesModule} from "./directives/directives.module";
+import {ModalsModule} from './modals/modals.module';
+import {MaterialComponentsModule} from './utilities/material.module';
+import {DirectivesModule} from './directives/directives.module';
+import {BnNgIdleService} from 'bn-ng-idle';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent,
@@ -66,7 +67,8 @@ const APP_COMPONENTS = [
       provide: HTTP_INTERCEPTORS,
       useClass: HttpCustomInterceptor,
       multi: true
-    }
+    },
+    BnNgIdleService
   ],
   bootstrap: [AppComponent]
 })

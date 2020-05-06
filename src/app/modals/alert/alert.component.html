@@ -1,5 +1,5 @@
 <h3  mat-dialog-title>{{data.title}}</h3>
-<mat-dialog-content>
+<div mat-dialog-content>
   <div class="ios-alert__icon">
     <mat-icon *ngIf="data.style === 'warning'" class="ios-alert__warning">warning</mat-icon>
     <mat-icon *ngIf="data.style === 'error'" class="ios-alert__error">error</mat-icon>
@@ -8,7 +8,7 @@
   <div class="ios-alert__description">
     {{data.description}}
   </div>
-</mat-dialog-content>
+</div>
 <div mat-dialog-actions>
   <button mat-raised-button (click)="dialogRef.close()">Dismiss</button>
 </div>

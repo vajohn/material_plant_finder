@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ExceptionHandler} from '../../../utilities/exceptionHandler';
 import {BuyService} from '../../../services/buy.service';
 import {LoginService} from '../../../services/login.service';
-import {UserDetails} from '../../../models/authentication';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {toCentsFromFour, toTwoCents} from '../../../utilities/reusables';
 import {CustomerService} from '../../../services/customer.service';
@@ -14,6 +13,7 @@ import {MatSelectChange} from '@angular/material/select';
 import {ReceiptComponent} from '../../../modals/receipt/receipt.component';
 import {CustomerRegistrationComponent} from '../../../modals/customer-registration/customer-registration.component';
 import {AlertService} from "../../../modals/alert/alert.service";
+import {BuyModel} from "../../../models/buy";
 
 @Component({
   selector: 'app-cash',
@@ -23,7 +23,7 @@ import {AlertService} from "../../../modals/alert/alert.service";
 export class CashBuyComponent implements OnInit {
   buyCashForm: FormGroup;
   checkUserForm: FormGroup;
-  user: UserDetails;
+  user: number;
   public submitted = false;
   public submittedOne = false;
   private exceptionHandler: ExceptionHandler = new ExceptionHandler(this.alertService);
@@ -31,6 +31,7 @@ export class CashBuyComponent implements OnInit {
   exchange: ExchangeRate[] = [];
   rateUsed = 0.0000;
   fcaAmount = 0.0000;
+  customerNationalId = 0;
   currencyName: string;
 
   constructor(
@@ -46,7 +47,7 @@ export class CashBuyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = this.ls.currentUserInfoValue;
+    this.user = this.ls.currentUserInfoValue.userInfo.id;
     this.setForms();
     this.getOtherVariables();
     this.paying();
@@ -63,21 +64,28 @@ export class CashBuyComponent implements OnInit {
   buyCash() {
     this.submitted = true;
     this.submittedOne = true;
-    if (this.buyCashForm.invalid) {
+
+    if (this.buyCashForm.invalid || this.customerNationalId === 0 || this.checkUserForm.invalid) {
+      if (this.customerNationalId === 0) {
+        this.alertService.show({
+          title: `Customer details error`,
+          description: `Please add customer to the transaction`,
+          style: 'error'
+        });
+        return;
+      }
       return;
     }
 
-    if (this.checkUserForm.invalid) {
-      return;
-    }
-    this.buyCashForm.patchValue({
-      userId: this.user.userInfo.id,
-      rateUsed: this.rateUsed,
-      fcaAmount: toCentsFromFour(this.fcaAmount),
-      currencySwitchedTo: this.currencyName
-    });
+    const request: BuyModel.Cash = this.buyCashForm.value;
 
-    this.bs.buyCash(this.buyCashForm.value).subscribe(d => {
+    request.rateUsed = this.rateUsed;
+    request.fcaAmount = toCentsFromFour(this.fcaAmount);
+    request.userId = this.user;
+    request.currencyBought = this.currencyName;
+    request.customerId = this.customerNationalId;
+
+    this.bs.buyCash(request).subscribe(d => {
       const dialogRef = this.dialog.open(ReceiptComponent, {
         data: this.exceptionHandler.checkResult(d)
       });
@@ -146,9 +154,7 @@ export class CashBuyComponent implements OnInit {
           style: 'success'
         });
         toTwoCents(0);
-        this.buyCashForm.patchValue({
-          customerId: d.responseBody.id,
-        });
+        this.customerNationalId = d.responseBody.id;
       }
     );
   }

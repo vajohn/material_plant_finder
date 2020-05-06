@@ -31,6 +31,7 @@ export class StewardBuyComponent implements OnInit {
   rateUsed = 0.0000;
   amountPaid = 0.0000;
   currencyName: string;
+  customerNationalId = 0;
   user: UserDetails;
 
   constructor(
@@ -61,11 +62,19 @@ export class StewardBuyComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    this.submittedID = true;
 
-    if (this.buyStewardForm.invalid) {
+    if (this.buyStewardForm.invalid || this.customerNationalId === 0 || this.checkUserForm.invalid) {
+      if (this.customerNationalId === 0) {
+        this.alertService.show({
+          title: `Customer details error`,
+          description: `Please add customer to the transaction`,
+          style: 'error'
+        });
+        return;
+      }
       return;
     }
-
     const request: BuyModel.Steward = this.buyStewardForm.value;
 
     request.userId = this.user.userInfo.id;
@@ -73,6 +82,7 @@ export class StewardBuyComponent implements OnInit {
     request.fcaAmount = toCentsFromFour(this.f.fcaAmount.value);
     request.currencyBought = this.currencyName;
     request.amountPaid = this.amountPaid;
+    request.customerId = this.customerNationalId;
 
     this.bs.buyToAccount(request).subscribe(d => {
       this.dialog.open(ReceiptComponent, {
@@ -97,9 +107,7 @@ export class StewardBuyComponent implements OnInit {
         });
 
         toTwoCents(0);
-        this.buyStewardForm.patchValue({
-          customerId: d.responseBody.id,
-        });
+        this.customerNationalId = d.responseBody.id
       },
       error => console.log('found', error)
     );
