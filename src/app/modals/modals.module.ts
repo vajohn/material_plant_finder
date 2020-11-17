@@ -11,6 +11,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgxPrintModule} from "ngx-print";
 import {StewardMaterialModule} from "../material/steward-material.module";
 import {MaterialComponentsModule} from "../utilities/material.module";
+import { ConfirmPasswordComponent } from './confirm-password/confirm-password.component';
 
 @NgModule({
   entryComponents: [
@@ -28,7 +29,8 @@ import {MaterialComponentsModule} from "../utilities/material.module";
     ApproveComponent,
     ForgotComponent,
     ResetComponent,
-    ToastComponent
+    ToastComponent,
+    ConfirmPasswordComponent
   ],
   imports: [
     CommonModule,

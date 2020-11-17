@@ -1,0 +1,106 @@
+<mat-card>
+  <mat-card-title></mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="branchAccountForm" (ngSubmit)="initiateAddBranch()">
+      <section class="three-col-grid">
+        <mat-form-field>
+          <mat-label>Organization</mat-label>
+          <mat-select formControlName="orgId" (selectionChange)="onOrganizationSelected($event)">
+            <mat-option *ngFor="let organization of organizations" [value]="organization.id">
+              {{organization.companyName}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="submitted && form.orgId.errors">
+            <p *ngIf="form.orgId.errors.required">
+              Please select organization
+            </p>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Branch</mat-label>
+          <mat-select formControlName="branchId">
+            <mat-option *ngFor="let branch of branches" [value]="branch.id">
+              {{branch.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="submitted && form.branchId.errors">
+            <p *ngIf="form.branchId.errors.required">
+              Please select branch
+            </p>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Currency</mat-label>
+          <mat-select formControlName="currencyId">
+            <mat-option *ngFor="let currency of currencies" [value]="currency.id">
+              {{currency.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="submitted && form.currencyId.errors">
+            <p *ngIf="form.currencyId.errors.required">
+              Please select currency
+            </p>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Account type</mat-label>
+          <mat-select formControlName="typeId">
+            <mat-option *ngFor="let accountType of accountTypes" [value]="accountType.id">
+              {{accountType.type}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="submitted && form.typeId.errors">
+            <p *ngIf="form.typeId.errors.required">
+              Please select account type
+            </p>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Account name</mat-label>
+          <mat-icon matPrefix>account_box</mat-icon>
+          <input matInput placeholder="Current account" formControlName="accountName">
+          <mat-error *ngIf="submitted && form.accountName.errors">
+            <p *ngIf="form.accountName.errors.required">
+              Please enter account name
+            </p>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Account number</mat-label>
+          <mat-icon matPrefix>account_balance</mat-icon>
+          <input matInput placeholder="10035545338" formControlName="accountNumber">
+          <mat-error *ngIf="submitted && form.accountNumber.errors">
+            <p *ngIf="form.accountNumber.errors.required">
+              Please enter account number
+            </p>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Short code</mat-label>
+          <mat-icon matPrefix>dialpad</mat-icon>
+          <input matInput placeholder="12220" formControlName="shortCode">
+          <mat-error *ngIf="submitted && form.shortCode.errors">
+            <p *ngIf="form.shortCode.errors.required">
+              Please enter short code
+            </p>
+          </mat-error>
+        </mat-form-field>
+      </section>
+      <section class="row">
+        <div class="col-xs-6"></div>
+        <div class="col-xs-3">
+          <button mat-stroked-button (click)="branchAccountForm.reset()" color="warn" class="default-button">Reset</button>
+        </div>
+        <div class="col-xs-3">
+          <button mat-raised-button type="submit" class="default-button" color="primary">Add account</button>
+        </div>
+      </section>
+    </form>
+  </mat-card-content>
+</mat-card>

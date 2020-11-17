@@ -20,7 +20,12 @@ export class LoginService {
   private currentUserInfoSubject: BehaviorSubject<UserDetails>;
   public currentInfoUser: Observable<UserDetails>;
 
-  constructor(private http: HttpClient, handler: HttpBackend, private spinner: NgxSpinnerService,  private alertService: AlertService,) {
+  constructor(
+    private http: HttpClient,
+    handler: HttpBackend,
+    private spinner: NgxSpinnerService,
+    private alertService: AlertService
+  ) {
     this.http = new HttpClient(handler);
     this.currentUserSubject = new BehaviorSubject<JWTResponse>(this.getDecodedAccessToken());
     this.currentUserInfoSubject = new BehaviorSubject<UserDetails>(this.getDecodedUserInfo());
@@ -32,20 +37,7 @@ export class LoginService {
     this.spinner.show();
     return this.http.post<DefaultResponse>(`${environment.baseUrl}users/login`, data, {observe: 'response'}).pipe(
       first(),
-      catchError((error: HttpErrorResponse) => {
-        let errorMessage: string;
-        if (error.error instanceof ErrorEvent) {
-          // client-side error
-          errorMessage = `Error: ${error.error.message}`;
-        } else {
-          // server-side error
-          errorMessage = `${error.error.message}`;
-        }
-
-        this.alertService
-          .show({title: `Error`, description: errorMessage, style: 'error'});
-        return throwError(errorMessage);
-      }),
+      catchError((error: HttpErrorResponse) => this.handleError(error)),
       map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         const result: UsersResponse = user.body as UsersResponse;
@@ -69,18 +61,7 @@ export class LoginService {
     return this.http.post<DefaultResponse>(`${environment.baseUrl}users/request-password-reset`, value)
       .pipe(
         first(),
-        catchError((error: HttpErrorResponse) => {
-          let message: string;
-          if (error.error instanceof ErrorEvent) {
-            message = `Error: ${error.error.message}`;
-          } else {
-            message = `${error.error.message}`;
-          }
-
-          this.alertService
-            .show({title: `Error`, description: message, style: 'error'});
-          return throwError(message);
-        }),
+        catchError((error: HttpErrorResponse) => this.handleError(error)),
         map(user => {
           this.alertService
             .show({title: `Success`, description: user.message, style: 'success'});
@@ -95,17 +76,7 @@ export class LoginService {
     return this.http.post<DefaultResponse>(`${environment.baseUrl}users/process-password-reset`, value)
       .pipe(
         first(),
-        catchError((error: HttpErrorResponse) => {
-          let message: string;
-          if (error.error instanceof ErrorEvent) {
-            message = `Error: ${error.error.message}`;
-          } else {
-            message = `${error.error.message}`;
-          }
-          this.alertService
-            .show({title: `Error`, description: message, style: 'error'});
-          return throwError(message);
-        }),
+        catchError((error: HttpErrorResponse) => this.handleError(error)),
         map(user => {
           this.alertService
             .show({title: `Success`, description: user.message, style: 'success'});
@@ -151,6 +122,18 @@ export class LoginService {
     this.currentUserInfoSubject.next(null);
     this.currentUserSubject.next(null);
     sessionStorage.clear();
+  }
+
+  handleError(error: HttpErrorResponse): Observable<never>{
+      let message: string;
+      if (error.error instanceof ErrorEvent) {
+          message = `Error: ${error.error.message}`;
+      } else {
+          message = `${error.error.message}`;
+      }
+      this.alertService
+          .show({title: `Error`, description: message, style: 'error'});
+      return throwError(message);
   }
 
   isAuthorized(allowedRoles: string[]): boolean {

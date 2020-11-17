@@ -14,7 +14,7 @@
       <button  mat-raised-button type="submit" color="primary" class="default-button">Check customer</button>
     </div>
     <div class="pt-1">
-      <button mat-raised-button (click)="addNewCustomer()" color="accent" class="default-button">Add new customer</button>
+      <button mat-raised-button type="button" (click)="addNewCustomer()" color="accent" class="default-button">Add new customer</button>
     </div>
   </form>
 </mat-card>
@@ -28,7 +28,7 @@
           <mat-label>Currency bought</mat-label>
           <mat-select id="currencySwitchedTo" formControlName="currencySwitchedTo"
                       (selectionChange)="onCurrencySwitchedToSelect($event)">
-            <mat-option *ngFor="let rates of exchange" [value]="rates.buyRate">
+            <mat-option *ngFor="let rates of exchange" [value]="rates">
               {{rates.ccyName}} ({{rates.currency}})
             </mat-option>
           </mat-select>

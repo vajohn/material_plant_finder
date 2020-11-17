@@ -14,6 +14,8 @@ import {ReceiptComponent} from '../../../modals/receipt/receipt.component';
 import {CustomerRegistrationComponent} from '../../../modals/customer-registration/customer-registration.component';
 import {AlertService} from "../../../modals/alert/alert.service";
 import {BuyModel} from "../../../models/buy";
+import {CustomerResponseBody} from "../../../models/customer";
+import {ConfirmPasswordComponent} from "../../../modals/confirm-password/confirm-password.component";
 
 @Component({
   selector: 'app-cash',
@@ -33,6 +35,8 @@ export class CashBuyComponent implements OnInit {
   fcaAmount = 0.0000;
   customerNationalId = 0;
   currencyName: string;
+  currencySwitchedName: string;
+  customerData: CustomerResponseBody;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -83,13 +87,21 @@ export class CashBuyComponent implements OnInit {
     request.fcaAmount = toCentsFromFour(this.fcaAmount);
     request.userId = this.user;
     request.currencyBought = this.currencyName;
+    request.currencySwitchedTo = this.currencySwitchedName;
     request.customerId = this.customerNationalId;
+    const dialogRef = this.dialog.open(ConfirmPasswordComponent, {
+      data: {user: this.customerData, transaction: request},
+    });
 
-    this.bs.buyCash(request).subscribe(d => {
-      const dialogRef = this.dialog.open(ReceiptComponent, {
-        data: this.exceptionHandler.checkResult(d)
-      });
-      dialogRef.afterClosed().subscribe(() => this.buyCashForm.reset());
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.bs.buyCash(request).subscribe(d => {
+          const dialogRef = this.dialog.open(ReceiptComponent, {
+            data: this.exceptionHandler.checkResult(d)
+          });
+          dialogRef.afterClosed().subscribe(() => this.buyCashForm.reset());
+        });
+      }
     });
   }
 
@@ -100,10 +112,13 @@ export class CashBuyComponent implements OnInit {
         this.currenciesService.getZWLExchange().subscribe(d => {
           this.exceptionHandler.checkResult(d);
           this.exchange = d.responseBody;
+          this.currencySwitchedName = 'ZWL';
         });
         break;
       case 'USD':
         this.exchange = [];
+        this.currencySwitchedName = 'USD';
+
         break;
       default:
         this.exchange = [];
@@ -111,15 +126,10 @@ export class CashBuyComponent implements OnInit {
   }
 
   onCurrencySwitchedToSelect($event: MatSelectChange) {
-
-    this.rateUsed = $event.value;
+    console.log('cur selc' + $event.value.currency);
+    this.rateUsed = $event.value.buyRate;
+    this.currencyName = $event.value.currency;
     // we check the amount bought to find the currency name, not the best solution
-    this.exchange.forEach(result => {
-      if (result.buyRate === $event.value) {
-        this.currencyName = result.currency;
-      }
-    });
-
   }
 
 
@@ -155,6 +165,7 @@ export class CashBuyComponent implements OnInit {
         });
         toTwoCents(0);
         this.customerNationalId = d.responseBody.id;
+        this.customerData = d.responseBody;
       }
     );
   }
@@ -167,10 +178,10 @@ export class CashBuyComponent implements OnInit {
 
   private setForms() {
     this.buyCashForm = this.formBuilder.group({
-      cashPaid: ['', [Validators.required]],
-      currencyBought: ['', [Validators.required]],
-      currencySwitchedTo: ['', [Validators.required]],
-      customerId: ['', Validators.required],
+      cashPaid: ['',],
+      currencyBought: ['',],
+      currencySwitchedTo: ['',],
+      customerId: ['',],
       rateUsed: [0],
       fcaAmount: [0],
       userId: [0],

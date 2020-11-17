@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {BranchAllComponent} from './branch-all/branch-all.component';
 import {BranchFormComponent} from './branch-form/branch-form.component';
 import {P404Component} from "../errors/p404/p404.component";
+import {BranchAccountComponent} from "./branch-account/branch-account.component";
 
 const routes: Routes = [
 
@@ -16,6 +17,13 @@ const routes: Routes = [
   {
     path: 'form',
     component: BranchFormComponent,
+    data: {
+      allowedRoles: ['BANK_CAPTURER']
+    }
+  },
+  {
+    path: 'account',
+    component: BranchAccountComponent,
     data: {
       allowedRoles: ['BANK_CAPTURER']
     }

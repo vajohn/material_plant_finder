@@ -54,7 +54,7 @@
         <mat-label>Currency bought</mat-label>
         <mat-select formControlName="currencyBought"
                     (selectionChange)="onCurrencyBoughtSelect($event)">
-          <mat-option *ngFor="let rates of exchange" [value]="rates.buyRate">
+          <mat-option *ngFor="let rates of exchange" [value]="rates">
             {{rates.ccyName}} ({{rates.currency}})
           </mat-option>
         </mat-select>

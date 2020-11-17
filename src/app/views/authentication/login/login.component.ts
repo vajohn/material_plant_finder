@@ -5,7 +5,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {ForgotComponent} from "../../../modals/forgot/forgot.component";
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

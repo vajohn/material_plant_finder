@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {AlertModel} from "../../models/alert";
 import {AlertComponent} from "./alert.component";
-
+import {ConfirmPasswordComponent} from "../confirm-password/confirm-password.component";
+import {CustomerResponseBody} from "../../models/customer";
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,11 @@ export class AlertService {
     });
 
     setInterval(() => dialogRef.close(), 5000)
+  }
+
+  showConfirmation(userData: CustomerResponseBody, transactionData = {} ): MatDialogRef<ConfirmPasswordComponent, any>{
+    return this.dialog.open(ConfirmPasswordComponent, {
+      data: { user: userData, transaction: transactionData },
+    });
   }
 }

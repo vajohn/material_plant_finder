@@ -217,6 +217,10 @@ export const bankNavigationCapture: INavData[] = [
         name: 'Add branch',
         url: '/branches/form',
       },
+      {
+        name: 'Add branch account',
+        url: '/branches/account',
+      }
     ]
   },
   {

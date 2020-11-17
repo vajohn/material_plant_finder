@@ -46,3 +46,20 @@
 .button-center{
   text-align: center;
 }
+
+.three-col-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 2em;
+  grid-row-gap: 1em;
+
+  @media (max-width: 768px) {
+
+    grid-template-columns: 1fr;
+    grid-template-rows: auto /* Header */
+    minmax(75px, auto) /* Nav */
+    1fr /* Content */
+    minmax(75px, auto) /* Sidebar */
+    auto; /* Footer */
+  }
+}

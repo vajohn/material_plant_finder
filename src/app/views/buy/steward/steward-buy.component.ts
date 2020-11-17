@@ -14,6 +14,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {AlertService} from "../../../modals/alert/alert.service";
 import {CustomerRegistrationComponent} from "../../../modals/customer-registration/customer-registration.component";
 import {BuyModel} from "../../../models/buy";
+import {ConfirmPasswordComponent} from "../../../modals/confirm-password/confirm-password.component";
+import {CustomerResponseBody} from "../../../models/customer";
 
 @Component({
   selector: 'app-steward',
@@ -31,8 +33,10 @@ export class StewardBuyComponent implements OnInit {
   rateUsed = 0.0000;
   amountPaid = 0.0000;
   currencyName: string;
+  currencySwitchedName: string;
   customerNationalId = 0;
   user: UserDetails;
+  customerData: CustomerResponseBody;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -81,15 +85,26 @@ export class StewardBuyComponent implements OnInit {
     request.rateUsed = this.rateUsed;
     request.fcaAmount = toCentsFromFour(this.f.fcaAmount.value);
     request.currencyBought = this.currencyName;
+    request.currencySwitchedTo = this.currencySwitchedName;
     request.amountPaid = this.amountPaid;
     request.customerId = this.customerNationalId;
 
-    this.bs.buyToAccount(request).subscribe(d => {
-      this.dialog.open(ReceiptComponent, {
-        data: this.exceptionHandler.checkResult(d)
-      });
-      this.exceptionHandler.checkResult(d);
+    const dialogRef = this.dialog.open(ConfirmPasswordComponent, {
+      data: {user: this.customerData, transaction: request},
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.bs.buyToAccount(request).subscribe(d => {
+          this.dialog.open(ReceiptComponent, {
+            data: this.exceptionHandler.checkResult(d)
+          });
+          this.exceptionHandler.checkResult(d);
+        });
+      }
+    });
+
+
   }
 
   checkById() {
@@ -107,21 +122,17 @@ export class StewardBuyComponent implements OnInit {
         });
 
         toTwoCents(0);
-        this.customerNationalId = d.responseBody.id
+        this.customerNationalId = d.responseBody.id;
+        this.customerData = d.responseBody;
       },
       error => console.log('found', error)
     );
   }
 
   onCurrencyBoughtSelect($event: MatSelectChange) {
-    this.rateUsed = $event.value;
+    this.rateUsed = $event.value.buyRate;
+    this.currencyName = $event.value.currency;
     // we check the amount bought to find the currency name, not the best solution
-    this.exchange.some((result, index) => {
-      if (result.buyRate === $event.value) {
-        this.currencyName = this.exchange[index].currency;
-        return true;
-      }
-    });
   }
 
   onCurrencySwitchedToSelect($event: MatSelectChange) {
@@ -130,9 +141,11 @@ export class StewardBuyComponent implements OnInit {
         this.currenciesService.getZWLExchange().subscribe(d => {
           this.exceptionHandler.checkResult(d);
           this.exchange = d.responseBody;
+          this.currencySwitchedName = 'ZWL';
         });
         break;
       case 'USD':
+        this.currencySwitchedName = 'USD';
         this.exchange = [];
         break;
       default:
@@ -180,4 +193,6 @@ export class StewardBuyComponent implements OnInit {
       data: this.g.nationalIdNumber.value
     });
   }
+
+
 }
